@@ -16,17 +16,22 @@ writeFileSync(join(proj, "sperren.txt"), "geheim-ordner\n")
 
 const gross = (t) => ({ read: "Read", glob: "Glob", bash: "Bash" })[t] || t
 const claudeJson = (f) => JSON.stringify({ tool_name: gross(f.tool), tool_input: f.tool === "bash" ? { command: f.befehl } : f.pfad ? (f.tool === "glob" ? { pattern: f.pfad } : { file_path: f.pfad }) : {} })
+// Codex hat kein eigenes Lese-Werkzeug: Lesen/Suchen laufen als Bash-Befehl (tool_name "Bash", tool_input.command).
+const codexJson = (f) => JSON.stringify({ hook_event_name: "PreToolUse", tool_name: f.tool === "send_message" ? "mcp__x__send_message" : "Bash", tool_input: f.tool === "send_message" ? {} : { command: f.tool === "bash" ? f.befehl : (f.tool === "glob" ? "dir " : "type ") + f.pfad } })
 const args = (f) => (f.tool === "bash" ? { command: f.befehl } : f.pfad ? { filePath: f.pfad } : {})
 
+const shell = async (f, json) => {
+  for (const s of ["block-extern.sh", "sperre-pfade.sh"]) {
+    const r = spawnSync(sh, [join(hooks, s)], { input: json(f), env: { ...process.env, SPERRLISTE: join(proj, "sperren.txt") }, encoding: "utf8" })
+    if (r.status === 2) return "block"
+    if (r.error || r.status !== 0) return "fehler:" + (r.error?.message || r.status)
+  }
+  return "ok"
+}
+
 const adapter = {
-  "sh:block-extern+sperre-pfade": async (f) => {
-    for (const s of ["block-extern.sh", "sperre-pfade.sh"]) {
-      const r = spawnSync(sh, [join(hooks, s)], { input: claudeJson(f), env: { ...process.env, SPERRLISTE: join(proj, "sperren.txt") }, encoding: "utf8" })
-      if (r.status === 2) return "block"
-      if (r.error || r.status !== 0) return "fehler:" + (r.error?.message || r.status)
-    }
-    return "ok"
-  },
+  "sh (Claude Code)": (f) => shell(f, claudeJson),
+  "sh (Codex)": (f) => shell(f, codexJson),
   "opencode": async (f) => {
     const { Sperre } = await import(pathToFileURL(join(hooks, "opencode-sperre.js")))
     const h = (await Sperre({ directory: proj }))["tool.execute.before"]

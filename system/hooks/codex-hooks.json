@@ -1,0 +1,14 @@
+{
+  "_hinweis": "Entwurf für Codex. Ablage: <repo>/.codex/hooks.json (Projekt) oder ~/.codex/hooks.json. Die Skripte block-extern.sh und sperre-pfade.sh lesen dieselbe Datenform (tool_name, tool_input.command) und blockieren mit Exit 2 – sie funktionieren unverändert. Nicht verwaltete Hooks müssen in Codex erst geprüft/vertraut werden (/hooks); für verbindlichen Einsatz als verwaltete Hooks (requirements.toml/MDM) ausrollen. Pfade in 'command' sind vom Repo-Stamm aus zu verstehen; unter Windows 'commandWindows' mit Git-Bash.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {"type": "command", "command": "sh system/hooks/block-extern.sh", "commandWindows": "\"C:\\Program Files\\Git\\bin\\sh.exe\" system/hooks/block-extern.sh", "statusMessage": "Prüfe: nach außen?"},
+          {"type": "command", "command": "sh system/hooks/sperre-pfade.sh", "commandWindows": "\"C:\\Program Files\\Git\\bin\\sh.exe\" system/hooks/sperre-pfade.sh", "statusMessage": "Prüfe: gesperrter Pfad?"}
+        ]
+      }
+    ]
+  }
+}
