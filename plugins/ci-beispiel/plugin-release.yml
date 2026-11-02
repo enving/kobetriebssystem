@@ -1,0 +1,41 @@
+# Entwurf (nicht aktiv: liegt absichtlich nicht in .github/workflows). Zum Einsatz dorthin kopieren.
+# Ablauf: PR -> prüfen. Merge auf main -> Plugin bauen -> in privates Release-Repo schreiben -> Geräte ziehen es.
+name: plugin-release
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hook-Skripte und JSON prüfen
+        run: |
+          for f in system/hooks/*.sh plugins/bauen.sh; do sh -n "$f"; done
+          for f in system/hooks/settings-beispiel.json plugins/*.json; do python3 -m json.tool "$f" >/dev/null; done
+      - name: Plugin probeweise bauen
+        run: plugins/bauen.sh 0.0.0-pr
+      # Platz für: system/okf-validate (Links, Quelle, Prüfdatum), Skill-Evals, Secret-/Personendaten-Scan
+  freigeben:
+    if: github.event_name == 'push'
+    needs: pruefen
+    runs-on: ubuntu-latest
+    environment: release   # Umgebung mit Pflicht-Freigabe durch einen Menschen
+    steps:
+      - uses: actions/checkout@v4
+      - name: Version = Datum + Kurz-Hash
+        run: echo "VERSION=$(date +%Y.%m.%d)-${GITHUB_SHA::7}" >> "$GITHUB_ENV"
+      - run: plugins/bauen.sh "$VERSION"
+      - name: In Release-Repo veröffentlichen
+        env:
+          TOKEN: ${{ secrets.RELEASE_REPO_TOKEN }}   # fein berechtigtes Token, nur dieses Repo
+        run: |
+          git clone "https://x-access-token:${TOKEN}@github.com/firma/ko-release.git" rel
+          rm -rf rel/ko-basis && cp -R dist/ko-basis rel/ko-basis
+          mkdir -p rel/.claude-plugin && cp plugins/marketplace-beispiel.json rel/.claude-plugin/marketplace.json
+          cd rel && git add -A
+          git -c user.name=release-bot -c user.email=bot@firma.example commit -m "Release $VERSION" || exit 0
+          git tag "$VERSION" && git push origin HEAD --tags

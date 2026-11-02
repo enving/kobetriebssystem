@@ -1,0 +1,9 @@
+{
+  "_hinweis": "Entwurf. Liegt im Release-Zweig als .claude-plugin/marketplace.json. Schlüsselnamen vor Einsatz gegen die aktuelle Claude-Code-Doku prüfen.",
+  "name": "firma-ko",
+  "owner": {"name": "Firma IT"},
+  "plugins": [
+    {"name": "ko-basis", "source": "./ko-basis", "description": "Regeln, Skills, Kontext, Hooks für alle"},
+    {"name": "ko-vertrieb", "source": "./ko-vertrieb", "description": "Zusatz-Skills Abteilung Vertrieb (je Abteilung ein Plugin)"}
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "_hinweis": "Entwurf. Von der IT als Managed Settings auf die Geräte gelegt; Person kann es nicht überschreiben. Schlüsselnamen vor Einsatz gegen die aktuelle Doku prüfen.",
+  "extraKnownMarketplaces": {
+    "firma-ko": {"source": {"source": "github", "repo": "firma/ko-release"}}
+  },
+  "enabledPlugins": {"ko-basis@firma-ko": true},
+  "strictKnownMarketplaces": [{"source": "github", "repo": "firma/ko-release"}],
+  "permissions": {"disableBypassPermissionsMode": "disable"}
+}
