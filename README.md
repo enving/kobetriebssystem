@@ -66,3 +66,6 @@ Der Agent selbst lernt nichts; besser werden die Dateien, die er liest. Korrektu
 
 ## Status
 Entwurf. Nächste Schritte und offene Fragen: [Übergabe.md](Übergabe.md).
+
+## Lizenz und Mitmachen
+Mozilla Public License 2.0 (`LICENSE`). Verbesserungen, die nicht firmenspezifisch sind, bitte als Pull Request zurückgeben – Details in `CONTRIBUTING.md`.
