@@ -1,0 +1,16 @@
+{
+  "_hinweis": "Neutrale Testfälle für alle Adapter. 'erwartet': block|ok. 'luecke': true = Sperre soll greifen, tut es bekanntermaßen nicht (Text-Prüfung). Muster in der Testsperrliste: geheim-ordner",
+  "faelle": [
+    {"id": "senden",            "tool": "send_message", "erwartet": "block"},
+    {"id": "lesen-erlaubt",     "tool": "read", "pfad": "C:/projekt/offen/a.txt", "erwartet": "ok"},
+    {"id": "lesen-gesperrt",    "tool": "read", "pfad": "D:/geheim-ordner/a.txt", "erwartet": "block"},
+    {"id": "lesen-backslash",   "tool": "read", "pfad": "D:\\geheim-ordner\\a.txt", "erwartet": "block"},
+    {"id": "glob-gesperrt",     "tool": "glob", "pfad": "geheim-ordner/**", "erwartet": "block"},
+    {"id": "bash-direkt",       "tool": "bash", "befehl": "type geheim-ordner\\a.txt", "erwartet": "block"},
+    {"id": "bash-cd",           "tool": "bash", "befehl": "cd geheim-ordner && type a.txt", "erwartet": "block"},
+    {"id": "bash-harmlos",      "tool": "bash", "befehl": "echo hallo", "erwartet": "ok"},
+    {"id": "umweg-wildcard",    "tool": "bash", "befehl": "type geheim-o*\\a.txt", "erwartet": "block", "luecke": true},
+    {"id": "umweg-grossschrift","tool": "read", "pfad": "D:/GEHEIM-ORDNER/a.txt", "erwartet": "block", "luecke": true},
+    {"id": "umweg-variable",    "tool": "bash", "befehl": "set A=geheim& set B=-ordner& type %A%%B%\\a.txt", "erwartet": "block", "luecke": true}
+  ]
+}
