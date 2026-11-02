@@ -46,8 +46,9 @@ Keine Ordner im Repo. Tools hängen über Konnektoren an der Person; Rechte werd
 - `persoenlich/_vorlage/` – Anweisungen (Rolle, Ziele, Stil) und Logbuch einer Person. Gehört der Person; fließt nur per PR ins zentrale Wissen zurück.
 - `prompts/` – gemeinsame Prompt-Bibliothek, rollenbasiert verteilt.
 
-### Plattform (`plugins/`, `system/`)
-- `plugins/` – Bündel für die Agenten-App (Regeln, Wissen, Skills, Konnektoren, Hooks); Verteilung an Teams/Rollen.
+### Plattform (`installation/`, `plugins/`, `system/`)
+- `installation/` – wie dieses Betriebssystem selbst als Plugin gebaut, per GitHub Actions geprüft und an alle Geräte verteilt und aktualisiert wird (Rollen, Managed Settings).
+- `plugins/` – externe, zusätzliche Plugins für die Agenten-App (Konnektoren u. Ä.), die das Betriebssystem ergänzen.
 - `system/` – Prüfprogramme und Sperren: `sperren.txt` (Pfad-Sperrliste), `hooks/` (Senden stoppen, Pfade/klassifizierte Dateien sperren, Beispielkonfiguration).
 
 ### Doku (`docs/`)

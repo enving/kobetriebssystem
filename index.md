@@ -12,7 +12,8 @@ Diese strukturierte und nach **Funktionsbereichen** gruppierte Übersicht macht 
 | **3. Wissensbasis (`kontext/`)** | `index.md`                                     | Inhaltsverzeichnis | Zentraler Einstieg in die interne Dokumentation                     |
 |                                  | `landkarte.md`                                 | Referenz           | Übersicht und Verknüpfung zu Daten außerhalb des Repositories    |
 |                                  | `[Fachbereiche]/` *(admin, firma, sales etc.)* | Domänen-Wissen    | Fachspezifische Ablagen für organisatorische und operative Inhalte |
-| **4. Plattform & System**        | `plugins/`                                     | Schnittstelle      | Integrationen und Erweiterungen für die Agenten-App                |
+| **4. Plattform & System**        | `installation/`                                | Rollout            | Betriebssystem als Plugin bauen, prüfen, an alle Geräte verteilen  |
+|                                  | `plugins/`                                     | Schnittstelle      | Externe, zusätzliche Plugins für die Agenten-App                   |
 |                                  | `system/`                                      | Kontroll-Ebene     | Prüfprogramme, Validierungsskripte und automatisierte Sperren      |
 | **5. Persönliche Ebene**         | `persoenlich/<name>/`                          | Mitarbeiter-Ebene  | Eigene Anweisungen, Logbuch, Prompts/Skills; fließen nur per PR zurück |
 |                                  | `prompts/`                                     | Bibliothek         | Gemeinsame Prompt-Bibliothek, rollenbasiert verteilt              |

@@ -3,7 +3,7 @@
 # Quelle bleibt das Repo (Skills, Hooks, Kontext); dist/ ist erzeugt und wird nie von Hand geändert.
 set -eu
 cd "$(dirname "$0")/.."
-version="${1:?Aufruf: plugins/bauen.sh <version>}"
+version="${1:?Aufruf: installation/bauen.sh <version>}"
 out="dist/ko-basis"
 rm -rf dist && mkdir -p "$out/.claude-plugin" "$out/skills" "$out/hooks" "$out/kontext"
 

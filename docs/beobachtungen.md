@@ -2,7 +2,7 @@
 
 Was in die Vorlage eingeflossen ist (✔) oder offen bleibt:
 
-- ✔ **Repo-Struktur:** `AGENTS.md`, `CLAUDE.md`, `README.md`, `SICHERHEIT.md`, `.agents/skills/`, `automatisierungen/`, `kontext/` (index, landkarte, ein Ordner je Arbeitsgebiet), `plugins/`, `system/`.
+- ✔ **Repo-Struktur:** `AGENTS.md`, `CLAUDE.md`, `README.md`, `SICHERHEIT.md`, `.agents/skills/`, `automatisierungen/`, `kontext/` (index, landkarte, ein Ordner je Arbeitsgebiet), `installation/`, `plugins/`, `system/`.
 - ✔ **AGENTS.md:** `[OFFEN: …]`-Markierung, „Ändere nie still“, Freigabe-Vermerk am Ergebnisort, Lernschleife-Eintrag im Logbuch. Die Regel-Mechanik der Lernschleife liegt besser in einer eigenen Regeldatei (z. B. `.claude/rules/skills.md`) als in AGENTS.md.
 - ✔ **Ampel:** Kunden-/Personendaten ins Repo = rot; `main` technisch gesperrt; im Zweifel gelb; Entwürfe in Fremdtools mit Status „KI-Draft“.
 - ✔ **Skill:** Ordner mit `SKILL.md` + `evals/` (`evals.json`, `ergebnisse.md`, `files/`). Frontmatter: `name`, langes `description` mit Trigger-Sätzen und Abgrenzung („Ein Objekt, ein Skill“), `metadata.besitzer`, `metadata.nutzt_kontext`.
