@@ -1,0 +1,13 @@
+{
+  "_hinweis": "Entwurf. Projekt: .claude/settings.json. Für alle Geräte: Managed Settings der Organisation / Plugin. Schlüsselnamen vor Einsatz gegen die aktuelle Claude-Code-Doku prüfen.",
+  "permissions": {
+    "deny": ["Read(//Volumes/Laufwerk-Personal/**)", "Read(./persoenlich/**/privat/**)"],
+    "disableBypassPermissionsMode": "disable"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {"matcher": "Read|Edit|Write|Glob|Grep|Bash", "hooks": [{"type": "command", "command": "system/hooks/sperre-pfade.sh"}]},
+      {"matcher": ".*", "hooks": [{"type": "command", "command": "system/hooks/block-extern.sh"}]}
+    ]
+  }
+}

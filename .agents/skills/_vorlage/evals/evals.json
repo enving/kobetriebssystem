@@ -1,0 +1,5 @@
+[
+  {"id": "fall-1", "art": "normal", "eingabe": "", "erwartung": []},
+  {"id": "fall-2", "art": "info-fehlt", "eingabe": "", "erwartung": []},
+  {"id": "fall-3", "art": "grenzfall", "eingabe": "", "erwartung": []}
+]

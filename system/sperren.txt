@@ -1,0 +1,6 @@
+# Pfad-Sperrliste: ein Teilstring je Zeile. Trifft er auf einen Pfad oder ein Bash-Kommando, wird die Aktion blockiert.
+# Beispiele (auskommentiert, an die Firma anpassen):
+# /Volumes/Laufwerk-Personal
+# /SharePoint/Personal
+# /Nextcloud/Vertraulich
+# /Studierende/
