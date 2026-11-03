@@ -144,6 +144,26 @@ durch selbst geschriebene Hashes oder einen Trust-Bypass vortäuschen. Nach Änd
 prüfen, ob eine neue Sitzung zum Laden erforderlich ist.
 Quelle: [Codex: Review and trust hooks](https://learn.chatgpt.com/docs/hooks#review-and-trust-hooks).
 
+### Beobachtung: Freigabedialog im Terminal
+
+![Codex CLI meldet drei neue oder geänderte Hooks und bietet Prüfung, Vertrauen oder Fortsetzen ohne Hooks an.](bilder/codex-hooks-vertrauen-cli.png)
+
+*Nutzeraufnahme vom 03.11.2026, unverändert übernommen. Belegstufe: sichtbarer CLI-Dialog.*
+
+Die Auswahl steht auf „Trust all and continue“. Das Bild zeigt die anstehende
+Freigabe, nicht deren Abschluss und auch keinen erfolgreich ausgeführten Hook.
+Für eine eigene Prüfung zunächst „Review hooks“ wählen. „Continue without trusting“
+setzt ohne die neuen Hooks fort. Der Dialog weist außerdem darauf hin, dass
+vertrauenswürdige Hooks außerhalb der Sandbox laufen können; ihre Skripte und
+Abhängigkeiten gehören deshalb zur kontrollierten Installation.
+
+Im zugehörigen Nutzerbericht war die Freigabe in der Desktop-App nicht erreichbar,
+im Terminal dagegen schon. Die genaue Desktop-Version und die Ursache wurden
+nicht ermittelt. Das ist keine allgemeine Aussage, dass Desktop-Hooks unmöglich seien:
+Die aktuelle Hersteller-Doku nennt für Plugin-Hooks auch „Review hooks“ bzw.
+„Settings → Hooks“ in der App. CLI, native Codex-Desktop-App und fremde Frontends
+getrennt prüfen. Quelle: [Codex: Plugin-bundled hooks](https://learn.chatgpt.com/docs/hooks#plugin-bundled-hooks).
+
 ## 5. In mehreren Stufen testen
 
 Die Belegstufen stammen aus der [Werkzeug-Matrix](../installation/werkzeuge.md).
@@ -187,6 +207,92 @@ Dateien beim nächsten Sync überschrieben würden. Für einen echten Modelllauf
 synthetische Daten und harmlose Werkzeuge verwenden; kein Senden, Löschen oder Bezahlen
 als Testaktion ausführen.
 
+## 6. Managed Hooks für den Unternehmensrollout
+
+**Laut Hersteller-Doku möglich; hier noch nicht auf einem verwalteten Gerät geprüft.**
+Der persönliche Freigabedialog oben beschreibt nicht den verwalteten Rollout:
+Admin-Hooks aus verwalteten Quellen gelten durch Richtlinie als vertrauenswürdig
+und lassen sich nicht im persönlichen Hook-Dialog abschalten.
+Quelle: [Codex: Review and trust hooks](https://learn.chatgpt.com/docs/hooks#review-and-trust-hooks).
+
+Für unterstützte lokale Codex-Laufzeiten können Administratoren Hooks direkt in
+`requirements.toml` vorgeben. Der folgende TOML-Ausschnitt ist eine Installationsskizze
+für Unix, keine bereits eingerichtete Richtlinie. Installationspfade und Prüfprogramm
+müssen zum freigegebenen Paket passen:
+
+```toml
+# Nur verwaltete Hook-Quellen zulassen.
+allow_managed_hooks_only = true
+
+[features]
+hooks = true
+
+[hooks]
+managed_dir = "/opt/kobetriebssystem/hooks"
+
+[[hooks.PreToolUse]]
+matcher = "*"
+
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = "/bin/sh /opt/kobetriebssystem/hooks/sperre-pfade.sh"
+timeout = 5
+```
+
+`requirements.toml` ist eine Admin-Vorgabe; dieselben Schlüssel in einer gewöhnlichen
+Benutzerkonfiguration ersetzen diese Wirkung nicht. Die festgeschriebene Hook-Funktion
+verhindert ein lokales Abschalten. Der optionale Modus für ausschließlich verwaltete
+Hooks überspringt auch Plugin-Hooks: Ein separat installiertes KoBetriebssystem-Plugin
+würde seine Hooks in diesem Modus nicht zusätzlich aktivieren.
+Quelle: [Codex: Managed hooks](https://learn.chatgpt.com/docs/hooks#managed-hooks-from-requirements-toml).
+
+### Verteilung und zuständige Ebene
+
+Die Richtlinie verteilt keine Skripte. MDM bzw. Endpoint-Management muss das geprüfte
+Paket samt Interpreter/Abhängigkeiten installieren und aktualisieren. Für das gezeigte
+Prüfprogramm auch die von ihm gelesene Sperrliste gemäß seiner vorhandenen Pfadauflösung
+mitliefern; Inhalt und Regeln bleiben in ihren bestehenden Quelldateien.
+Schreibrechte auf Paket und Richtlinie gehören zur Admin-Ebene. Eine vom normalen
+Benutzer änderbare Datei wäre keine verlässliche Durchsetzung.
+
+Dokumentierte lokale Richtlinienwege sind unter anderem die Systemdatei
+`/etc/codex/requirements.toml` auf Unix bzw.
+`%ProgramData%\OpenAI\Codex\requirements.toml` unter Windows sowie verwaltete
+macOS-Präferenzen. Unterstützte Organisationskonten können Anforderungen auch über
+Agent Security erhalten. Aktuelle Pfade, Plattformschlüssel und Prioritäten ausschließlich
+aus der [Managed-Configuration-Doku](https://learn.chatgpt.com/docs/enterprise/managed-configuration#locations-and-precedence)
+und der [Konfigurationsreferenz](https://learn.chatgpt.com/docs/config-file/config-reference)
+übernehmen. Keine lokalen Benutzer-Trust-Hashes als Rollout-Artefakt verteilen.
+
+Lokale Codex-Hooks und Hooks bei Cloud-Orchestrierung sind verschiedene Ausführungspfade.
+Für Work Cloud mit lokalem Zugriff dokumentiert OpenAI unter den jeweiligen
+Organisationsvoraussetzungen verwaltete Remote-MCP-Hooks am Orchestrator; lokale
+Shell-/Plugin-Hooks sind dort kein gleichwertiger Ersatz. Ein lokal ausgeführtes
+Werkzeug beweist nicht, dass der gesamte Agent lokal orchestriert wird.
+Quelle: [Managed configuration: Enforce managed hooks](https://learn.chatgpt.com/docs/enterprise/managed-configuration#enforce-managed-hooks-from-requirements).
+
+### Folgerung für KoBetriebssystem
+
+**Empfehlung (GPT-6.1-sol, 03.11.2026):** Den bestehenden
+[Release-Weg](../installation/README.md) um einen Codex-Adapter für verwaltete
+Richtlinie und Gerätepaket ergänzen. Das heutige Build-Skript erzeugt ein
+Claude-Code-Plugin, noch keinen Codex-Managed-Rollout. Die fachlichen Prüfungen
+bleiben gemeinsam; der Bauschritt erzeugt die plattformspezifische Verdrahtung.
+Diese Anleitung ändert weder aktive Richtlinien noch die Sperren des Repos.
+
+Vor einer Freigabe auf einem verwalteten Testgerät nachweisen:
+
+1. Paket und Richtlinie werden vom normalen Nutzer nicht geändert; passende Client-
+   und Runtime-Versionen sowie lokaler oder Cloud-Ausführungspfad sind protokolliert.
+2. Der verwaltete Hook läuft ohne persönlichen Trust-Dialog. Ein harmloser erlaubter
+   Aufruf funktioniert, ein gezielt abzulehnender Prüffall wird vor der Aktion gestoppt.
+3. Eine lokale Einstellung zum Abschalten von Hooks setzt die Admin-Vorgabe nicht außer Kraft.
+4. Falls nur verwaltete Hooks erlaubt sind, laufen Benutzer-/Projekt-/Plugin-Hooks
+   tatsächlich nicht zusätzlich. Keine notwendige Prüfung bleibt dadurch unbemerkt aus.
+5. Update und Rücknahme erreichen die Geräte; fehlendes Skript, Timeout und ungültige
+   Antwort werden mit ihrem tatsächlichen Verhalten erfasst. Admin-Vertrauen allein
+   macht eine fehlerhafte oder umgehbare Prüfung nicht zu einer vollständigen Sperre.
+
 ## Grenzen und beobachteter Stand
 
 Der lokale Referenzpflege-Versuch wurde am 03.11.2026 als Prüffunktion und über
@@ -216,3 +322,9 @@ Zweck des Hooks und den Vorgaben aus [SICHERHEIT.md](../SICHERHEIT.md) ab.
   Lücken über vier Adapter; keine unerwarteten Abweichungen.
 - Keine Sicherheitsregeln, Hook-Implementierungen oder aktiven Konfigurationen geändert.
   Kein zusätzlicher echter Agentenlauf; keine Veröffentlichung.
+
+Ergänzung vom 03.11.2026: Nutzer-Screenshot zum CLI-Trust-Dialog eingebunden und
+Managed-Rollout gegen die verlinkte Hersteller-Doku recherchiert. TOML syntaktisch
+geprüft; kein MDM-Rollout, kein verwalteter Hook-Lauf und keine Desktop-Abnahme.
+Die erste TOML-Prüfung scheiterte am fehlenden `tomllib` im System-Python 3.9;
+mit dem vorhandenen Python 3.14 wurden TOML, JSON, Links und Anker erfolgreich geprüft.
