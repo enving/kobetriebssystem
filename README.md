@@ -53,6 +53,7 @@ Keine Ordner im Repo. Tools hängen über Konnektoren an der Person; Rechte werd
 
 ### Doku (`docs/`)
 `anmerkungen.md` (Anmerkungen → Umsetzung), `recherche.md`, `szenarien.md` (lokal vs. zentral), `beobachtungen.md`.
+Anleitung: [Hooks erstellen und verlässlich prüfen](docs/hooks-erstellen.md).
 
 ## Lernschleife in einem Satz
 Der Agent selbst lernt nichts; besser werden die Dateien, die er liest. Korrektur einordnen (einmalig oder Regel) → bei Regel Vorschlag mit Ort, Wortlaut, Prüffall → Ja vom Menschen → PR. Nichts ändert sich still.
