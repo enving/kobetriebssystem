@@ -4,6 +4,64 @@ Blanke Vorlage für ein KI-Betriebssystem im Unternehmen. Ein Agent erledigt Auf
 
 Diese Datei ist die **Navigation** – für Agenten und Menschen. Enthält bewusst keine Firmendaten und keine Beispiel-Skills, nur `_vorlage`-Dateien.
 
+## Wer KI nur Texte schreiben lässt, verpasst das Eigentliche
+
+### Das eigentliche Thema heißt Steuerung, nicht Prompten
+
+Die meisten Beiträge über künstliche Intelligenz drehen sich um Werkzeuge: welche App, welches Modell, welcher Trick für bessere Ergebnisse. Das ist jedoch nur die Oberfläche. Wer KI dauerhaft in seinen Arbeitsalltag einbaut, stellt bald fest, dass sich nicht das Werkzeug verändert, sondern die eigene Position innerhalb der Arbeit.
+
+Nach und nach wandert die Ausführung ab. Recherchieren, formulieren, gestalten, übertragen — das übernimmt zunehmend das System. Was bleibt, ist eine Aufgabe, die vorher kaum jemand ausdrücklich hatte: den Überblick zu behalten.
+
+### Vom Handwerker zum Dirigenten
+
+Ein Vergleich aus der Musik beschreibt das gut. Ein Dirigent spielt kein einziges Instrument. Dennoch entscheidet allein sein Einsatz darüber, ob ein Ensemble zusammenklingt oder jeder Musiker für sich spielt. Die Leistung liegt nicht im eigenen Ton, sondern im Tempo, in der Balance und darin, das Richtige zur richtigen Zeit zu verlangen.
+
+Mit KI verschiebt sich die eigene Rolle in genau diese Richtung. Nicht mehr jede Motion selbst auszuführen, sondern Abläufe zu gliedern, Teilaufgaben zu vergeben, Qualitätsmaßstäbe festzulegen und am Ende zu bewerten, ob das Ergebnis den Ansprüchen genügt — das wird zur Kernkompetenz.
+
+### Ein Beispiel aus dem Alltag: die Kundenpräsentation
+
+Nehmen wir eine Aufgabe, die in vielen Berufen regelmäßig vorkommt: die Vorbereitung einer Präsentation für ein Kundengespräch. Auf den ersten Blick ist das eine einzige Tätigkeit. Bei näherem Hinsehen zerfällt sie in eine Kette ganz unterschiedlicher Schritte:
+
+1. Ziel klären: Was soll das Gegenüber am Ende wissen, wofür entscheiden?
+2. Material sammeln: Zahlen, Beispiele, Argumente, Einwände.
+3. Dramaturgie festlegen: Reihenfolge, Kernerzählung, roter Faden.
+4. Folien bauen: Text, Grafiken, Layout.
+5. Qualitätskontrolle: fachlich korrekt? verständlich? auf Zielgruppe zugeschnitten?
+6. Übergabe und Nachbereitung: Termin, Feedback, Anpassungen für die nächste Runde.
+
+Wer diese Stationen nie benennt, dessen KI-Einsatz bleibt Zufall. Wer sie dagegen einmal aufgeschrieben hat, kann sie prüfen, sortieren und Schritt für Schritt aus der Hand geben — angefangen bei den Schritten, die am wenigsten Nachdenken verlangen.
+
+### Fachwissen verliert keinen Wert — es wechselt den Einsatzort
+
+Eine verbreitete Sorge lautet: Wenn die Maschine schreibt, wird das eigene Können überflüssig. Das Gegenteil trifft zu. Das Wissen wird knapper und wertvoller, aber es wird an einer anderen Stelle gebraucht — nicht mehr bei der Erzeugung, sondern bei der Bewertung und beim Aufbau des Systems.
+
+Wer gut ist, weiß Antworten auf Fragen dieser Art:
+
+- Wonach beurteilt man, ob eine Recherche vollständig ist?
+- Woraus ergibt sich, dass eine Argumentation trägt?
+- Welche Fehler entlarven einen Text als austauschbar?
+- Wo verläuft die Grenze zwischen kreativem Spielraum und fachlicher Genauigkeit?
+
+Ein System kann nur so gut arbeiten, wie die Person, die es einrichtet, diese Fragen beantworten kann. Automatisierung setzt Urteilsvermögen voraus, sie ersetzt es nicht.
+
+### Erst kartieren, dann automatisieren
+
+Bevor irgendetwas an eine KI übergeben wird, lohnt ein Schritt, der völlig ohne Technik auskommt: die Aufgabe einmal in Ruhe beschreiben. Fünf Fragen genügen:
+
+- Was liegt vor, wenn die Aufgabe beginnt — und wie sieht das fertige Ergebnis konkret aus?
+- Durch welche Stationen läuft die Arbeit dazwischen?
+- An welchen Punkten wird entschieden, und wer entscheidet?
+- Welche Stationen sind reine Routine, welche verlangen Erfahrung?
+- Wohin fließt das Ergebnis, und was passiert danach damit?
+
+Das kostet zunächst Zeit und liefert keine sichtbaren Resultate. Es verhindert aber den häufigsten Fehler beim Arbeiten mit KI: viele begonnene, halb fertige und nicht abgestimmte Versuche, deren Verwaltung am Ende mehr Aufwand verursacht als die ursprüngliche Aufgabe selbst.
+
+### Der erste Schritt ist klein
+
+Für den Einstieg genügt eine einzige Übung: eine wiederkehrende Aufgabe auswählen — und nur ihre Stationen auflisten. Nichts automatisieren, nichts optimieren. Wer die Liste einmal vor sich hat, sieht meist sofort, wo sich ein erster, risikofreier Einsatz lohnt: dort, wo die Arbeit gleichförmig ist und das Urteilsvermögen nicht beansprucht wird.
+
+Der Gewinn entsteht selten am ersten Tag. Er entsteht, wenn aus einzelnen Werkstücken allmählich ein System wird, das auch ohne ständige Anleitung läuft.
+
 ## Für Agenten: Lesereihenfolge
 1. **Beim Start nur:** `AGENTS.md` → `kontext/index.md` → `kontext/landkarte.md` → `persoenlich/<ich>/anweisungen.md`.
 2. **Danach bei Bedarf:** passenden Skill wählen (Beschreibung im Kopf der `SKILL.md`), dessen `nutzt_kontext`-Dateien lesen, Landkarte für Systeme außerhalb des Repos.
