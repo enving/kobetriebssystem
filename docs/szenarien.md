@@ -6,5 +6,6 @@
 | Eigene Skills/Prompts | ja, `persoenlich/` | nur zentrale | beides |
 | Logbuch | beim Mitarbeiter | zentral | geteilt |
 | Datenschutz/Endgerät | Daten lokal → klären | Daten in Cloud → AVV | ? |
-| Automatisierung | schwer | gut (Zeitplan/Ereignis) | Routinen zentral |
+| Automatisierung | persönliche Routinen über die Zeitplanfunktion der App (läuft in der Cloud, aber als Person) | gut (Zeitplan/Ereignis) | Routinen zentral |
+| Konto einer Routine | Person: passt für persönliche Routinen | eigenes Konto: Pflicht für zentrale Routinen (Rechte-Leck, [recherche §3](recherche.md)) | je Auftrag festlegen |
 | Offen | | | |
