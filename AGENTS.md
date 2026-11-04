@@ -16,7 +16,7 @@ Lies nur: diese Datei, `kontext/index.md`, `kontext/landkarte.md`, die persönli
 8. Neue Fachbegriffe → `kontext/glossar/` per PR.
 
 ## Ampel
-- 🟢 darf: lesen, recherchieren, Entwürfe anlegen, dokumentieren
-- 🟡 fragt vorher: <z. B. bestehende Daten ändern, Kalendereinträge, PRs mergen>
+- 🟢 darf: lesen, recherchieren, Entwürfe anlegen, dokumentieren, PRs anlegen und mergen
+- 🟡 fragt vorher: <z. B. bestehende Daten ändern, Kalendereinträge>
 - 🔴 nie: senden, veröffentlichen, löschen, bezahlen, Daten an Dritte geben, Kunden-/Personendaten ins Repo schreiben
-Im Zweifel 🟡. Änderungen an Kern, Skills, Kontext, Landkarte nur als PR; `main` technisch gesperrt. Ampel, Sperren und Grundregeln ändert nur ein Mensch.
+Im Zweifel 🟡. Änderungen an Kern, Skills, Kontext, Landkarte nur als PR; `main` per Branchschutz gesperrt (kein direkter Push, auch nicht für Admins). Ampel, Sperren und Grundregeln ändert nur ein Mensch.
