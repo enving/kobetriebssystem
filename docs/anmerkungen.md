@@ -14,4 +14,12 @@ Status: ☐ offen · ◐ Gerüst da · ☑ erledigt
 | 8 | Lernschleife | Datenbasis des OS-Checks unklar (nur PRs? alle Chats?) → festlegen. Personenbezogene Daten in Entwürfen; Checkliste in SICHERHEIT.md. | `automatisierungen/os-check.md`, `SICHERHEIT.md` | ◐ |
 | 9 | „So arbeitet…“ | Ist „Agent“ das lokale Claude Code pro Mitarbeiter oder ein zentraler? Szenarien als Tabelle durchgehen (Slack zentral?). | `docs/szenarien.md` | ◐ |
 
+## Abgleich mit dem Vergleichsmaterial (Stand 2026-11-04, Opus 5.5)
+Neue Fassung des Vergleichsmaterials geprüft: Abbildungen byteweise gleich, Text bis auf einen Werbesatz gleich. Struktur, Verhaltensregeln, Ampel, Skill-Gerüst mit `evals/` und Kontext-Frontmatter sind in der Vorlage abgebildet. Zwei Lücken:
+
+| # | Stelle | Lücke | Umsetzung | Status |
+|---|---|---|---|---|
+| 10 | Automatisierungen | `takt.md` ist leer. Das Vergleichsmaterial nennt sechs Routinen: Kontext-Ernte (täglich), Freigaben abarbeiten (stündlich), Termin-Nachbereitung, Podcast-Nachbereitung, Kontext-Pflege (wöchentlich), OS-Check (wöchentlich). Für die Vorlage mindestens Kontext-Ernte, Kontext-Pflege und OS-Check als Beispielaufträge, ausgeschaltet. Engine dafür: Übergabe, Block 04.11. | `automatisierungen/takt.md`, `automatisierungen/_vorlage.md` | ☐ |
+| 11 | Agent/Prüfer | Der zweite Agent, der gegen „Fertig heißt …“ prüft, steht nur als Satz in der Skill-Vorlage. Offen: Wie wird er aufgerufen (Subagent, Hook, eigener Lauf), mit welchem Auftrag, und wo landet sein Befund (Logbuch)? | `.agents/skills/_vorlage/SKILL.md`, `AGENTS.md`, `system/` | ☐ |
+
 Offene Fragen: siehe [Übergabe.md](../Übergabe.md).
