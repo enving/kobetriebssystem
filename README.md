@@ -8,7 +8,7 @@ Diese Datei ist die **Navigation** – für Agenten und Menschen. Enthält bewus
 
 ### Laufzeit ist nicht Betrieb
 
-Plattformen wie [Rakazo](docs/architektur/bericht-2026-11-05.md) liefern, was Agenten im Team brauchen: einen Chat, eine eigene Sandbox je Agent, gemeinsame Nutzung. Sie liefern nicht, was ein Unternehmen zusätzlich braucht: wer welchen Agenten mit welchen Tools und Daten einsetzen darf, wer das freigibt, was nachweisbar protokolliert wird und was passiert, wenn etwas schiefgeht. Die Haftungsfrage bleibt beim Unternehmen. Dieses Repo ist die Schicht dafür: ein **Betriebssystem im Sinn von Betriebsführung**, das über der Laufzeit liegt. Es ist ein Vorlagen-Satz für Unternehmen in Europa, damit sie nicht leer starten: Grundregeln, Rechte, Beschreibungen der Skills, Sicherheitsleitplanken, Freigabetore.
+Agenten-Plattformen liefern, was Agenten im Team brauchen: einen Chat, eine eigene Sandbox je Agent, gemeinsame Nutzung. Welche Komponente dafür geeignet ist, wird noch recherchiert; das Repo ist bewusst nicht an eine bestimmte gebunden. Solche Plattformen liefern in der Regel nicht, was ein Unternehmen zusätzlich braucht: wer welchen Agenten mit welchen Tools und Daten einsetzen darf, wer das freigibt, was nachweisbar protokolliert wird und was passiert, wenn etwas schiefgeht. Die Haftungsfrage bleibt beim Unternehmen. Dieses Repo ist die Schicht dafür: ein **Betriebssystem im Sinn von Betriebsführung**, das über der Laufzeit liegt. Es ist ein Vorlagen-Satz für Unternehmen in Europa, damit sie nicht leer starten: Grundregeln, Rechte, Beschreibungen der Skills, Sicherheitsleitplanken, Freigabetore.
 
 ### Wer selbst baut, wird nach dem EU AI Act schnell zum Anbieter
 
