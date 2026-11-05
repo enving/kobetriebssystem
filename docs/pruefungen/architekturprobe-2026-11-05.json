@@ -1,0 +1,51 @@
+{
+  "observed_at": "2026-11-05T00:44:20.147390+00:00",
+  "repo_head": "90b280262750ed0dc615a62c7e6f8574cce39ad1",
+  "source": "Dateien aus dem Arbeitsbaum; Auswahl über git ls-files",
+  "source_sha256": {
+    ".agents/skills/_vorlage/SKILL.md": "ea599dc979661db1bcb9091e60cc0c5e9d5542507a8db51c065d347b95421f24",
+    ".agents/skills/_vorlage/evals/ergebnisse.md": "f436e4529c94bc203485739d42100059f6ad2bf711ca336422e4745040a27ab8",
+    ".agents/skills/_vorlage/evals/evals.json": "acfa7bd39438c52d791249ce3e7ddb54595c09bd45ea212689687569fcd809c7",
+    ".agents/skills/_vorlage/evals/files/README.md": "5b02c608f7a43802ea434b422bc1e42f20f1f493a846cee5204b6f64f92283b8",
+    "AGENTS.md": "63233569830e52660ea5b1dc2886c814d1f69a6fa0fe41beda3d122c08c13eb9",
+    "installation/README.md": "c1822c6fa4de2e93cfb002eef73dfab70efdfde5444d2373e80c1ee328cdabec",
+    "installation/bauen.sh": "93d19dd2341b1224fa17d6a6095f83254acceaf5cc55d33af30b09f00ae8390d",
+    "installation/ci-beispiel/plugin-release.yml": "27df6ee6c4d16a70d46424694a96e3107273bc44d14ff9ae8f4a1b331c6c3615",
+    "installation/managed-settings-beispiel.json": "54472b3980345667edf63886da2603d27b3442e60b0b580d1effccf378b79813",
+    "installation/marketplace-beispiel.json": "95228250736b4c2af84d31a07c7c69d6861988e7069a4ddb7dea48c051abe7ec",
+    "installation/werkzeuge.md": "bcc4f31971d1782acba210d404d8f7e82d7c3b998968cac879b97025aa949f6a",
+    "kontext/_vorlage-bereich/_vorlage.md": "ee63ec91d591c40fbf57f2d9fc2b443ef9b8da9eb0a74985b6ee0545c68b797c",
+    "kontext/glossar/begriff-vorlage.md": "b606eea9826d2a089c1fc265f1c3755d6710ae877a23290a02f28e5bab42e2ea",
+    "kontext/glossar/index.md": "3cea759fa3f300874a5ba71f9e57a53f32202a4f0ff736ac26911db746873be8",
+    "kontext/index.md": "275d52c342160ed01fb2807e2c9c9ddee9027218cfdfbd7d8f50b7d3308e1491",
+    "kontext/landkarte.md": "d67fc3158ecbffc9635ab87ffd4110c925b26f71bb1e3955515d892f9debab4e",
+    "kontext/log.md": "3d8b2c52048842b9cf5e5ce98b374378cf06cb90cba3b032b50c0a190b493378",
+    "system/README.md": "c75d52a553cb5b8e0c212d7043595a3ce1887bd332cc1c5042a05a134735b41f",
+    "system/hooks/block-extern.sh": "0a1d8f652eadb5e9c96b606cc38bce5d869e61df3a38bcdcc1daef69de5ae2bb",
+    "system/hooks/codex-hooks.json": "9ff9c5bd686e6f33cd1ae8cc3a2a37d1293d69d7fd8fe28d6bcccc76b861914c",
+    "system/hooks/opencode-sperre.js": "9bdf24928634da32887f959116f3c5abe892571f26cada8510b9fcbdb3983ab8",
+    "system/hooks/pi-sperre.js": "066e42070c37222d9c5aab0a71fcde31593f90a930088a64264655fc8a6e8f2b",
+    "system/hooks/sessionstart-kontext.sh": "7f2b5ebe027adf0e1703218829280f120b4fa1bc2266b3e1839fccce93673a6d",
+    "system/hooks/settings-beispiel.json": "63f4d492b656346e189adc53b58f9a42b69ad4f8c939010ad716bd79e3c95dd5",
+    "system/hooks/sperre-pfade.sh": "9fdfd2b51d20f3d92cb670bdfd0a05e3603aeda777129f7d0d7f64ab88b6cb07",
+    "system/hooks/stop-kontextmahnung.sh": "62f5f6e41975cec08dd130d868bbd3d57f7f115a447607d5f184ca13c47559f2",
+    "system/sperren.txt": "313c21a5b1688c0749b1c1e15cae613799bcc49f187d9fa570f9c1d1c3c8f715",
+    "system/tests/faelle.json": "d0e9d602a762324e44a1e47faaf3cce109690311ae06369f70d2c45e596e19da",
+    "system/tests/pruefen.mjs": "626231e6ae3b439b4e96beb44c3f4fe458d87e0dd02a8b575d5355bfa5687223"
+  },
+  "hook_probe": {
+    "exit_code": 0,
+    "ok": 32,
+    "known_gaps": 12,
+    "stdout": "\n== sh (Claude Code)\nOK               senden               erwartet=block ist=block\nOK               lesen-erlaubt        erwartet=ok ist=ok\nOK               lesen-gesperrt       erwartet=block ist=block\nOK               lesen-backslash      erwartet=block ist=block\nOK               glob-gesperrt        erwartet=block ist=block\nOK               bash-direkt          erwartet=block ist=block\nOK               bash-cd              erwartet=block ist=block\nOK               bash-harmlos         erwartet=ok ist=ok\nLÜCKE            umweg-wildcard       erwartet=block ist=ok\nLÜCKE            umweg-grossschrift   erwartet=block ist=ok\nLÜCKE            umweg-variable       erwartet=block ist=ok\n\n== sh (Codex)\nOK               senden               erwartet=block ist=block\nOK               lesen-erlaubt        erwartet=ok ist=ok\nOK               lesen-gesperrt       erwartet=block ist=block\nOK               lesen-backslash      erwartet=block ist=block\nOK               glob-gesperrt        erwartet=block ist=block\nOK               bash-direkt          erwartet=block ist=block\nOK               bash-cd              erwartet=block ist=block\nOK               bash-harmlos         erwartet=ok ist=ok\nLÜCKE            umweg-wildcard       erwartet=block ist=ok\nLÜCKE            umweg-grossschrift   erwartet=block ist=ok\nLÜCKE            umweg-variable       erwartet=block ist=ok\n\n== opencode\nOK               senden               erwartet=block ist=block\nOK               lesen-erlaubt        erwartet=ok ist=ok\nOK               lesen-gesperrt       erwartet=block ist=block\nOK               lesen-backslash      erwartet=block ist=block\nOK               glob-gesperrt        erwartet=block ist=block\nOK               bash-direkt          erwartet=block ist=block\nOK               bash-cd              erwartet=block ist=block\nOK               bash-harmlos         erwartet=ok ist=ok\nLÜCKE            umweg-wildcard       erwartet=block ist=ok\nLÜCKE            umweg-grossschrift   erwartet=block ist=ok\nLÜCKE            umweg-variable       erwartet=block ist=ok\n\n== pi\nOK               senden               erwartet=block ist=block\nOK               lesen-erlaubt        erwartet=ok ist=ok\nOK               lesen-gesperrt       erwartet=block ist=block\nOK               lesen-backslash      erwartet=block ist=block\nOK               glob-gesperrt        erwartet=block ist=block\nOK               bash-direkt          erwartet=block ist=block\nOK               bash-cd              erwartet=block ist=block\nOK               bash-harmlos         erwartet=ok ist=ok\nLÜCKE            umweg-wildcard       erwartet=block ist=ok\nLÜCKE            umweg-grossschrift   erwartet=block ist=ok\nLÜCKE            umweg-variable       erwartet=block ist=ok\n\nkeine unerwarteten Abweichungen\n",
+    "stderr": ""
+  },
+  "plugin_probe": {
+    "exit_code": 0,
+    "classified_synthetic_file_shipped": true,
+    "content_unchanged": true,
+    "stdout": "gebaut: dist/ko-basis (0.0.0-probe)\n",
+    "stderr": ""
+  },
+  "limits": "Adapter-Simulation und Pluginbau; kein Live-Agent, keine echte Zugriffskontrolle, keine Firmendaten."
+}
