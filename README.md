@@ -4,6 +4,38 @@ Blanke Vorlage für ein KI-Betriebssystem im Unternehmen. Ein Agent erledigt Auf
 
 Diese Datei ist die **Navigation** – für Agenten und Menschen. Enthält bewusst keine Firmendaten und keine Beispiel-Skills, nur `_vorlage`-Dateien.
 
+## Warum es dieses Repo gibt
+
+### Laufzeit ist nicht Betrieb
+
+Plattformen wie [Rakazo](docs/architektur/bericht-2026-11-05.md) liefern, was Agenten im Team brauchen: einen Chat, eine eigene Sandbox je Agent, gemeinsame Nutzung. Sie liefern nicht, was ein Unternehmen zusätzlich braucht: wer welchen Agenten mit welchen Tools und Daten einsetzen darf, wer das freigibt, was nachweisbar protokolliert wird und was passiert, wenn etwas schiefgeht. Die Haftungsfrage bleibt beim Unternehmen. Dieses Repo ist die Schicht dafür: ein **Betriebssystem im Sinn von Betriebsführung**, das über der Laufzeit liegt. Es ist ein Vorlagen-Satz für Unternehmen in Europa, damit sie nicht leer starten: Grundregeln, Rechte, Beschreibungen der Skills, Sicherheitsleitplanken, Freigabetore.
+
+### Wer selbst baut, wird nach dem EU AI Act schnell zum Anbieter
+
+Der AI Act unterscheidet **Betreiber** (setzt ein fertiges KI-System ein) und **Anbieter** (entwickelt ein System oder lässt es entwickeln und nimmt es unter eigenem Namen in Betrieb). Wer Agenten für das eigene Unternehmen selbst zusammenstellt, mit eigenen Skills, Tools und Regeln, sitzt deshalb leicht auf der Anbieterseite, auch wenn das Modell von außen kommt (Art. 3 Nr. 3 und 4, Art. 25). Eine Zweckänderung kann ein harmloses System zu einem Hochrisiko-System machen, etwa wenn ein Agent Bewerbungen vorsortiert oder Personalentscheidungen vorbereitet (Anhang III).
+
+Für Hochrisiko-Systeme gelten dann Anbieterpflichten: Risikomanagement (Art. 9), Daten-Governance (Art. 10), technische Dokumentation (Art. 11), automatische Protokollierung (Art. 12), Transparenz (Art. 13), menschliche Aufsicht (Art. 14), Genauigkeit, Robustheit und Cybersicherheit (Art. 15), ein Qualitätsmanagementsystem (Art. 17) und Beobachtung nach dem Einsatz (Art. 72). Das sind keine Dokumente, die man einmal schreibt, sondern Tätigkeiten, die dauernd laufen müssen. Dafür braucht ein Unternehmen **operatives Management**, und genau das soll dieses Repo als Vorlage geben, neben der Laufzeit.
+
+### Was das Repo davon abdeckt
+
+Die Zuordnung ist ein Ansatz, **kein Konformitätsnachweis**. Ob ein konkretes System Hochrisiko ist und was dann genügt, prüft die Rechts- und Compliance-Stelle des Unternehmens.
+
+| Anforderung | Was dieses Repo dazu beiträgt | Lücke |
+|---|---|---|
+| Risikomanagement (Art. 9) | Ampel in `AGENTS.md`, Prüffälle je Skill, Sperren in `system/` | [OFFEN: Risikoregister je Einsatzzweck] |
+| Daten-Governance (Art. 10) | `kontext/` mit Besitzer und Prüfdatum, `kontext/landkarte.md` (was der Agent wo nie tun darf) | [OFFEN: Datenklassen und Löschfristen] |
+| Technische Dokumentation (Art. 11) | `SKILL.md` je Aufgabe, Kontext, `docs/`, alles versioniert | [OFFEN: Abbildung auf Anhang IV] |
+| Protokollierung (Art. 12) | Git-Verlauf und Pull Requests für alles Steuernde | [OFFEN: Laufprotokolle der Agenten in der Laufzeit] |
+| Menschliche Aufsicht (Art. 14) | Entwurf statt Senden, Rot nie, Gelb nach Rückfrage, Ampel ändert nur ein Mensch | [OFFEN: benannte Aufsichtsperson je Agent] |
+| Qualitätsmanagement (Art. 17) | Lernschleife, Pull-Request-Pflicht, Evals vor jeder Automatisierung | [OFFEN: Abgleich mit ISO/IEC 42001] |
+| Beobachtung nach dem Einsatz (Art. 72) | Lernschleife, `docs/beobachtungen.md` | [OFFEN: Meldeweg bei Vorfällen] |
+
+Als Managementsystem-Rahmen dient ISO/IEC 42001; für Identität und Governance-Werkzeuge ist Microsoft vorgesehen (Arbeitsentscheidung, siehe Architekturbericht).
+
+### Stand der Fristen
+
+Die Hochrisiko-Pflichten für Anhang-III-Systeme sollten ab 2. August 2026 gelten. Der „Digital Omnibus" verschiebt sie nach übereinstimmenden Berichten auf den **2. Dezember 2027** (Produkte nach Anhang I: 2. August 2028). Die Quellen nennen unterschiedliche Daten für das Inkrafttreten (27. oder 31. Juli 2026); [OFFEN: Wortlaut gegen EUR-Lex prüfen, bevor die Zahlen in Außentexte gehen]. Das Gesetz gilt also noch nicht in voller Härte, aber die Vorbereitung ist der längere Teil: Einsatzzwecke erfassen, Rollen klären, Nachweise von Anfang an erzeugen. Quellen: [Gibson Dunn](https://www.gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes/), [euaiact.com](https://www.euaiact.com/digital-omnibus-ai), [Mondaq](https://www.mondaq.com/eu-digital-omnibus-on-ai-enters-into-force/1825722), Stand 05.11.2026.
+
 ## Wer KI nur Texte schreiben lässt, verpasst das Eigentliche
 
 ### Das eigentliche Thema heißt Steuerung, nicht Prompten
