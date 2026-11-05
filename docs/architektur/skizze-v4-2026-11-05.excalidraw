@@ -25,10 +25,10 @@
    "type": "text",
    "x": 40,
    "y": 0,
-   "width": 844.8000000000001,
+   "width": 871.2,
    "height": 30.0,
-   "text": "KI-Betriebssystem · Architektur v4 · Claude Opus 5.5, 05.11.2026",
-   "originalText": "KI-Betriebssystem · Architektur v4 · Claude Opus 5.5, 05.11.2026",
+   "text": "KI-Betriebssystem · Architektur v4.1 · Claude Opus 5.5, 05.11.2026",
+   "originalText": "KI-Betriebssystem · Architektur v4.1 · Claude Opus 5.5, 05.11.2026",
    "fontSize": 24,
    "fontFamily": 5,
    "textAlign": "left",
@@ -642,7 +642,7 @@
   {
    "angle": 0,
    "strokeColor": "#1e1e1e",
-   "backgroundColor": "#fff3bf",
+   "backgroundColor": "#fff0f6",
    "fillStyle": "solid",
    "strokeWidth": 2,
    "strokeStyle": "solid",
@@ -664,10 +664,10 @@
    "link": null,
    "locked": false,
    "type": "rectangle",
-   "x": 40,
-   "y": 440,
-   "width": 1340,
-   "height": 80,
+   "x": 600,
+   "y": 272,
+   "width": 360,
+   "height": 104,
    "roundness": {
     "type": 3
    },
@@ -693,13 +693,13 @@
    "link": null,
    "locked": false,
    "type": "text",
-   "x": 50,
-   "y": 451.875,
-   "width": 1320,
-   "height": 56.25,
-   "text": "③ LAUFZEIT für firmenweit verwaltete Agenten\nOption A: Rakazo self-hosted (erster Kandidat, Bots auf Pi, Modell frei) · Option B: Microsoft-Stack (ungeprüft)  ?8\nSpace = Rechtegrenze: Chats, Dateien, Memory, Computer und App-Verbindungen mischen sich nicht",
-   "originalText": "③ LAUFZEIT für firmenweit verwaltete Agenten\nOption A: Rakazo self-hosted (erster Kandidat, Bots auf Pi, Modell frei) · Option B: Microsoft-Stack (ungeprüft)  ?8\nSpace = Rechtegrenze: Chats, Dateien, Memory, Computer und App-Verbindungen mischen sich nicht",
-   "fontSize": 15,
+   "x": 610,
+   "y": 280.25,
+   "width": 340,
+   "height": 87.5,
+   "text": "IDENTITÄT & GOVERNANCE (z. B. Microsoft)\nEntra ID: Login per OIDC geht in Rakazo\nGruppen → Space fehlt  ?2\nEntra Agent ID: Bot-Identität  ?7\nPurview-Labels: Klassifizierung",
+   "originalText": "IDENTITÄT & GOVERNANCE (z. B. Microsoft)\nEntra ID: Login per OIDC geht in Rakazo\nGruppen → Space fehlt  ?2\nEntra Agent ID: Bot-Identität  ?7\nPurview-Labels: Klassifizierung",
+   "fontSize": 14,
    "fontFamily": 5,
    "textAlign": "center",
    "verticalAlign": "middle",
@@ -708,6 +708,120 @@
    "autoResize": true,
    "roundness": null,
    "id": "k397083403312"
+  },
+  {
+   "angle": 0,
+   "strokeColor": "#e03131",
+   "backgroundColor": "transparent",
+   "fillStyle": "solid",
+   "strokeWidth": 2,
+   "strokeStyle": "dashed",
+   "roughness": 1,
+   "opacity": 100,
+   "groupIds": [],
+   "frameId": null,
+   "seed": 321872363,
+   "version": 1,
+   "versionNonce": 266746013,
+   "isDeleted": false,
+   "boundElements": null,
+   "updated": 1,
+   "link": null,
+   "locked": false,
+   "type": "arrow",
+   "x": 780,
+   "y": 378,
+   "width": 0,
+   "height": 60,
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     60
+    ]
+   ],
+   "roundness": {
+    "type": 2
+   },
+   "startBinding": null,
+   "endBinding": null,
+   "startArrowhead": null,
+   "endArrowhead": "arrow",
+   "elbowed": false,
+   "id": "k200980329511"
+  },
+  {
+   "angle": 0,
+   "strokeColor": "#1e1e1e",
+   "backgroundColor": "#fff3bf",
+   "fillStyle": "solid",
+   "strokeWidth": 2,
+   "strokeStyle": "solid",
+   "roughness": 1,
+   "opacity": 100,
+   "groupIds": [],
+   "frameId": null,
+   "seed": 750539557,
+   "version": 1,
+   "versionNonce": 837335688,
+   "isDeleted": false,
+   "boundElements": [
+    {
+     "type": "text",
+     "id": "k543421581089"
+    }
+   ],
+   "updated": 1,
+   "link": null,
+   "locked": false,
+   "type": "rectangle",
+   "x": 40,
+   "y": 440,
+   "width": 1340,
+   "height": 80,
+   "roundness": {
+    "type": 3
+   },
+   "id": "k86947732475"
+  },
+  {
+   "angle": 0,
+   "strokeColor": "#1e1e1e",
+   "backgroundColor": "transparent",
+   "fillStyle": "solid",
+   "strokeWidth": 2,
+   "strokeStyle": "solid",
+   "roughness": 1,
+   "opacity": 100,
+   "groupIds": [],
+   "frameId": null,
+   "seed": 616782763,
+   "version": 1,
+   "versionNonce": 322390037,
+   "isDeleted": false,
+   "boundElements": null,
+   "updated": 1,
+   "link": null,
+   "locked": false,
+   "type": "text",
+   "x": 50,
+   "y": 451.875,
+   "width": 1320,
+   "height": 56.25,
+   "text": "③ LAUFZEIT für firmenweit verwaltete Agenten\nRakazo self-hosted (Bots auf Pi, Modell frei) · Sandbox-Anbieter: Docker, E2B, Daytona … · Microsoft-Sandbox (Windows 365/Azure) fehlt  ?8\nSpace = Rechtegrenze: Chats, Dateien, Memory, Computer und App-Verbindungen mischen sich nicht",
+   "originalText": "③ LAUFZEIT für firmenweit verwaltete Agenten\nRakazo self-hosted (Bots auf Pi, Modell frei) · Sandbox-Anbieter: Docker, E2B, Daytona … · Microsoft-Sandbox (Windows 365/Azure) fehlt  ?8\nSpace = Rechtegrenze: Chats, Dateien, Memory, Computer und App-Verbindungen mischen sich nicht",
+   "fontSize": 15,
+   "fontFamily": 5,
+   "textAlign": "center",
+   "verticalAlign": "middle",
+   "containerId": "k86947732475",
+   "lineHeight": 1.25,
+   "autoResize": true,
+   "roundness": null,
+   "id": "k543421581089"
   },
   {
    "angle": 0,
@@ -720,14 +834,14 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 321872363,
+   "seed": 939671729,
    "version": 1,
-   "versionNonce": 266746013,
+   "versionNonce": 368804211,
    "isDeleted": false,
    "boundElements": [
     {
      "type": "text",
-     "id": "k86947732475"
+     "id": "k81519230264"
     }
    ],
    "updated": 1,
@@ -741,7 +855,7 @@
    "roundness": {
     "type": 3
    },
-   "id": "k200980329511"
+   "id": "k492759215392"
   },
   {
    "angle": 0,
@@ -754,9 +868,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 750539557,
+   "seed": 309170818,
    "version": 1,
-   "versionNonce": 837335688,
+   "versionNonce": 653864767,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -773,11 +887,11 @@
    "fontFamily": 5,
    "textAlign": "center",
    "verticalAlign": "middle",
-   "containerId": "k200980329511",
+   "containerId": "k492759215392",
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k86947732475"
+   "id": "k81519230264"
   },
   {
    "angle": 0,
@@ -790,14 +904,14 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 616782763,
+   "seed": 126772164,
    "version": 1,
-   "versionNonce": 322390037,
+   "versionNonce": 549683695,
    "isDeleted": false,
    "boundElements": [
     {
      "type": "text",
-     "id": "k492759215392"
+     "id": "k461661581186"
     }
    ],
    "updated": 1,
@@ -811,7 +925,7 @@
    "roundness": {
     "type": 3
    },
-   "id": "k543421581089"
+   "id": "k182184450280"
   },
   {
    "angle": 0,
@@ -824,9 +938,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 939671729,
+   "seed": 812973887,
    "version": 1,
-   "versionNonce": 368804211,
+   "versionNonce": 367279627,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -843,11 +957,11 @@
    "fontFamily": 5,
    "textAlign": "center",
    "verticalAlign": "middle",
-   "containerId": "k543421581089",
+   "containerId": "k182184450280",
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k492759215392"
+   "id": "k461661581186"
   },
   {
    "angle": 0,
@@ -860,14 +974,14 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 309170818,
+   "seed": 42098469,
    "version": 1,
-   "versionNonce": 653864767,
+   "versionNonce": 717491316,
    "isDeleted": false,
    "boundElements": [
     {
      "type": "text",
-     "id": "k182184450280"
+     "id": "k965461807966"
     }
    ],
    "updated": 1,
@@ -881,7 +995,7 @@
    "roundness": {
     "type": 3
    },
-   "id": "k81519230264"
+   "id": "k837852000134"
   },
   {
    "angle": 0,
@@ -894,9 +1008,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 126772164,
+   "seed": 599229278,
    "version": 1,
-   "versionNonce": 549683695,
+   "versionNonce": 615281916,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -913,11 +1027,11 @@
    "fontFamily": 5,
    "textAlign": "center",
    "verticalAlign": "middle",
-   "containerId": "k81519230264",
+   "containerId": "k837852000134",
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k182184450280"
+   "id": "k965461807966"
   },
   {
    "angle": 0,
@@ -930,14 +1044,14 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 812973887,
+   "seed": 878700210,
    "version": 1,
-   "versionNonce": 367279627,
+   "versionNonce": 336883827,
    "isDeleted": false,
    "boundElements": [
     {
      "type": "text",
-     "id": "k837852000134"
+     "id": "k637788361803"
     }
    ],
    "updated": 1,
@@ -951,7 +1065,7 @@
    "roundness": {
     "type": 3
    },
-   "id": "k461661581186"
+   "id": "k761670025794"
   },
   {
    "angle": 0,
@@ -964,9 +1078,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 42098469,
+   "seed": 376001182,
    "version": 1,
-   "versionNonce": 717491316,
+   "versionNonce": 638199795,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -983,11 +1097,11 @@
    "fontFamily": 5,
    "textAlign": "center",
    "verticalAlign": "middle",
-   "containerId": "k461661581186",
+   "containerId": "k761670025794",
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k837852000134"
+   "id": "k637788361803"
   },
   {
    "angle": 0,
@@ -1000,9 +1114,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 599229278,
+   "seed": 855656247,
    "version": 1,
-   "versionNonce": 615281916,
+   "versionNonce": 489846746,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1031,7 +1145,7 @@
    "startArrowhead": null,
    "endArrowhead": "arrow",
    "elbowed": false,
-   "id": "k965461807966"
+   "id": "k923713303249"
   },
   {
    "angle": 0,
@@ -1044,9 +1158,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 878700210,
+   "seed": 100497933,
    "version": 1,
-   "versionNonce": 336883827,
+   "versionNonce": 289845088,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1067,7 +1181,7 @@
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k761670025794"
+   "id": "k766540415529"
   },
   {
    "angle": 0,
@@ -1080,9 +1194,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 376001182,
+   "seed": 713128006,
    "version": 1,
-   "versionNonce": 638199795,
+   "versionNonce": 69793196,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1111,7 +1225,7 @@
    "startArrowhead": null,
    "endArrowhead": "arrow",
    "elbowed": false,
-   "id": "k637788361803"
+   "id": "k803419457547"
   },
   {
    "angle": 0,
@@ -1124,9 +1238,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 855656247,
+   "seed": 753221325,
    "version": 1,
-   "versionNonce": 489846746,
+   "versionNonce": 332438386,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1147,7 +1261,7 @@
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k923713303249"
+   "id": "k634139589761"
   },
   {
    "angle": 0,
@@ -1160,14 +1274,14 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 100497933,
+   "seed": 731472844,
    "version": 1,
-   "versionNonce": 289845088,
+   "versionNonce": 882535017,
    "isDeleted": false,
    "boundElements": [
     {
      "type": "text",
-     "id": "k803419457547"
+     "id": "k738249216648"
     }
    ],
    "updated": 1,
@@ -1181,7 +1295,7 @@
    "roundness": {
     "type": 3
    },
-   "id": "k766540415529"
+   "id": "k311151657840"
   },
   {
    "angle": 0,
@@ -1194,9 +1308,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 713128006,
+   "seed": 769473236,
    "version": 1,
-   "versionNonce": 69793196,
+   "versionNonce": 414240403,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1213,11 +1327,11 @@
    "fontFamily": 5,
    "textAlign": "center",
    "verticalAlign": "middle",
-   "containerId": "k766540415529",
+   "containerId": "k311151657840",
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k803419457547"
+   "id": "k738249216648"
   },
   {
    "angle": 0,
@@ -1230,14 +1344,14 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 753221325,
+   "seed": 372594063,
    "version": 1,
-   "versionNonce": 332438386,
+   "versionNonce": 24226753,
    "isDeleted": false,
    "boundElements": [
     {
      "type": "text",
-     "id": "k311151657840"
+     "id": "k127177931064"
     }
    ],
    "updated": 1,
@@ -1251,7 +1365,7 @@
    "roundness": {
     "type": 3
    },
-   "id": "k634139589761"
+   "id": "k510846195765"
   },
   {
    "angle": 0,
@@ -1264,9 +1378,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 731472844,
+   "seed": 381676682,
    "version": 1,
-   "versionNonce": 882535017,
+   "versionNonce": 180440569,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1283,11 +1397,11 @@
    "fontFamily": 5,
    "textAlign": "center",
    "verticalAlign": "middle",
-   "containerId": "k634139589761",
+   "containerId": "k510846195765",
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k311151657840"
+   "id": "k127177931064"
   },
   {
    "angle": 0,
@@ -1300,9 +1414,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 769473236,
+   "seed": 530098818,
    "version": 1,
-   "versionNonce": 414240403,
+   "versionNonce": 63301824,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1331,7 +1445,7 @@
    "startArrowhead": null,
    "endArrowhead": "arrow",
    "elbowed": false,
-   "id": "k738249216648"
+   "id": "k842750785275"
   },
   {
    "angle": 0,
@@ -1344,9 +1458,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 372594063,
+   "seed": 308627686,
    "version": 1,
-   "versionNonce": 24226753,
+   "versionNonce": 138878003,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1375,7 +1489,7 @@
    "startArrowhead": null,
    "endArrowhead": "arrow",
    "elbowed": false,
-   "id": "k510846195765"
+   "id": "k273754186214"
   },
   {
    "angle": 0,
@@ -1388,14 +1502,14 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 381676682,
+   "seed": 427239380,
    "version": 1,
-   "versionNonce": 180440569,
+   "versionNonce": 419779047,
    "isDeleted": false,
    "boundElements": [
     {
      "type": "text",
-     "id": "k842750785275"
+     "id": "k490340809498"
     }
    ],
    "updated": 1,
@@ -1409,7 +1523,7 @@
    "roundness": {
     "type": 3
    },
-   "id": "k127177931064"
+   "id": "k961715402706"
   },
   {
    "angle": 0,
@@ -1422,9 +1536,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 530098818,
+   "seed": 533120015,
    "version": 1,
-   "versionNonce": 63301824,
+   "versionNonce": 86523513,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1441,11 +1555,11 @@
    "fontFamily": 5,
    "textAlign": "center",
    "verticalAlign": "middle",
-   "containerId": "k127177931064",
+   "containerId": "k961715402706",
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k842750785275"
+   "id": "k490340809498"
   },
   {
    "angle": 0,
@@ -1458,14 +1572,14 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 308627686,
+   "seed": 431262237,
    "version": 1,
-   "versionNonce": 138878003,
+   "versionNonce": 589956612,
    "isDeleted": false,
    "boundElements": [
     {
      "type": "text",
-     "id": "k961715402706"
+     "id": "k951036848816"
     }
    ],
    "updated": 1,
@@ -1479,7 +1593,7 @@
    "roundness": {
     "type": 3
    },
-   "id": "k273754186214"
+   "id": "k971855918879"
   },
   {
    "angle": 0,
@@ -1492,9 +1606,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 427239380,
+   "seed": 147023327,
    "version": 1,
-   "versionNonce": 419779047,
+   "versionNonce": 879695030,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1511,11 +1625,11 @@
    "fontFamily": 5,
    "textAlign": "center",
    "verticalAlign": "middle",
-   "containerId": "k273754186214",
+   "containerId": "k971855918879",
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k961715402706"
+   "id": "k951036848816"
   },
   {
    "angle": 0,
@@ -1528,14 +1642,14 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 533120015,
+   "seed": 590793751,
    "version": 1,
-   "versionNonce": 86523513,
+   "versionNonce": 298952339,
    "isDeleted": false,
    "boundElements": [
     {
      "type": "text",
-     "id": "k971855918879"
+     "id": "k420409406981"
     }
    ],
    "updated": 1,
@@ -1549,7 +1663,7 @@
    "roundness": {
     "type": 3
    },
-   "id": "k490340809498"
+   "id": "k458300484154"
   },
   {
    "angle": 0,
@@ -1562,9 +1676,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 431262237,
+   "seed": 385227600,
    "version": 1,
-   "versionNonce": 589956612,
+   "versionNonce": 733068297,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1581,11 +1695,11 @@
    "fontFamily": 5,
    "textAlign": "center",
    "verticalAlign": "middle",
-   "containerId": "k490340809498",
+   "containerId": "k458300484154",
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k971855918879"
+   "id": "k420409406981"
   },
   {
    "angle": 0,
@@ -1598,9 +1712,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 147023327,
+   "seed": 247767551,
    "version": 1,
-   "versionNonce": 879695030,
+   "versionNonce": 162050095,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1629,7 +1743,7 @@
    "startArrowhead": null,
    "endArrowhead": "arrow",
    "elbowed": false,
-   "id": "k951036848816"
+   "id": "k193629944874"
   },
   {
    "angle": 0,
@@ -1642,9 +1756,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 590793751,
+   "seed": 162455407,
    "version": 1,
-   "versionNonce": 298952339,
+   "versionNonce": 249061789,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1665,7 +1779,7 @@
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k458300484154"
+   "id": "k256231378057"
   },
   {
    "angle": 0,
@@ -1678,9 +1792,9 @@
    "opacity": 100,
    "groupIds": [],
    "frameId": null,
-   "seed": 385227600,
+   "seed": 12952615,
    "version": 1,
-   "versionNonce": 733068297,
+   "versionNonce": 520724767,
    "isDeleted": false,
    "boundElements": null,
    "updated": 1,
@@ -1689,10 +1803,10 @@
    "type": "text",
    "x": 40,
    "y": 1000,
-   "width": 1008.7,
+   "width": 1486.1000000000001,
    "height": 70.0,
-   "text": "OFFEN\n?1 Sync-Weg in Rakazo (Skills/Shared Memory per API?)   ?2 Rolle → Space (SSO-Gruppen?)   ?3 Konnektor-Rechte je Space\n?4 Rechte von Organisations-Admins   ?5 Hosting, Modell, Kosten   ?6 Betriebsrat, Audit-Log\n?7 Identität der Bots in Firmensoftware und Browser (eigenes Dienstkonto oder Login der Person?)   ?8 Microsoft als Laufzeit prüfen",
-   "originalText": "OFFEN\n?1 Sync-Weg in Rakazo (Skills/Shared Memory per API?)   ?2 Rolle → Space (SSO-Gruppen?)   ?3 Konnektor-Rechte je Space\n?4 Rechte von Organisations-Admins   ?5 Hosting, Modell, Kosten   ?6 Betriebsrat, Audit-Log\n?7 Identität der Bots in Firmensoftware und Browser (eigenes Dienstkonto oder Login der Person?)   ?8 Microsoft als Laufzeit prüfen",
+   "text": "OFFEN\n?1 Sync-Weg in Rakazo (Skills/Shared Memory per API?)   ?2 Rolle → Space (Entra-Gruppen; Rakazo-OIDC fragt nur openid/email/profile)   ?3 Konnektor-Rechte je Space\n?4 Rechte von Organisations-Admins   ?5 Hosting, Modell, Kosten   ?6 Betriebsrat, Audit-Log\n?7 Identität der Bots in Firmensoftware und Browser (eigenes Dienstkonto oder Login der Person?)   ?8 Microsoft: Sandbox-Anbieter für Rakazo (Adapter = Fork-Beitrag) + Governance-Schicht prüfen",
+   "originalText": "OFFEN\n?1 Sync-Weg in Rakazo (Skills/Shared Memory per API?)   ?2 Rolle → Space (Entra-Gruppen; Rakazo-OIDC fragt nur openid/email/profile)   ?3 Konnektor-Rechte je Space\n?4 Rechte von Organisations-Admins   ?5 Hosting, Modell, Kosten   ?6 Betriebsrat, Audit-Log\n?7 Identität der Bots in Firmensoftware und Browser (eigenes Dienstkonto oder Login der Person?)   ?8 Microsoft: Sandbox-Anbieter für Rakazo (Adapter = Fork-Beitrag) + Governance-Schicht prüfen",
    "fontSize": 14,
    "fontFamily": 5,
    "textAlign": "left",
@@ -1701,7 +1815,7 @@
    "lineHeight": 1.25,
    "autoResize": true,
    "roundness": null,
-   "id": "k420409406981"
+   "id": "k647814614062"
   }
  ],
  "appState": {
