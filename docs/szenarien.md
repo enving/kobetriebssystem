@@ -3,7 +3,7 @@
 | | A Lokal (Claude Code je Mitarbeiter) | B Zentral (Cloud-Agent, z. B. Slack) | C Gemischt |
 |---|---|---|---|
 | Rechte | erbt die des Nutzers (Shell/Konnektoren) | explizit vergeben, Dienstkonto | je Aufgabe |
-| Eigene Skills/Prompts | ja, `user-kompass/` | nur zentrale | beides |
+| Eigene Skills/Prompts | ja, im eigenen Kompass (`user/`) | nur zentrale | beides |
 | Logbuch | beim Mitarbeiter | zentral | geteilt |
 | Datenschutz/Endgerät | Daten lokal → klären | Daten in Cloud → AVV | ? |
 | Automatisierung | persönliche Routinen über die Zeitplanfunktion der App (läuft in der Cloud, aber als Person) | gut (Zeitplan/Ereignis) | Routinen zentral |
