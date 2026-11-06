@@ -95,7 +95,7 @@ Für den Einstieg genügt eine einzige Übung: eine wiederkehrende Aufgabe ausw�
 Der Gewinn entsteht selten am ersten Tag. Er entsteht, wenn aus einzelnen Werkstücken allmählich ein System wird, das auch ohne ständige Anleitung läuft.
 
 ## Für Agenten: Lesereihenfolge
-1. **Beim Start nur:** `AGENTS.md` → `kontext/index.md` → `kontext/landkarte.md` → `persoenlich/<ich>/anweisungen.md`.
+1. **Beim Start nur:** `AGENTS.md` → `kontext/index.md` → `kontext/landkarte.md` → eigener Kompass über den Befehl `kompass` (Vorlage und Werkzeug in `user/`).
 2. **Danach bei Bedarf:** passenden Skill wählen (Beschreibung im Kopf der `SKILL.md`), dessen `nutzt_kontext`-Dateien lesen, Landkarte für Systeme außerhalb des Repos.
 3. **Nie** alles lesen. Je weniger am Anfang geladen wird, desto besser bleibt der Agent bei der Aufgabe.
 
@@ -132,8 +132,8 @@ Ein Auftrag je Routine als Textdatei: Auslöser, Skill, erlaubte Quellen, Ergebn
 ### Tools – *womit*
 Keine Ordner im Repo. Tools hängen über Konnektoren an der Person; Rechte werden nur im Tool vergeben. Was der Agent dort darf/nie darf: `kontext/landkarte.md`. Alles Nach-außen-Gehende bereitet der Agent nur vor.
 
-### Persönliche Ebene (`persoenlich/`) und Prompts (`prompts/`)
-- `persoenlich/_vorlage/` – Anweisungen (Rolle, Ziele, Stil) und Logbuch einer Person. Gehört der Person; fließt nur per PR ins zentrale Wissen zurück.
+### User (`user/`, persönliche Ebene) und Prompts (`prompts/`)
+- `user/` – Git-Submodul [kokompass](https://github.com/enving/kokompass): Methode, Vorlage und Befehl `kompass` für den Kompass einer Person (wer sie ist, Ziele, Entscheidungen, offene Aufgaben, Logbuch, Beitragsliste). Der Kompass selbst gehört der Person und liegt bei ihr, nicht in diesem Repo. Er darf unordentlich sein und mehrere Ziele zugleich haben; zurück fließt nur Verallgemeinertes per PR, an kokompass (Methode, Werkzeug) oder hierher (Firmenwissen) ([Beitragsweg](user/BEITRAGEN.md), [Architektur §12](docs/architektur/bericht-2026-11-05.md)). Holen: `git submodule update --init user`.
 - `prompts/` – gemeinsame Prompt-Bibliothek, rollenbasiert verteilt.
 
 ### Plattform (`installation/`, `plugins/`, `system/`)
