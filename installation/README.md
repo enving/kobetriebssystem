@@ -11,7 +11,7 @@ PR im Firmen-Repo ──> Actions: prüfen ──> Review + Merge auf main ─�
 ```
 1. **Quelle** (`kobetriebssystem`-Kopie der Firma): Skills, Kontext, Hooks, `AGENTS.md`. `main` gesperrt, nur PR.
 2. **Prüfen bei jedem PR** (`ci-beispiel/plugin-release.yml`, Job `pruefen`): Hook-Syntax, JSON, Probe-Build; ausbaubar um `okf-validate` (kaputte Links, fehlende Quelle/Prüfdatum), Skill-Evals, Scan auf Personen-/Kundendaten und Zugangsdaten.
-3. **Bauen** (`bauen.sh`): kopiert Skills (ohne `_vorlage`), Kontext, Regeln und Hooks nach `dist/ko-basis`, erzeugt `plugin.json` und `hooks/hooks.json` (Pfade über `${CLAUDE_PLUGIN_ROOT}`). `dist/` ist erzeugt und nie von Hand zu ändern. [OFFEN: `AGENTS.md`, `kontext/index.md` und `kontext/landkarte.md` liegen danach im Plugin, aber keine Sitzung lädt sie; ein Plugin kennt laut Plugin-Referenz keine `CLAUDE.md`/`AGENTS.md`. Lösung im MVP: SessionStart-Hook im Plugin, [PRD](../PRD.md) L2.]
+3. **Bauen** (`bauen.sh`): kopiert Skills (ohne `_vorlage`), Kontext, Regeln und Hooks nach `dist/ko-basis`, erzeugt `plugin.json` und `hooks/hooks.json` (Pfade über `${CLAUDE_PLUGIN_ROOT}`). `dist/` ist erzeugt und nie von Hand zu ändern. SessionStart gibt die vollständigen Pflichtquellen und `plugin.json` (einschließlich Version) aus `CLAUDE_PLUGIN_ROOT` aus. Fehlende Quellen erscheinen als `FEHLER` im Kontext; der Start bleibt möglich.
 4. **Freigeben**: Job `freigeben` läuft nur nach Merge und erst nach Klick eines Menschen (GitHub Environment mit Pflicht-Reviewer). Version = Datum + Kurz-Hash, als Tag.
 5. **Veröffentlichen**: in ein **separates, privates Release-Repo** (`marketplace-beispiel.json` als `.claude-plugin/marketplace.json`). Das Token ist nur für dieses Repo berechtigt. Mitarbeitende brauchen nie Zugriff auf das Quell-Repo (siehe `docs/recherche.md`).
 
@@ -37,3 +37,5 @@ Korrekturen entstehen auf dem Gerät als Vorschlag („Ja / nein / einmalig“).
 
 ## Dateien hier
 `bauen.sh` · `marketplace-beispiel.json` · `managed-settings-beispiel.json` · `ci-beispiel/plugin-release.yml`
+
+Lokaler Regressionstest: `node system/tests/plugin-start.mjs`. Prüft erzeugte Hook-Befehle aus fremdem Arbeitsverzeichnis mit Leerzeichen im Pluginpfad, vollständige Quellen, Version und fehlende Pflichtquellen. Kein Nachweis für die Darstellung oder Ausführung in einem echten Claude-Code-Client; Installation und Rollout bleiben ungeprüft.
