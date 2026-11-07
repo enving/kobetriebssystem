@@ -8,7 +8,7 @@
 
 Blanke Vorlage für ein KI-Betriebssystem im Unternehmen. Ein Agent erledigt Aufgaben; vier Bausteine sagen ihm *wie* (Skills), *was* (Kontext), *womit* (Tools) und *was erlaubt ist* (Regeln); zwei Schleifen halten alles in Bewegung (Automatisierungen starten ohne Bitte, die Lernschleife macht das System mit jeder Korrektur besser). Alles Steuernde liegt als Textdatei in Git, jede Änderung ist ein Pull Request.
 
-Diese Datei ist die **Navigation** – für Agenten und Menschen. Enthält bewusst keine Firmendaten und keine Beispiel-Skills, nur `_vorlage`-Dateien.
+Diese Datei ist die **Navigation** – für Agenten und Menschen. Enthält keine Firmendaten. Die Vorlagen bleiben leer; ausschließlich erfundene Beispiele liegen getrennt in [beispiel/](beispiel/README.md). Das Standardpaket enthält keine Beispiel-Skills.
 
 ![Übersicht: Kompass der Person, Agent der Person, kobetriebssystem, Firmen-Agenten, Projekt-Repos und was noch fehlt](docs/bilder/uebersicht-2026-11-07.png)
 

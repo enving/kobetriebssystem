@@ -1,0 +1,48 @@
+gebaut: dist/ko-basis (demo), Beispiele: false
+Paket-Skills: []
+gebaut: dist/ko-basis (demo), Beispiele: true
+Paket-Skills: ["besprechung-nachbereiten"]
+gebaut: dist/ko-basis (demo), Beispiele: false
+Paket-Skills: []
+OK: Schalter, Rückwechsel, Paketinhalt und drei Fallartefakte (keine Modellprüfung)
+gebaut: dist/ko-basis (0.1-demo), Beispiele: true
+dist/ko-basis/.claude-plugin/plugin.json
+dist/ko-basis/AGENTS.md
+dist/ko-basis/hooks/block-extern.sh
+dist/ko-basis/hooks/hooks.json
+dist/ko-basis/hooks/sessionstart-kontext.sh
+dist/ko-basis/hooks/sessionstart-plugin.sh
+dist/ko-basis/hooks/sperre-pfade.sh
+dist/ko-basis/hooks/stop-kontextmahnung.sh
+dist/ko-basis/kontext/_vorlage-bereich/_vorlage.md
+dist/ko-basis/kontext/glossar/begriff-vorlage.md
+dist/ko-basis/kontext/glossar/index.md
+dist/ko-basis/kontext/index.md
+dist/ko-basis/kontext/landkarte.md
+dist/ko-basis/kontext/log.md
+dist/ko-basis/skills/besprechung-nachbereiten/SKILL.md
+dist/ko-basis/skills/besprechung-nachbereiten/evals/eingebetteter-versand.eingabe.md
+dist/ko-basis/skills/besprechung-nachbereiten/evals/eingebetteter-versand.soll.md
+dist/ko-basis/skills/besprechung-nachbereiten/evals/ergebnisse.md
+dist/ko-basis/skills/besprechung-nachbereiten/evals/faelle.json
+dist/ko-basis/skills/besprechung-nachbereiten/evals/normalfall.eingabe.md
+dist/ko-basis/skills/besprechung-nachbereiten/evals/normalfall.soll.md
+dist/ko-basis/skills/besprechung-nachbereiten/evals/zustaendigkeit-fehlt.eingabe.md
+dist/ko-basis/skills/besprechung-nachbereiten/evals/zustaendigkeit-fehlt.soll.md
+dist/ko-basis/sperren.txt
+gebaut: dist/ko-basis (0.1-demo), Beispiele: false
+dist/ko-basis/.claude-plugin/plugin.json
+dist/ko-basis/AGENTS.md
+dist/ko-basis/hooks/block-extern.sh
+dist/ko-basis/hooks/hooks.json
+dist/ko-basis/hooks/sessionstart-kontext.sh
+dist/ko-basis/hooks/sessionstart-plugin.sh
+dist/ko-basis/hooks/sperre-pfade.sh
+dist/ko-basis/hooks/stop-kontextmahnung.sh
+dist/ko-basis/kontext/_vorlage-bereich/_vorlage.md
+dist/ko-basis/kontext/glossar/begriff-vorlage.md
+dist/ko-basis/kontext/glossar/index.md
+dist/ko-basis/kontext/index.md
+dist/ko-basis/kontext/landkarte.md
+dist/ko-basis/kontext/log.md
+dist/ko-basis/sperren.txt
