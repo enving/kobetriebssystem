@@ -9,13 +9,9 @@ unter [docs/](docs/). Was dort steht, wird hier nicht kopiert, sondern verlinkt.
 
 # An Tristan
 
-1. **Pi im MVP für den Änderungs-Prüfer?** Der Ergebnis-Prüfer bleibt Unteragent in der Sitzung der Person; der Prüfer
-   für Verbesserungsvorschläge ans Betriebssystem liefe als Pi-Agent am Mac, nur lesend, mit API-Schlüssel und anderem
-   Modell (§6.4 Nr. 5, [Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md)). Das wäre ein Harness mehr als am 06.11. entschieden. Ja oder erst in Stufe 2?
+Keine offenen Fragen. Deine Antworten vom 06. und 07.11. stehen darunter.
 
-Deine Antworten vom 06.11. stehen darunter.
-
-## Entschieden (Tristan, 06.11.2026)
+## Entschieden (Tristan, 06. und 07.11.2026)
 
 1. **MVP-Vorgang „Besprechung nachbereiten“** (§6.2): „ja find ich gut“.
 2. **MVP ohne Zusatz-Frameworks** (§6, §7): „ja“. **Rakazo ist zurückgestellt**: „rakazo zurück weil keine ahnung wir
@@ -40,6 +36,12 @@ Deine Antworten vom 06.11. stehen darunter.
    der agent eines mitarbeiters gell? Ich würde sagen dass daneben auch noch andere agenten sind … dafür würde ich pi
    agent vorschlagen als harness und pi durable“. Neue Lücke L25; Recherche zu Pi, pi-durable, DeepSeek Harness und
    Harness² in [harness-firmenagenten-2026-11-07.md](docs/architektur/harness-firmenagenten-2026-11-07.md). Messpunkt: Hermes verbrauchte für „hi“ rund 15.000 Tokens.
+9. **Wer welchen Harness bekommt** (07.11.): „Ja kannst den mvp machen so … Also pi wegnehmen beim laptop. Das machen wir
+   im sandcastle und ist eher für die firmen agenten oder halt deepseek. Für die mitarbeitenden orientieren wir uns an die
+   massen tools wie codex und claude ggf etwas von microsoft zb copilot.. aber das auf parkplatz nicht zuviel jez
+   reinnehmen.“ Also: Mitarbeitende arbeiten mit verbreiteten Werkzeugen (Claude, Codex); Firmen-Agenten wie der
+   Änderungs-Prüfer laufen als Pi in Sandcastle am Mac, schon im MVP. DeepSeek Harness und Copilot liegen auf dem
+   Parkplatz (§11). Rakazo bleibt zurückgestellt; die Rakazo-Issues tragen das Label „zurückgestellt“.
 
 ## 1. Problem
 
@@ -270,8 +272,8 @@ gelesen am 06.11.2026, teils als Zusammenfassung.
    liegt im Ordner von A, das Logbuch von A bekommt eine Zeile mit der Version.
 3. Tristan korrigiert ein allgemeines Muster, etwa: unsichere Termine kennzeichnen statt raten.
 4. Der Agent ordnet ein (einmalig oder Regel) und schlägt Ort, Wortlaut und Prüffall vor. Tristan sagt Ja.
-5. Zweig mit Skill-Änderung und neuem Prüffall; Prüfskript grün; falls Tristan zustimmt, prüft ein Pi-Agent den Vorschlag
-   (Frage oben); Tristan merged; Version 2 wird gebaut und kommt als
+5. Zweig mit Skill-Änderung und neuem Prüffall; Prüfskript grün; ein Pi-Agent in Sandcastle prüft den Vorschlag
+   (entschieden 07.11.); Tristan merged; Version 2 wird gebaut und kommt als
    Plugin-Update zu A und per `hermes profile update` zu B.
 6. B gibt dem Hermes mit Version 2 eine andere Notiz, später über Slack. Die Regel wirkt. Der Marker von A steht weder im Vorschlag noch in
    Ergebnis oder Logbuch von B.
@@ -377,13 +379,13 @@ Aufteilung (§3a) und die Lücken L1, L4 und L23 geklärt sind.
 | Claude Code mit Plugin | Arbeitsplatz, Verteilung | §6, [installation/README.md](installation/README.md) | MVP |
 | Codex | Arbeitsplatz | [Hooks erstellen](docs/hooks-erstellen.md) | Zielformat offen (L4) |
 | Claude-App mit Plugins | Arbeitsplatz ohne Terminal | [installation/README.md](installation/README.md) | ungeprüft |
-| Microsoft (Foundry Hosted Agents, Agent 365, Entra) | Laufzeit, Identität, Governance | [szenarien §5](docs/szenarien.md), [Bericht §11](docs/architektur/bericht-2026-11-05.md) | nicht gegen aktuelle Doku geprüft |
+| Microsoft (Foundry Hosted Agents, Agent 365, Entra) | Laufzeit, Identität, Governance | [szenarien §5](docs/szenarien.md), [Bericht §11](docs/architektur/bericht-2026-11-05.md) | nicht gegen aktuelle Doku geprüft; Copilot für Mitarbeitende auf dem Parkplatz (§11) |
 | Google-Umgebung | Arbeitsplatz | – | nicht betrachtet |
 | Rakazo | Laufzeit mit Bots und Spaces | [Bericht](docs/architektur/bericht-2026-11-05.md), [Laufzeitvergleich](docs/architektur/laufzeitvergleich-2026-11-05.md) | zurückgestellt (Tristan, 06.11.) |
 | Hermes Agent | persönliche Assistenz, Bot in Slack | [Laufzeitvergleich](docs/architektur/laufzeitvergleich-2026-11-05.md), §6.3 Nr. 9 | Adapterziel im MVP (eigene Installation auf dem Laptop, später Slack), keine Auswahl |
 | Pi mit OpenShell | Agentenkern, Sandbox | [Laufzeitvergleich §1](docs/architektur/laufzeitvergleich-2026-11-05.md), [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md) | engster Kandidat für Firmen-Agenten (L25) |
 | pi-durable | fortsetzbare Agentenläufe | [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md) | experimentell, erst für Routinen (L15) |
-| DeepSeek Harness | Harness mit Sandbox und Plugins | [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md) | Vorschau, beobachten |
+| DeepSeek Harness | Harness mit Sandbox und Plugins | [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md) | Parkplatz (§11) |
 | Harness² (Google Research), Amplio (DeepMind) | Harness verbessern; schlanker Harness | [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md) | Forschung bzw. früh |
 | OpenWebUI (Terminals, Computer) | Oberfläche | [szenarien §5](docs/szenarien.md) | Kandidat |
 | Archon | Abläufe, Werkstatt | [recherche §3](docs/recherche.md), [#4](https://github.com/enving/kobetriebssystem/issues/4) | Stufe 2 |
@@ -454,7 +456,7 @@ Die zwölf Lücken aus dem [Abgleich §2](docs/architektur/abgleich-ai-first-202
 
 | Nr | Lücke | bisher behandelt | Status | im MVP | entscheidet |
 |---|---|---|---|---|---|
-| L25 | **Firmeneigene Agenten neben den persönlichen.** Bisher kannte das Modell nur den Agenten der Person (Claude Code, Codex, Hermes) und dessen Unteragenten. Daneben braucht die Firma eigene Agenten: Änderungs-Prüfer, OS-Check, Routinen, Kontext-Ernte. Offen: welcher Harness (Kandidat Pi), welche Identität und welche Anmeldung (API-Schlüssel statt Abo), welche Werkzeuge je Agent, welche Abschottung, wer sie betreibt. Tristan, 07.11.: „ich denke es gibt mehrere“. | [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md); L1, L10, L15 | offen; Vorschlag Pi (Opus 5.5, 07.11.) | Vorschlag: Änderungs-Prüfer als Pi-Agent (Frage oben) | Tristan |
+| L25 | **Firmeneigene Agenten neben den persönlichen.** Bisher kannte das Modell nur den Agenten der Person (Claude Code, Codex, Hermes) und dessen Unteragenten. Daneben braucht die Firma eigene Agenten: Änderungs-Prüfer, OS-Check, Routinen, Kontext-Ernte. Offen: welcher Harness (Kandidat Pi), welche Identität und welche Anmeldung (API-Schlüssel statt Abo), welche Werkzeuge je Agent, welche Abschottung, wer sie betreibt. Tristan, 07.11.: „ich denke es gibt mehrere“. | [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md); L1, L10, L15 | offen; entschieden ist der Harness: Pi in Sandcastle für Firmen-Agenten (Tristan, 07.11.); Identität, Rechte, Betrieb offen | Änderungs-Prüfer als Pi-Agent in Sandcastle am Mac | Tristan |
 | L15 | Routinen: auf Antwort warten, fortsetzen, prüfen, ob alle gelaufen sind, doppelte Ereignisse erkennen | [recherche §3](docs/recherche.md), §4 C; Bericht §9.3 | Arbeitsannahme Archon als Werkstatt (Opus 5.5, 05.11.); Engine für Firmen offen | nicht berührt | Agent (Technik); Einschalten: Mensch |
 
 **Organisation und Recht**
@@ -476,7 +478,18 @@ Die zwölf Lücken aus dem [Abgleich §2](docs/architektur/abgleich-ai-first-202
   markiert. Eine bekannte Lücke wird nie grün gezählt.
 - Prüffälle der Skills folgen `.agents/skills/_vorlage/evals/`.
 
-## 11. Quellen
+## 11. Parkplatz
+
+Ideen, die bewusst nicht jetzt bearbeitet werden (Tristan, 07.11.: „nicht zuviel jez reinnehmen“). Nur auf Zuruf aufnehmen.
+
+- **DeepSeek Harness für einzelne Mitarbeitende oder Firmen-Agenten:** Dort ist alles ein Plugin; damit ließen sich
+  bestimmten Rollen besondere Plugins bereitstellen. Stärkstes eingebautes Rechtemodell der geprüften Harnesses, aber
+  Vorschau ([Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md)).
+- **Microsoft für Mitarbeitende,** etwa Copilot, als weiteres Zielformat neben Claude und Codex (L4).
+- **Hermes in Slack** auf dem Server eines Kollegen als zentraler Bot (§6.3 Nr. 9).
+- **Harness²** (Google Research), um Skills und Prüfer anhand der Prüffälle zu verbessern.
+
+## 12. Quellen
 
 - Felix Schlenther, [KI-Betriebssystem 2.0](https://ai-first.ai/insights/ai-first-ki-betriebssystem-2-0), 01.11.2026.
 - Claude-Code-Doku, gelesen am 06.11.2026: [Plugin-Referenz](https://code.claude.com/docs/en/plugins-reference),

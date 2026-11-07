@@ -1,6 +1,8 @@
 # Harness für firmeneigene Agenten: Pi, pi-durable, DeepSeek Harness, Harness²
 
-**Recherche und Einschätzung Claude Opus 5.5, 07.11.2026. Entschieden ist nichts.** Nur Doku, READMEs und Quelltext gelesen,
+**Recherche und Einschätzung Claude Opus 5.5, 07.11.2026.** **Entschieden (Tristan, 07.11.):** Firmen-Agenten wie der
+Änderungs-Prüfer laufen als Pi in Sandcastle, schon im MVP; Mitarbeitende nutzen verbreitete Werkzeuge (Claude, Codex);
+DeepSeek Harness und Copilot liegen auf dem Parkplatz ([PRD](../../PRD.md) „Entschieden“ Nr. 9, §11). Nur Doku, READMEs und Quelltext gelesen,
 nichts installiert. Anlass: Neben dem persönlichen Agenten jeder Person (Claude Code, Codex, Hermes) braucht das
 Betriebssystem eigene Agenten der Firma, etwa einen Prüfer, den OS-Check und Routinen. Dafür war ein schlanker Harness
 gefragt, bei dem sich genau einstellen lässt, was der Agent darf. Lücke: [PRD](../../PRD.md) L25.
@@ -62,7 +64,7 @@ geprüft.
 **Vorschlag fürs MVP:** Der Ergebnis-Prüfer bleibt Unteragent in der Sitzung der Person. Der Änderungs-Prüfer läuft als
 Pi-Agent am Mac, ohne Bildschirm, mit `read,grep,find,ls`, ohne MCP und ohne ungeprüfte Erweiterungen, mit begrenztem
 Dateizugriff, API-Schlüssel und einem anderen Modell als der Bearbeiter. Das wäre ein Harness mehr als bisher geplant;
-entscheiden muss das Tristan.
+Tristan hat am 07.11. zugestimmt, mit Sandcastle als Abschottung.
 
 ## Welche Lücken das tatsächlich betrifft
 
