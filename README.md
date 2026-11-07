@@ -110,7 +110,8 @@ Auslöser (Bitte im Chat, Zeitplan oder Ereignis) → Agent erkennt die Aufgabe 
 | `AGENTS.md` | Grundregeln für jeden Agenten: Verhalten, Ampel, Lernschleife | nur Mensch, per PR |
 | `CLAUDE.md` | Wegweiser für das primäre Modell; verweist auf `AGENTS.md` (andere Modelle: gleiche Datei unter eigenem Namen) | Mensch |
 | `SICHERHEIT.md` | Technische Sperren, Datenschutz, Checkliste vor dem Rollout | Mensch |
-| `Übergabe.md` | Stand, offene Fragen, nächste Schritte der Vorlage selbst | wer an der Vorlage arbeitet |
+| `PRD.md` | Umfang, MVP und Lückenregister der Vorlage selbst | Agenten schlagen vor, Tristan entscheidet |
+| `Übergabe.md` | Stand, offene Fragen, nächste Schritte der Vorlage selbst (nur lokal) | wer an der Vorlage arbeitet |
 | `index.md` | Tabellen-Überblick über alle Ordner | bei Strukturänderung |
 
 ### Skills – *wie wir arbeiten* (`.agents/skills/`)
@@ -156,7 +157,7 @@ Der Agent selbst lernt nichts; besser werden die Dateien, die er liest. Korrektu
 | Ampel, Sperren, Grundregeln | alle | nur ein Mensch |
 
 ## Status
-Entwurf. Nächste Schritte und offene Fragen: [Übergabe.md](Übergabe.md).
+Entwurf. Umfang, MVP und offene Architekturlücken: [PRD.md](PRD.md). Aufgaben und Fragen: GitHub-Issues.
 
 ## Lizenz und Mitmachen
 Mozilla Public License 2.0 (`LICENSE`). Verbesserungen, die nicht firmenspezifisch sind, bitte als Pull Request zurückgeben – Details in `CONTRIBUTING.md`.
