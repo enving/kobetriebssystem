@@ -3,15 +3,30 @@
 # Quelle bleibt das Repo (Skills, Hooks, Kontext); dist/ ist erzeugt und wird nie von Hand geändert.
 set -eu
 cd "$(dirname "$0")/.."
-version="${1:?Aufruf: installation/bauen.sh <version>}"
+version="${1:?Aufruf: installation/bauen.sh <version> [--mit-beispielen]}"
+beispiele=false
+case "${2:-}" in
+  '') ;;
+  --mit-beispielen) beispiele=true ;;
+  *) echo "Unbekannter Schalter: $2" >&2; exit 2 ;;
+esac
+[ "$#" -le 2 ] || { echo "Zu viele Argumente" >&2; exit 2; }
 out="dist/ko-basis"
 rm -rf dist && mkdir -p "$out/.claude-plugin" "$out/skills" "$out/hooks" "$out/kontext"
 
 # Skills: _vorlage* nicht ausrollen
 for d in .agents/skills/*/; do
   case "$(basename "$d")" in _*) continue;; esac
-  cp -R "$d" "$out/skills/"
+  cp -R "${d%/}" "$out/skills/"
 done
+if [ "$beispiele" = true ]; then
+  for d in beispiel/skills/*/; do
+    [ -f "$d/SKILL.md" ] || { echo "Beispiel-Skill fehlt: $d" >&2; exit 2; }
+    name=$(basename "$d")
+    [ ! -e "$out/skills/$name" ] || { echo "Doppelter Skill: $name" >&2; exit 2; }
+    cp -R "${d%/}" "$out/skills/"
+  done
+fi
 cp -R kontext/. "$out/kontext/"
 cp AGENTS.md "$out/AGENTS.md"
 cp system/hooks/*.sh "$out/hooks/"
@@ -31,4 +46,4 @@ JSON
 cat > "$out/.claude-plugin/plugin.json" <<JSON
 {"name": "ko-basis", "version": "$version", "description": "Betriebssystem: Regeln, Skills, Kontext, Hooks"}
 JSON
-echo "gebaut: $out ($version)"
+echo "gebaut: $out ($version), Beispiele: $beispiele"
