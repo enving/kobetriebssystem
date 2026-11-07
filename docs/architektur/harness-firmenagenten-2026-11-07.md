@@ -12,6 +12,9 @@ abgeglichen; Quellenstände unten. Weiterhin kein Modelllauf und kein Leistungst
 Bibliothek im Pi-Monorepo, kein Schalter, der die Coding-CLI nachträglich dauerhaft macht. Dans `disler/durable-pi`
 ist eine darauf aufgebaute Beispielanwendung und wird davon getrennt betrachtet.
 
+**Umfang:** Dieser Bericht und seine nächsten Prüfschritte gehören zur technischen Projektarbeit in
+KoBetriebssystem. Die Auswertung der Videos und ihre Aufbereitung für eine Folge sind ein eigenständiger Kanalauftrag.
+
 ## Zwei Arten von Prüfer
 
 Beim Prüfer lohnt eine Unterscheidung, weil sie über Ort und Identität entscheidet (Einschätzung):
