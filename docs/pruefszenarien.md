@@ -53,7 +53,7 @@ verlangt der Skill schon in Version 1. Wendet B sie an, beweist das keine Übert
 8. **Ohne Bedienung aufrufbar:** Je Harness ein Aufruf, der ohne Menschen läuft und Werkzeugaufrufe und Tokens
    maschinenlesbar ausgibt. Wo es keinen gibt, vermutlich bei der Claude-App, läuft das Szenario von Hand, und das ist ein
    Befund zu L4.
-9. Bekannte Lücken zählen als LÜCKE, nie als bestanden. Nur erfundene Daten.
+9. Lücken zählen und Datenherkunft wie in [PRD §10](../PRD.md#10-testentscheidungen) und [§6.2](../PRD.md#62-vorgang).
 
 **Testwelt:** Personen Lumo und Fenn (aus den vorhandenen Prüffällen), dazu Ria und Oskar; Kreise „alle“, „vertrieb“,
 „technik“. Testdaten je Szenario liegen unter [`beispiel/szenarien/`](../beispiel/szenarien/); sie gelangen nicht ins Plugin,
