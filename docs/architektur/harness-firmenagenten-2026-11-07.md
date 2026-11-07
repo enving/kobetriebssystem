@@ -1,4 +1,4 @@
-# Harness für firmeneigene Agenten: Pi, pi-durable, DeepSeek Harness, Harness²
+# Harness für firmeneigene Agenten: Pi, pi-durable, DeepSeek Harness, Harness², DeepAgents
 
 **Recherche und Einschätzung Claude Opus 5.5, 07.11.2026.** **Entschieden (Tristan, 07.11.):** Firmen-Agenten wie der
 Änderungs-Prüfer laufen als Pi in Sandcastle, schon im MVP; Mitarbeitende nutzen verbreitete Werkzeuge (Claude, Codex);
@@ -36,13 +36,15 @@ Ausgangspunkt; Gleichheit von Werkzeugnamen, Modellkennungen und wirksamen Recht
 | [pi-durable](https://github.com/earendil-works/pi/tree/main/packages/durable) (MIT) | Werkzeuge und Hooks je Unterhaltung; eine eigene Umgebung ist nicht automatisch eine Sandbox | Bibliothek; Host-Anwendung nötig | ja: gespeicherte Tasks, `resume()`, deduplizierte Eingabe über `requestId`, `sleepUntil`; externe Seiteneffekte gesondert absichern | hier nicht betrieblich geprüft | nicht gemessen; abhängig von Registry, Werkzeugen und Prompt | experimentell, API ändert sich ohne Ankündigung |
 | [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (MIT) | Sandbox-Modi für Dateieffekte, Freigaben und Plugins. Netzwerk und Prozesssicht außerhalb dieser Modi; Windows teils nur teilweise durchgesetzt | `dsh headless`, SDK, ACP, Zeitplan | Gespräche fortsetzbar; gleichwertige Absturz-/Replay-Garantie hier nicht belegt | Backends dokumentiert, nicht getestet | nicht gemessen; verschiedene Profile | Developer Preview, kein Sicherheitsaudit |
 | [Harness²](https://github.com/google-research/harness2) (Apache-2.0) | – | Stapellauf | – | nein | – | Forschungswerkzeug: verbessert Prompts, Skills und Unteragenten eines bestehenden Harness anhand von Benchmarks; kein Betriebs-Harness |
+| [DeepAgents](https://github.com/langchain-ai/deepagents) (MIT) | Regeln für eingebaute Dateiwerkzeuge; eigene Werkzeuge, MCP und Shell gesondert begrenzen | Python-SDK, eigene Host-Anwendung | LangGraph-Checkpointer und Freigabe-Unterbrechungen; dauerhafte Speicherung konfigurieren, externe Effekte absichern | hier nicht geprüft | nicht gemessen; eingebaute Dateiwerkzeuge und Unteragenten beachten | Quellstand 0.7.34, Paket als Beta klassifiziert; siehe Vertiefung unten |
 | [Amplio](https://github.com/google-deepmind/amplio) (Google DeepMind) | keine Allowlist in der Doku gefunden | `amplio headless run/resume` | ja | offen | unbekannt | früh, kein Release |
 
 Separater Befund: Hermes Agent v0.23.0 verbrauchte laut Betreiber auf einem Testgerät für „hi“ rund 15.000 Tokens
 (07.11.2026). Das ist keine Vergleichsmessung: Modell, Konfiguration, Tokenzählung und Auftrag wurden für die anderen
 Kandidaten nicht gleich gehalten. Die früheren Pi-/DeepSeek-Schätzungen sind deshalb entfernt.
 
-Alle laden `AGENTS.md`; Pi und DeepSeek Harness laden auch Skills aus `.agents/skills` nach dem Agent-Skills-Muster. Die
+Pi und DeepSeek Harness laden `AGENTS.md` sowie Skills aus `.agents/skills` nach dem Agent-Skills-Muster. Bei DeepAgents
+werden die Quellen im SDK ausdrücklich angegeben (siehe unten). Die
 Sperr-Erweiterung [`system/hooks/pi-sperre.js`](../../system/hooks/pi-sperre.js) passt zu Pi.
 
 **Anmeldung:** Für firmeneigene Agenten API-Schlüssel. Anthropic beschreibt die Abo-Anmeldung als gedacht für Claude Code
@@ -74,14 +76,91 @@ Tristan hat am 07.11. zugestimmt, mit Sandcastle als Abschottung.
 Auftrag vom 07.11.2026: Zusätzlich zu den bereits betrachteten Ansätzen
 [LangChains DeepAgents](https://github.com/langchain-ai/deepagents) für die Firmen-Agenten ansehen.
 Arbeitsauftrag und Status: [Issue #27](https://github.com/enving/kobetriebssystem/issues/27).
-Die beschlossene MVP-Auswahl Pi in Sandcastle bleibt bestehen; DeepAgents ist zur Prüfung vorgemerkt.
+Die beschlossene MVP-Auswahl Pi in Sandcastle bleibt bestehen.
 
-Erste Orientierung, GPT-6.1-sol, 07.11.: Das [Original-README](https://github.com/langchain-ai/deepagents/blob/main/README.md)
-beschreibt einen Harness auf LangGraph mit Unteragenten, Dateibackends, persistentem Zustand und menschlicher
-Werkzeugfreigabe. Das ist eine Herstellerbeschreibung; Installation, Rechte und Wiederaufnahme wurden hier nicht getestet.
-Die Vertiefung soll dieselbe begrenzte Firmen-Prüfer-Aufgabe verwenden und insbesondere Sandbox-Grenzen,
-Freigaben über Neustarts, doppelte Ereignisse, vorhandene Repo-Regeln/Skills, Versionierung und Betrieb ohne
-zusätzliche SaaS-Pflicht untersuchen. Abgrenzung zu Pi Durable und zusätzlicher Adapteraufwand gehören zum Befund.
+**Vertiefung GPT-6.1-sol, 07.11.2026:** Originaldoku und Python-Quelltext am unten festgehaltenen Commit gelesen.
+Keine Installation, kein Modelllauf, kein Absturz- oder Isolationstest. Die Befunde beschreiben dokumentierte und
+im Quelltext erkennbare Mechanismen; ihre Wirkung in unserem Betrieb ist noch zu prüfen.
+
+### Einordnung und Betrieb
+
+DeepAgents ist ein Ausführungs-Harness auf LangChain/LangGraph. LangGraph liefert gespeicherten Laufzustand und
+Unterbrechungen für Freigaben. Damit überschneidet es sich mit Pi plus Pi Durable; Harness² bleibt die getrennte
+Verbesserungswerkstatt. Das SDK kann im eigenen Prozess oder Container laufen, ohne zusätzliche LangSmith-SaaS-Pflicht.
+Das Python-Paket hat trotzdem `langsmith` als Bibliotheksabhängigkeit. Modellanbieter und Sandbox sind gesonderte
+Betriebsentscheidungen. [SDK-Betrieb](https://docs.langchain.com/oss/python/deepagents/overview#self-host-with-the-sdk),
+[Paketmanifest](https://github.com/langchain-ai/deepagents/blob/9c5d330893e0580ece0422511248d1048373cd7f/libs/deepagents/pyproject.toml).
+
+### Rechte und Abschottung
+
+`tools=` ergänzt eingebaute Werkzeuge. Eine kurze Liste erzeugt daher keinen nur lesenden Prüfer. Im geprüften
+Quellstand lassen sich Dateiwerkzeuge über eine eigene `FilesystemMiddleware(tools=[...])` tatsächlich entfernen;
+ein Harness-Profil kann außerdem den automatisch ergänzten allgemeinen Unteragenten deaktivieren. Jede verbleibende
+Unteragenten-Konfiguration braucht dieselbe Rechteprüfung.
+[Agent-Aufbau](https://github.com/langchain-ai/deepagents/blob/9c5d330893e0580ece0422511248d1048373cd7f/libs/deepagents/deepagents/graph.py).
+
+`permissions=` begrenzt eingebaute Dateiwerkzeuge. Die erste passende Regel gilt; ohne Treffer ist der Zugriff erlaubt.
+Für unseren Prüfer wären erlaubte Lesepfade und eine abschließende Sperre für alles Übrige nötig. Eigene Werkzeuge,
+MCP, direkte Backend-Aufrufe und Shell-Ausführung erhalten dadurch keine gleichwertige Grenze. Eigene Regeln eines
+Unteragenten ersetzen die geerbten Regeln vollständig. Für Sandbox-Backends erklärt die Doku diese Dateiregeln
+ausdrücklich für nicht anwendbar.
+[Dateiregeln und Geltungsbereich](https://docs.langchain.com/oss/python/deepagents/permissions).
+
+`FilesystemBackend(root_dir=..., virtual_mode=True)` begrenzt Dateipfade, bietet aber keine Prozess- oder
+Netzwerkisolation. **Quellenwiderspruch:** Die abgerufene Backend-Doku nennt `virtual_mode=False` als Standard;
+der geprüfte Quelltext setzt bereits `True`. Für eine Probe den Wert ausdrücklich setzen. `LocalShellBackend`
+führt Befehle auf dem Host aus. Eine äußere Sandbox bleibt nötig; DeepAgents in Sandcastle ist hier nicht nachgewiesen.
+[Backend-Doku](https://docs.langchain.com/oss/python/deepagents/backends),
+[geprüfte Implementierung](https://github.com/langchain-ai/deepagents/blob/9c5d330893e0580ece0422511248d1048373cd7f/libs/deepagents/deepagents/backends/filesystem.py).
+
+### Freigabe, Neustart und doppelte Ereignisse
+
+`interrupt_on` kann vor Werkzeugaufrufen anhalten und Freigabe, Änderung oder Ablehnung abwarten. Dafür braucht es
+einen Checkpointer; fortgesetzt wird mit `Command(resume=...)` und derselben `thread_id`. Für einen Prozessneustart
+braucht es dauerhafte Speicherung, etwa SQLite oder PostgreSQL. Das häufig gezeigte `MemorySaver`/`InMemorySaver`
+verliert seinen Zustand beim Neustart.
+[Freigaben](https://docs.langchain.com/oss/python/deepagents/human-in-the-loop),
+[Speicherung](https://docs.langchain.com/oss/python/langgraph/persistence).
+
+Eine `thread_id` ist kein Beleg für die Entdoppelung eingehender Aufträge. Wiederholte Ausführung nach Absturz kann
+externe Wirkungen wiederholen. Die Anwendung braucht eine dauerhaft gespeicherte Ereigniskennung und Werkzeuge,
+bei denen Wiederholungen dieselbe Wirkung haben oder vom Zielsystem erkannt werden. Freigabeidentität und Bindung
+an Vorschlag/Quellversion gehören ebenfalls in unseren Adapter.
+[Wiederholung und externe Wirkungen](https://docs.langchain.com/oss/python/langgraph/fault-tolerance#retry-boundaries-and-idempotency).
+
+### Vorhandene Regeln und Skills
+
+Im SDK lassen sich vorhandene Regeldateien über `memory=[...]` und Skill-Ordner über `skills=[...]` einbinden;
+`SKILL.md` folgt dem Agent-Skills-Format. Das ersetzt keine Prüfung unserer Werkzeugnamen, Hooks und Rollenrechte.
+Im geprüften Memory-Lader werden fehlende Dateien übersprungen und bereits geladene Inhalte aus dem Zustand
+wiederverwendet. Deshalb muss der Adapter Pflichtquellen und deren Hashes vor dem Start und beim Fortsetzen prüfen.
+Für die Probe Firmenregeln und Skills nur lesbar einbinden, damit Änderungen weiter über den vorhandenen PR-Weg laufen.
+[Skills](https://docs.langchain.com/oss/python/deepagents/skills),
+[Memory-Lader](https://github.com/langchain-ai/deepagents/blob/9c5d330893e0580ece0422511248d1048373cd7f/libs/deepagents/deepagents/middleware/memory.py).
+
+**Einschätzung:** Für den begrenzten Änderungs-Prüfer ergibt sich aus der Recherche kein Anlass, die MVP-Auswahl
+zu ersetzen. DeepAgents wird interessanter, wenn ein konkreter Ablauf gespeicherten Zustand, mehrere Unteragenten
+und Freigaben gemeinsam braucht. Dafür sind eine Python-Host-Anwendung, Backend-/Werkzeugadapter, Freigabezugang,
+Ereignisverwaltung und Betrieb der Zustandsablage einzurichten. Python-, Paket- und Abhängigkeitsstände sowie
+Repo-Commit und Freigabeversion müssen festgehalten werden. Umfang des Adaptercodes, Tokenkosten und Laufzeit
+sind ungemessen; „weniger Aufwand als Pi Durable“ ist bisher nicht belegt.
+
+### Gegenprobe für denselben Firmen-Prüfer
+
+Offen, keine Testergebnisse: Den oben beschriebenen Pi-Prüfer-Auftrag mit gleichem Modell, Quell-Commit,
+erfundenem Vorschlag, bekannten Fehlern und Budget wiederholen. Zusätzlich muss die Probe zeigen:
+
+1. Effektiv verfügbare Werkzeuge erfassen; Schreiben, fremde Pfade und Ausweichen über Unteragenten scheitern.
+2. Fehlende Pflichtregel stoppt vor dem Modellaufruf; geladene Regel- und Skill-Versionen sind nachweisbar.
+3. An einer harmlosen Freigabe anhalten, Prozess beenden und mit dauerhaftem Speicher fortsetzen;
+   Ablehnung und eine Freigabe zur falschen Vorschlagsversion dürfen nichts ausführen.
+4. Dasselbe Ereignis zweimal zustellen und einen Absturz nach einer simulierten externen Wirkung auslösen;
+   die Wirkung darf nur einmal entstehen.
+5. Ohne LangSmith-Dienst starten; Netzwerkziele erfassen, Quellenzugriff begrenzen und Rückkehr zu den
+   festgehaltenen Paket-/Repo-Versionen prüfen.
+
+Die Recherchepunkte aus Issue #27 sind damit eingeordnet. Laufzeitprüfung, Identität und Anmeldung bleiben offen;
+das Issue und das PRD-Lückenregister werden dadurch nicht geschlossen.
 
 ## Welche Lücken das tatsächlich betrifft
 
@@ -145,3 +224,7 @@ ein Recherche-Snapshot, kein zweiter Konfigurationsstandard.
   [durable-pi, On-Call-Demo](https://github.com/disler/durable-pi/blob/37165c619573dbaf425463038bbffecfe576beec/README.md).
   Das Beispiel beschreibt Log-Auslöser, Klassifikation, Agent und Freigabe vor Deployment. Nicht lokal ausgeführt;
   Kosten- und Zeitangaben des Autors wurden nicht als eigene Messwerte übernommen.
+- **DeepAgents (Python):** `9c5d330893e0580ece0422511248d1048373cd7f`, Manifestversion `0.7.34`, Python `>=3.11,<4.0`, MIT,
+  Beta-Klassifikation. Commit per GitHub-API ermittelt; die oben verlinkten Implementierungen und das Manifest wurden
+  von diesem Stand gelesen. Online-Doku am 07.11.2026 abgerufen; sie ist nicht an diesen Commit gebunden.
+  Kein installiertes Paket und keine Zusage, dass der Manifeststand einem veröffentlichten Release entspricht.
