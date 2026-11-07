@@ -166,3 +166,22 @@ Für die Unternehmensidee genügt danach ein eng begrenzter, fiktiver Vorgang al
 
 ## 5. Fortsetzung: Oberfläche und Gesamtbild (05.11., Opus 5.5)
 Tristans Skizze, Rakazo als Oberfläche, Gegenprüfung von §4 und fehlende Teile: [architektur/bericht-2026-11-05.md](architektur/bericht-2026-11-05.md).
+
+## 6. Laufzeitvergleich und vorhandene Bausteine (05.11., GPT-6.1-sol)
+
+[Vergleich Hermes/Rakazo, Pi mit OpenShell, Paperclip und OpenHands](architektur/laufzeitvergleich-2026-11-05.md): aktuelle Primärquellen, Korrekturen früherer Annahmen, Grenzen zwischen Release und Entwicklung sowie vorgeschlagene Abnahmetore. Technischer Vorschlag; keine neue Betriebsregel oder Auswahlentscheidung.
+
+## 7. Bedarf vor Plattformauswahl (06.11., GPT-6.1-sol)
+
+[Gemeinsame Fähigkeiten, Zusammenarbeit und geprüfte Lernschleife](szenarien.md): Rückkehr zu den AI-FIRST-Originalquellen, Einordnung OpenWebUI/Terminals und OpenRig, vorgeschlagener Abnahmedurchlauf. Keine Installation oder neue Betriebsregel.
+
+## 8. Abgleich mit dem Artikel, Lücken und Werkzeuge (06.11., Opus 5.5)
+
+[Abgleich mit „KI-Betriebssystem 2.0“](architektur/abgleich-ai-first-2026-11-06.md): was der Artikel festlegt und offen lässt,
+Gliederungsvorschlag nach arc42, drei Bedingungen für Kompatibilität, Archon/Sandcastle/Factory/OpenRig/Paperclip dagegen.
+Keine neue Betriebsregel oder Auswahlentscheidung.
+
+## 9. PRD, MVP und Lückenregister (06.11., Opus 5.5)
+
+[PRD.md](../PRD.md): Umfang der Vorlage, ein MVP ohne zusätzliche Frameworks, Werkzeuge gegen die Anforderungen dieses
+Repos und das Register aller offenen Architekturlücken. Keine neue Betriebsregel oder Auswahlentscheidung.

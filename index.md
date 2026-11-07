@@ -17,6 +17,7 @@ Diese strukturierte und nach **Funktionsbereichen** gruppierte Übersicht macht 
 |                                  | `system/`                                      | Kontroll-Ebene     | Prüfprogramme, Validierungsskripte und automatisierte Sperren      |
 | **5. Persönliche Ebene**         | `persoenlich/<name>/`                          | Mitarbeiter-Ebene  | Eigene Anweisungen, Logbuch, Prompts/Skills; fließen nur per PR zurück |
 |                                  | `prompts/`                                     | Bibliothek         | Gemeinsame Prompt-Bibliothek, rollenbasiert verteilt              |
-| **6. Doku**                      | `Übergabe.md`                                  | Stand              | Offene Fragen, nächste Schritte, Test-Branch                       |
+| **6. Doku**                      | `PRD.md`                                       | Anforderungen      | Umfang, MVP, Lückenregister der Vorlage                            |
+|                                  | `Übergabe.md`                                  | Stand              | Offene Fragen, nächste Schritte, Test-Branch                       |
 |                                  | `docs/`                                        | Entwurf            | Anmerkungen, Recherche, Szenarien, Beobachtungen |
 |                                  | `automatisierungen/takt.md`                    | Taktplan           | Welche Routine wann läuft, Auftrag je Routine                      |
