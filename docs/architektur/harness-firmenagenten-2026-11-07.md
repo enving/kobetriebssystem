@@ -69,6 +69,20 @@ Pi-Agent am Mac, ohne Bildschirm, mit `read,grep,find,ls`, ohne MCP und ohne ung
 Dateizugriff, API-Schlüssel und einem anderen Modell als der Bearbeiter. Das wäre ein Harness mehr als bisher geplant;
 Tristan hat am 07.11. zugestimmt, mit Sandcastle als Abschottung.
 
+## Weiterer Prüfkandidat: DeepAgents
+
+Auftrag vom 07.11.2026: Zusätzlich zu den bereits betrachteten Ansätzen
+[LangChains DeepAgents](https://github.com/langchain-ai/deepagents) für die Firmen-Agenten ansehen.
+Arbeitsauftrag und Status: [Issue #27](https://github.com/enving/kobetriebssystem/issues/27).
+Die beschlossene MVP-Auswahl Pi in Sandcastle bleibt bestehen; DeepAgents ist zur Prüfung vorgemerkt.
+
+Erste Orientierung, GPT-6.1-sol, 07.11.: Das [Original-README](https://github.com/langchain-ai/deepagents/blob/main/README.md)
+beschreibt einen Harness auf LangGraph mit Unteragenten, Dateibackends, persistentem Zustand und menschlicher
+Werkzeugfreigabe. Das ist eine Herstellerbeschreibung; Installation, Rechte und Wiederaufnahme wurden hier nicht getestet.
+Die Vertiefung soll dieselbe begrenzte Firmen-Prüfer-Aufgabe verwenden und insbesondere Sandbox-Grenzen,
+Freigaben über Neustarts, doppelte Ereignisse, vorhandene Repo-Regeln/Skills, Versionierung und Betrieb ohne
+zusätzliche SaaS-Pflicht untersuchen. Abgrenzung zu Pi Durable und zusätzlicher Adapteraufwand gehören zum Befund.
+
 ## Welche Lücken das tatsächlich betrifft
 
 Zuordnung und Vorschlag: GPT-6.1-sol, 07.11.2026. Keine Lücke wird durch diese Doku als geschlossen markiert.
