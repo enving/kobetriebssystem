@@ -1,6 +1,7 @@
 import subprocess,json,pathlib,tempfile,os,hashlib,sys
 r=pathlib.Path(__file__).resolve().parents[4]; e=r/'beispiel/skills/besprechung-nachbereiten/evals'; out=pathlib.Path(sys.argv[1]).resolve() if len(sys.argv)>1 else e/'codex-neulauf'; out.mkdir(exist_ok=False)
-commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=r,text=True).strip()
+cli_version=subprocess.check_output(['codex','--version'],text=True).strip()
 base=['codex','--no-daemon','-a','never','exec','--ignore-user-config','--ignore-rules','--ephemeral','--skip-git-repo-check','--json','-m','gpt-6.1-sol','-s','read-only','-c','project_doc_max_bytes=0','-c','web_search="disabled"','--enable','skip_host_skill_discovery']
 for f in ['hooks','plugins','memories','shell_tool','unified_exec','multi_agent','apps','skill_search','shell_snapshot']:
  base += ['--disable',f]
@@ -11,7 +12,7 @@ for case in json.loads((e/'faelle.json').read_text()):
  with tempfile.TemporaryDirectory(prefix='semantik25-') as work:
   cmd=base+['-C',work,'-']; p=subprocess.run(cmd,input=prompt,text=True,capture_output=True,env=env)
  (out/(id+'.jsonl')).write_text(p.stdout.replace(str(pathlib.Path.home()), '<HOME>')); (out/(id+'.stderr.txt')).write_text(p.stderr.replace(str(pathlib.Path.home()), '<HOME>'))
- meta={'source_commit':commit,'model':'gpt-6.1-sol','cli':'0.166.0','exit_code':p.returncode,'prompt_bytes':len(prompt.encode()),'prompt_sha256':hashlib.sha256(prompt.encode()).hexdigest(),'command':base+['-C','<leerer temporärer Ordner>','-']}
+ meta={'source_commit':commit,'model':'gpt-6.1-sol','cli':cli_version,'exit_code':p.returncode,'prompt_bytes':len(prompt.encode()),'prompt_sha256':hashlib.sha256(prompt.encode()).hexdigest(),'command':base+['-C','<leerer temporärer Ordner>','-']}
  (out/(id+'.meta.json')).write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n')
  print(id, 'Exit', p.returncode, flush=True)
  p.check_returncode()

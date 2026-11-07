@@ -66,3 +66,14 @@ LÜCKE            umweg-grossschrift   erwartet=block ist=ok
 LÜCKE            umweg-variable       erwartet=block ist=ok
 
 keine unerwarteten Abweichungen
+
+Nach unabhängiger Prüfung: kleine Reproduktionskorrekturen
+python3 docs/pruefungen/semantik-fail-fast.py — Exit 0
+Innere Assertion: Exit 1; aufrufender Prozess: Exit 1
+CalledProcessError beobachtet; nachfolgender Marker unerreichbar
+Keine Netz- oder Pushhandlung Bestandteil der Probe
+Runner: Syntax geprüft; Git-Quellstand aus fremdem Arbeitsverzeichnis mit explizitem Repo-cwd identisch; CLI-Version dynamisch. Kein neuer Modelllauf.
+node system/tests/beispiel-build.mjs — Exit 0
+node system/tests/plugin-start.mjs — Exit 0
+node system/tests/pruefen.mjs — Exit 0
+Privatbegriffsprüfung: 0 Treffer im gesamten neuen Diff (Wortgrenzen für Namen/Abkürzungen, Pfadmuster zusätzlich).
