@@ -20,9 +20,10 @@ cp system/sperren.txt "$out/sperren.txt"   # sperre-pfade.sh sucht ../sperren.tx
 cat > "$out/hooks/hooks.json" <<'JSON'
 {
   "hooks": {
+    "SessionStart": [{"hooks": [{"type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/sessionstart-plugin.sh\"", "timeout": 10}]}],
     "PreToolUse": [
-      {"matcher": "Read|Edit|Write|Glob|Grep|Bash", "hooks": [{"type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/hooks/sperre-pfade.sh"}]},
-      {"matcher": ".*", "hooks": [{"type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/hooks/block-extern.sh"}]}
+      {"matcher": "Read|Edit|Write|Glob|Grep|Bash", "hooks": [{"type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/sperre-pfade.sh\""}]},
+      {"matcher": ".*", "hooks": [{"type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/block-extern.sh\""}]}
     ]
   }
 }
