@@ -270,7 +270,9 @@ gelesen am 06.11.2026, teils als Zusammenfassung.
 1. Version 1 bauen: Plugin für A und Hermes-Profil für B, beide zuerst auf dem Laptop.
 2. A bittet: „Mach mir aus der Notiz die Aufgaben.“ Der Agent wählt den Skill ohne dessen Namen, der Prüfer prüft, der Entwurf
    liegt im Ordner von A, das Logbuch von A bekommt eine Zeile mit der Version.
-3. Tristan korrigiert ein allgemeines Muster, etwa: unsichere Termine kennzeichnen statt raten.
+3. Tristan korrigiert ein allgemeines Muster, das Version 1 noch nicht kennt, etwa: Termine zusätzlich mit Kalenderwoche
+   ([S4](docs/pruefszenarien.md#s4-lernschleife-über-harness-grenzen)). „Unsichere Termine kennzeichnen“ taugt dafür nicht,
+   das verlangt der Skill schon.
 4. Der Agent ordnet ein (einmalig oder Regel) und schlägt Ort, Wortlaut und Prüffall vor. Tristan sagt Ja.
 5. Zweig mit Skill-Änderung und neuem Prüffall; Prüfskript grün; ein Pi-Agent in Sandcastle prüft den Vorschlag
    (entschieden 07.11.); Tristan merged; Version 2 wird gebaut und kommt als
@@ -477,6 +479,8 @@ Die zwölf Lücken aus dem [Abgleich §2](docs/architektur/abgleich-ai-first-202
 - Vorbild ist `system/tests/pruefen.mjs` mit `faelle.json`: gleiche Fälle für alle Adapter, bekannte Umgehungen als „LÜCKE“
   markiert. Eine bekannte Lücke wird nie grün gezählt.
 - Prüffälle der Skills folgen `.agents/skills/_vorlage/evals/`.
+- Szenarien, an denen Harnesses und die nächsten Schritte geprüft werden, stehen in
+  [docs/pruefszenarien.md](docs/pruefszenarien.md).
 
 ## 11. Parkplatz
 

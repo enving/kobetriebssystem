@@ -111,7 +111,7 @@ Keine Ordner im Repo. Tools hängen über Konnektoren an der Person; Rechte werd
 - `system/` – Prüfprogramme und Sperren: `sperren.txt` (Pfad-Sperrliste), `hooks/` (Senden stoppen, Pfade/klassifizierte Dateien sperren, Beispielkonfiguration).
 
 ### Doku (`docs/`)
-`anmerkungen.md` (Anmerkungen → Umsetzung), `recherche.md`, `szenarien.md` (lokal vs. zentral), `beobachtungen.md`.
+`anmerkungen.md` (Anmerkungen → Umsetzung), `recherche.md`, `szenarien.md` (lokal vs. zentral), `pruefszenarien.md` (Prüfszenarien je Harness), `beobachtungen.md`.
 Anleitung: [Hooks erstellen und verlässlich prüfen](docs/hooks-erstellen.md).
 
 ## Wer darf was
