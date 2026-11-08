@@ -19,7 +19,7 @@ def main():
     repo = pathlib.Path(__file__).resolve().parents[2]
     scratch = pathlib.Path(tempfile.mkdtemp(prefix="ko-architekturprobe-"))
     tracked = subprocess.check_output(
-        ["git", "ls-files", "-z", "installation", "system", "kontext", ".agents", "AGENTS.md"],
+        ["git", "ls-files", "-z", "installation", "system", "kontext", ".agents", "beispiel", "AGENTS.md"],
         cwd=repo,
     ).decode().split("\0")
     for relative in filter(None, tracked):
@@ -29,20 +29,22 @@ def main():
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)
 
+    hooks = subprocess.run(
+        ["node", "system/tests/pruefen.mjs"], cwd=scratch,
+        capture_output=True, text=True, timeout=60,
+    )
     sentinel = scratch / "kontext" / "interne-probe.md"
     sentinel.write_text(
         "---\nklassifizierung: vertraulich\n---\nSYNTHETISCHE_PROBE_KEINE_FIRMENDATEN\n",
         encoding="utf-8",
-    )
-    hooks = subprocess.run(
-        ["node", "system/tests/pruefen.mjs"], cwd=scratch,
-        capture_output=True, text=True, timeout=60,
     )
     build = subprocess.run(
         ["sh", "installation/bauen.sh", "0.0.0-probe"], cwd=scratch,
         capture_output=True, text=True, timeout=60,
     )
     shipped = scratch / "dist/ko-basis/kontext/interne-probe.md"
+    refused = (build.returncode == 3 and not shipped.exists()
+               and "Klassifiziert: kontext/interne-probe.md; Bau verweigert" in build.stderr)
     result = {
         "observed_at": datetime.now(timezone.utc).isoformat(),
         "repo_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip(),
@@ -60,6 +62,7 @@ def main():
         "plugin_probe": {
             "exit_code": build.returncode,
             "classified_synthetic_file_shipped": shipped.exists(),
+            "classified_build_refused": refused,
             "content_unchanged": shipped.exists() and shipped.read_bytes() == sentinel.read_bytes(),
             "stdout": build.stdout, "stderr": build.stderr,
         },
@@ -67,7 +70,7 @@ def main():
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
     print(f"Temporäre Kopie zur Nachprüfung: {scratch}", file=sys.stderr)
-    return 0 if hooks.returncode == 0 and build.returncode == 0 else 1
+    return 0 if hooks.returncode == 0 and refused else 1
 
 
 if __name__ == "__main__":

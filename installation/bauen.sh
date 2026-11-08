@@ -11,8 +11,12 @@ case "${2:-}" in
   *) echo "Unbekannter Schalter: $2" >&2; exit 2 ;;
 esac
 [ "$#" -le 2 ] || { echo "Zu viele Argumente" >&2; exit 2; }
-out="dist/ko-basis"
-rm -rf dist && mkdir -p "$out/.claude-plugin" "$out/skills" "$out/hooks" "$out/kontext"
+# Erst in isolierter Kopie bauen; bei Fehler bleibt die letzte Ausgabe unverändert.
+staging=$(mktemp -d)
+trap 'rm -rf "$staging"' EXIT
+trap 'exit 1' HUP INT TERM
+out="$staging/ko-basis"
+mkdir -p "$out/.claude-plugin" "$out/skills" "$out/hooks" "$out/kontext"
 
 # Skills: _vorlage* nicht ausrollen
 for d in .agents/skills/*/; do
@@ -46,4 +50,9 @@ JSON
 cat > "$out/.claude-plugin/plugin.json" <<JSON
 {"name": "ko-basis", "version": "$version", "description": "Betriebssystem: Regeln, Skills, Kontext, Hooks"}
 JSON
+python3 installation/pruefe-klassifizierung.py "$out"
+rm -rf dist
+mkdir -p dist
+mv "$out" dist/ko-basis
+out="dist/ko-basis"
 echo "gebaut: $out ($version), Beispiele: $beispiele"

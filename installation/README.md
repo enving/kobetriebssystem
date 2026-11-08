@@ -39,3 +39,39 @@ Korrekturen entstehen auf dem Gerät als Vorschlag („Ja / nein / einmalig“).
 `bauen.sh` · `marketplace-beispiel.json` · `managed-settings-beispiel.json` · `ci-beispiel/plugin-release.yml`
 
 Lokaler Regressionstest: `node system/tests/plugin-start.mjs`. Prüft erzeugte Hook-Befehle aus fremdem Arbeitsverzeichnis mit Leerzeichen im Pluginpfad, vollständige Quellen, Version und fehlende Pflichtquellen. Kein Nachweis für die Darstellung oder Ausführung in einem echten Claude-Code-Client; Installation und Rollout bleiben ungeprüft.
+
+### Bauprüfung und reproduzierbarer Nachweis (#17)
+
+Die Marker-Abnahme steht in [PRD §6.3 Nr. 4](../PRD.md#63-was-gebaut-wird).
+`bauen.sh` benötigt jetzt Python 3 und prüft das fertig zusammengestellte Paket in
+einer temporären Kopie vor der Ausgabe. Bei Verweigerung (Exit 3) bleibt eine
+vorherige `dist/`-Ausgabe unverändert; sie ist kein Ergebnis des verweigerten Baus.
+Lesefehler und Symlinks im Paket verweigern den Bau ebenfalls. Dies ist eine
+Markerprüfung, keine Erkennung unmarkierter sensibler Inhalte oder Rollenfreigabe.
+
+Show-me und Regression: `python3 system/tests/klassifizierung.py`.
+Die Ausgabe zeigt denselben erfundenen Kontext mit vertraulichem Marker (Exit 3,
+„Bau verweigert“) und öffentlichem Marker (Exit 0, „gebaut“), jeweils normal und
+mit `--mit-beispielen`. Alle Testdateien liegen in einer automatisch entfernten
+Temporärkopie. Die vollständige Batterie startet mit `node system/tests/pruefen.mjs`.
+
+Lernschleife: Kopieren ohne Markerprüfung → übernommen (08.11.2026, #17).
+Prüffall: `system/tests/klassifizierung.py` prüft beide gesperrten Marker,
+öffentliche und fehlende Marker in Kontext, Skills samt Beilagen, Regeln, Hooks
+und Sperrliste. Nicht ausgewählte Beispiele beeinflussen den normalen Bau nicht.
+Die [Architekturprobe](../docs/pruefungen/architekturprobe.py) muss die tatsächliche
+Verweigerung erkennen und `classified_synthetic_file_shipped: false` melden.
+
+Geprüft am 08.11.2026 (lokal, synthetisch):
+
+- `python3 system/tests/klassifizierung.py`: 84 Fälle bestanden.
+- `node system/tests/pruefen.mjs`: keine unerwarteten Abweichungen; 32 Hook-Fälle
+  bestanden, 12 bestehende Hook-Lücken bleiben ausdrücklich offen.
+- `node system/tests/beispiel-build.mjs`: Schalter, Paketinhalt, Rückwechsel und Fallartefakte bestanden.
+- `node system/tests/plugin-start.mjs`: Pluginstart-Regression bestanden.
+- `python3 docs/pruefungen/architekturprobe.py`: Exit 0; Pluginbau Exit 3,
+  `classified_build_refused: true`, `classified_synthetic_file_shipped: false`.
+- `sh -n installation/bauen.sh` und `git diff --check`: bestanden.
+
+Keine realen Modellaufrufe, Geräteinstallation oder Anmeldung geprüft.
+Der historische Architekturbericht vom 05.11. bleibt als damaliger Befund erhalten.
