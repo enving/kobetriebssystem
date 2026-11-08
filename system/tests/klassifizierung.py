@@ -8,7 +8,7 @@ import tempfile
 repo = pathlib.Path(__file__).resolve().parents[2]
 with tempfile.TemporaryDirectory(prefix='ko-bau-test-') as tmp:
     root = pathlib.Path(tmp)
-    for name in ('installation', 'system', 'kontext', '.agents', 'beispiel'):
+    for name in ('installation', 'system', 'kontext', '.agents', 'beispiel', 'agents'):
         shutil.copytree(repo / name, root / name, symlinks=True)
     shutil.copy2(repo / 'AGENTS.md', root / 'AGENTS.md')
 

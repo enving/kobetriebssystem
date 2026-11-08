@@ -4,6 +4,10 @@
 set -eu
 cd "$(dirname "$0")/.."
 version="${1:?Aufruf: installation/bauen.sh <version> [--mit-beispielen]}"
+if [ "$version" = auto ]; then
+  version="$(date -u +%Y.%m.%d)-$(git rev-parse --short HEAD)"
+fi
+case "$version" in *[!A-Za-z0-9._-]*) echo "Ungültige Version" >&2; exit 2;; esac
 beispiele=false
 case "${2:-}" in
   '') ;;
@@ -32,6 +36,7 @@ if [ "$beispiele" = true ]; then
   done
 fi
 cp -R kontext/. "$out/kontext/"
+cp -R agents "$out/agents"
 cp AGENTS.md "$out/AGENTS.md"
 cp system/hooks/*.sh "$out/hooks/"
 cp system/sperren.txt "$out/sperren.txt"   # sperre-pfade.sh sucht ../sperren.txt
@@ -50,9 +55,10 @@ JSON
 cat > "$out/.claude-plugin/plugin.json" <<JSON
 {"name": "ko-basis", "version": "$version", "description": "Betriebssystem: Regeln, Skills, Kontext, Hooks"}
 JSON
-python3 installation/pruefe-klassifizierung.py "$out"
+python3 installation/adapter.py "$staging"
+python3 installation/pruefe-klassifizierung.py "$staging"
 rm -rf dist
 mkdir -p dist
-mv "$out" dist/ko-basis
+for paket in "$staging"/* "$staging"/.claude-plugin; do mv "$paket" dist/; done
 out="dist/ko-basis"
 echo "gebaut: $out ($version), Beispiele: $beispiele"

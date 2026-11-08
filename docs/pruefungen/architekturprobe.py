@@ -19,7 +19,7 @@ def main():
     repo = pathlib.Path(__file__).resolve().parents[2]
     scratch = pathlib.Path(tempfile.mkdtemp(prefix="ko-architekturprobe-"))
     tracked = subprocess.check_output(
-        ["git", "ls-files", "-z", "installation", "system", "kontext", ".agents", "beispiel", "AGENTS.md"],
+        ["git", "ls-files", "-z", "installation", "system", "kontext", ".agents", "beispiel", "agents", "AGENTS.md"],
         cwd=repo,
     ).decode().split("\0")
     for relative in filter(None, tracked):
@@ -44,7 +44,7 @@ def main():
     )
     shipped = scratch / "dist/ko-basis/kontext/interne-probe.md"
     refused = (build.returncode == 3 and not shipped.exists()
-               and "Klassifiziert: kontext/interne-probe.md; Bau verweigert" in build.stderr)
+               and "Klassifiziert: ko-basis/kontext/interne-probe.md; Bau verweigert" in build.stderr)
     result = {
         "observed_at": datetime.now(timezone.utc).isoformat(),
         "repo_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip(),

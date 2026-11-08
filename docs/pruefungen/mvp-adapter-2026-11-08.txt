@@ -1,0 +1,5 @@
+OK: 1-test vier Paketversionen gleich; drei Skillkopien identisch; Privatmarker fehlt
+OK: 2-test vier Paketversionen gleich; drei Skillkopien identisch; Privatmarker fehlt
+OK: 3-test vier Paketversionen gleich; drei Skillkopien identisch; Privatmarker fehlt
+OK: Rückwechsel ohne Beispiele und klassifizierte Karte verweigert alle Pakete unverändert
+PASS: Paketbau, Update und Rücknahme; keine Live-Lernschleife nachgewiesen

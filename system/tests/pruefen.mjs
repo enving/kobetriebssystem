@@ -56,11 +56,13 @@ for (const [name, fn] of Object.entries(adapter)) {
     console.log(`${urteil.padEnd(16)} ${f.id.padEnd(20)} erwartet=${f.erwartet} ist=${ist}`)
   }
 }
-const bau = spawnSync("python3", [join(hier, "klassifizierung.py")], { encoding: "utf8", timeout: 120000 })
-console.log(bau.stdout)
-if (bau.status !== 0 || bau.error) {
-  console.error(bau.stderr || bau.error)
-  fehler++
+for (const test of ['klassifizierung.py', 'adapter.py']) {
+  const bau = spawnSync("python3", [join(hier, test)], { encoding: "utf8", timeout: 120000 })
+  console.log(bau.stdout)
+  if (bau.status !== 0 || bau.error) {
+    console.error(bau.stderr || bau.error)
+    fehler++
+  }
 }
 console.log(fehler ? `\n${fehler} unerwartete Abweichung(en)` : "\nkeine unerwarteten Abweichungen")
 process.exit(fehler ? 1 : 0)
