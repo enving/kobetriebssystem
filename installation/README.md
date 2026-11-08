@@ -21,8 +21,9 @@ PR im Firmen-Repo ──> Actions: prüfen ──> Review + Merge auf main ─�
 - **Claude-App (nicht Code):** Plugin über die Organisationsfunktionen der Claude-App bereitstellen, sofern der Tarif es zulässt. [OFFEN: Tarif und Funktionsumfang prüfen.]
 
 ## Rollen
-Für Codex ist ein eigener verwalteter Adapter erforderlich; das heutige `bauen.sh`
-erzeugt ein Claude-Code-Plugin. Unterstützte Richtlinien, Vertrauensmodell und
+`bauen.sh` erzeugt Claude-, Hermes- und Codex-Pakete sowie die abgeleitete Pi-Prüferkarte
+(siehe unten „Lokale MVP-Paketkette“). Ein verwalteter Codex-Rollout bleibt separat zu prüfen.
+Unterstützte Richtlinien, Vertrauensmodell und
 offene Abnahmefälle: [Managed Hooks für den Unternehmensrollout](../docs/hooks-erstellen.md#6-managed-hooks-für-den-unternehmensrollout).
 
 Ein Plugin je Zuschnitt: `ko-basis` für alle, `ko-<abteilung>` für Zusatz-Skills. `bauen.sh` baut bisher nur `ko-basis`; Abteilungs-Plugins brauchen einen Ordner je Abteilung im Quell-Repo (z. B. `.agents/skills/<abteilung>/`) und einen weiteren Build-Schritt. [OFFEN: Zuordnung Person → Plugin. Managed Settings gelten gerätweise; je Rolle verschiedene Dateien oder Benutzer-Einstellungen über die Gerätegruppe der IT.]
