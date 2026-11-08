@@ -4,6 +4,10 @@
 set -eu
 cd "$(dirname "$0")/.."
 version="${1:?Aufruf: installation/bauen.sh <version> [--mit-beispielen]}"
+if [ "$version" = auto ]; then
+  version="$(date -u +%Y.%m.%d)-$(git rev-parse --short HEAD)"
+fi
+case "$version" in *[!A-Za-z0-9._-]*) echo "Ungültige Version" >&2; exit 2;; esac
 beispiele=false
 case "${2:-}" in
   '') ;;
@@ -11,8 +15,12 @@ case "${2:-}" in
   *) echo "Unbekannter Schalter: $2" >&2; exit 2 ;;
 esac
 [ "$#" -le 2 ] || { echo "Zu viele Argumente" >&2; exit 2; }
-out="dist/ko-basis"
-rm -rf dist && mkdir -p "$out/.claude-plugin" "$out/skills" "$out/hooks" "$out/kontext"
+# Erst in isolierter Kopie bauen; bei Fehler bleibt die letzte Ausgabe unverändert.
+staging=$(mktemp -d)
+trap 'rm -rf "$staging"' EXIT
+trap 'exit 1' HUP INT TERM
+out="$staging/ko-basis"
+mkdir -p "$out/.claude-plugin" "$out/skills" "$out/hooks" "$out/kontext"
 
 # Skills: _vorlage* nicht ausrollen
 for d in .agents/skills/*/; do
@@ -28,6 +36,7 @@ if [ "$beispiele" = true ]; then
   done
 fi
 cp -R kontext/. "$out/kontext/"
+cp -R agents "$out/agents"
 cp AGENTS.md "$out/AGENTS.md"
 cp system/hooks/*.sh "$out/hooks/"
 cp system/sperren.txt "$out/sperren.txt"   # sperre-pfade.sh sucht ../sperren.txt
@@ -46,4 +55,10 @@ JSON
 cat > "$out/.claude-plugin/plugin.json" <<JSON
 {"name": "ko-basis", "version": "$version", "description": "Betriebssystem: Regeln, Skills, Kontext, Hooks"}
 JSON
+python3 installation/adapter.py "$staging"
+python3 installation/pruefe-klassifizierung.py "$staging"
+rm -rf dist
+mkdir -p dist
+for paket in "$staging"/* "$staging"/.claude-plugin; do mv "$paket" dist/; done
+out="dist/ko-basis"
 echo "gebaut: $out ($version), Beispiele: $beispiele"
