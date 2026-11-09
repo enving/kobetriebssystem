@@ -504,7 +504,7 @@ Die zwölf Lücken aus dem [Abgleich §2](docs/architektur/abgleich-ai-first-202
 |---|---|---|---|---|---|
 | L16 | Personenbezug, Mitbestimmung, Modellanbieter; Audit-Log und Agenten-Gedächtnis als Leistungsdaten | `SICHERHEIT.md` §3; Bericht §6.4; [#15](https://github.com/enving/kobetriebssystem/issues/15) | offen | nicht berührt | Tristan |
 | L17 | Rollen: Prozessverantwortliche, Bereichsbesitzer, benannte Aufsicht je Agent | README, Tabelle zum AI Act (Art. 14) | offen | nicht berührt | Tristan |
-| L18 | AI Act und ISO/IEC 42001: Zuordnung, Risikoregister, Folgenabschätzung | README, Tabelle zum AI Act (OFFEN-Stellen); [#2](https://github.com/enving/kobetriebssystem/issues/2) | offen | nicht berührt; das MVP liefert nur Spuren | Tristan |
+| L18 | AI Act und ISO/IEC 42001: Zuordnung, Risikoregister, Folgenabschätzung | README, Tabelle zum AI Act (OFFEN-Stellen); [#2](https://github.com/enving/kobetriebssystem/issues/2); [Anbieterrolle und Pflichtenabdeckung](docs/architektur/anbieterrolle-und-pflichtenabdeckung-2026-11-09.md) | offen | nicht berührt; das MVP liefert nur Spuren | Tristan |
 | L19 | Betrieb: Hosting, Modell und Kosten je Firma | Bericht ?5; [#16](https://github.com/enving/kobetriebssystem/issues/16) | offen | nicht berührt | Tristan |
 
 ## 10. Testentscheidungen
