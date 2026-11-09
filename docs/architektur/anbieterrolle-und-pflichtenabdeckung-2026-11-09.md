@@ -57,7 +57,7 @@ kann einen Hochrisiko-Fall auslösen. Das ist eine dauernde Tätigkeit und brauc
 
 **Rollenprüfung je Agent als fester Schritt.** Vor dem ersten Einsatz und bei jeder Zweckänderung: Zweck, Name, unter
 dem der Agent läuft, Rolle (Anbieter, Betreiber, beides), Risikoklasse, Anhang-III-Prüfung. Ergebnis im Inventar.
-[OFFEN: Vorlage dafür in `system/` oder als Skill; gehört zu L18.]
+Vorlage: [`ki-inventar/`](../../ki-inventar/README.md), mit erfundenem Beispiel (L18).
 
 **ISO/IEC 42001 als Rahmen für den Ablauf.** Das KI-Managementsystem verlangt ein Inventar der KI-Systeme, Risiko- und
 Folgenabschätzung, Zuständigkeiten, Lieferantensteuerung, Überwachung und Verbesserung. Das passt zu einem Unternehmen,
@@ -84,6 +84,5 @@ und hier noch nicht geprüft.
 
 ## Offen
 
-- Vorlage für die Rollenprüfung je Agent (L18).
 - Plattformvergleich anhand der Tabelle oben, sobald eine Laufzeit für Firmenagenten feststeht.
 - Abgleich der README-Tabelle mit ISO/IEC 42001 (dort schon als OFFEN geführt).
