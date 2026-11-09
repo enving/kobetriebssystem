@@ -9,3 +9,5 @@ Bau mit Beispielen: `sh installation/bauen.sh 0.1-demo --mit-beispielen`
 Jeder Bau ersetzt `dist/`. Nur der zweite Aufruf kopiert Beispiel-Skills nach `dist/ko-basis/skills/`. Keine Installation oder Verteilung ist Teil dieses Beispiels.
 
 Testdaten für die Prüfszenarien liegen unter `szenarien/`, beschrieben in [docs/pruefszenarien.md](../docs/pruefszenarien.md). Sie gelangen auch mit `--mit-beispielen` nicht ins Plugin.
+
+Ein ausgefülltes Beispiel für die Rollenprüfung je Agent liegt unter `ki-inventar/` ([Vorlage](../ki-inventar/_rollenpruefung-vorlage.md)), ebenfalls mit erfundenen Angaben.
