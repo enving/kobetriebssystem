@@ -11,7 +11,7 @@ unter [docs/](docs/). Was dort steht, wird hier nicht kopiert, sondern verlinkt.
 
 Keine offenen Fragen. Deine Antworten vom 06. und 07.11. stehen darunter.
 
-## Entschieden (Tristan, 06. und 07.11.2026)
+## Entschieden (Tristan, 06., 07. und 08.11.2026)
 
 1. **MVP-Vorgang „Besprechung nachbereiten“** (§6.2): „ja find ich gut“.
 2. **MVP ohne Zusatz-Frameworks** (§6, §7): „ja“. **Rakazo ist zurückgestellt**: „rakazo zurück weil keine ahnung wir
@@ -42,6 +42,16 @@ Keine offenen Fragen. Deine Antworten vom 06. und 07.11. stehen darunter.
    reinnehmen.“ Also: Mitarbeitende arbeiten mit verbreiteten Werkzeugen (Claude, Codex); Firmen-Agenten wie der
    Änderungs-Prüfer laufen als Pi in Sandcastle am Mac, schon im MVP. DeepSeek Harness und Copilot liegen auf dem
    Parkplatz (§11). Rakazo bleibt zurückgestellt; die Rakazo-Issues tragen das Label „zurückgestellt“.
+10. **Lernen nach Rolle, nicht nach Namen** (08.11.): „No agent, not even the one at the employee and device and also not
+   the company agents system should learn from any human specific or whatever stuff so it should be role specific and not
+   name specific.“ Was Agenten und Lernschleife firmenweit festhalten (Vorschläge, Prüffälle, Zähler, gemeinsames
+   Gedächtnis), nennt Rollen, keine Personen ([S17](docs/pruefszenarien.md#s17-lernen-nach-rolle-nicht-nach-namen)).
+   Lesart (Opus 5.5, 09.11.): Was eine Person ausdrücklich für sich festlegt (Story 6), bleibt in ihrer persönlichen
+   Ebene; automatisch über eine Person Gelerntes entsteht nirgends. Auf welcher Ebene das durchgesetzt wird, ist L26.
+11. **Microsoft Agent Framework als eigenes MVP** (08.11., Tippfehler bereinigt): „we should also include Microsoft Agent
+   Framework for a whole own MVP because it's big and it's probably interesting for also our requirements for ISO 42001
+   etc.“ Umfang in §6b, Recherche in
+   [microsoft-agent-framework-2026-11-09.md](docs/architektur/microsoft-agent-framework-2026-11-09.md).
 
 ## 1. Problem
 
@@ -270,7 +280,9 @@ gelesen am 06.11.2026, teils als Zusammenfassung.
 1. Version 1 bauen: Plugin für A und Hermes-Profil für B, beide zuerst auf dem Laptop.
 2. A bittet: „Mach mir aus der Notiz die Aufgaben.“ Der Agent wählt den Skill ohne dessen Namen, der Prüfer prüft, der Entwurf
    liegt im Ordner von A, das Logbuch von A bekommt eine Zeile mit der Version.
-3. Tristan korrigiert ein allgemeines Muster, etwa: unsichere Termine kennzeichnen statt raten.
+3. Tristan korrigiert ein allgemeines Muster, das Version 1 noch nicht kennt, etwa: Termine zusätzlich mit Kalenderwoche
+   ([S4](docs/pruefszenarien.md#s4-lernschleife-über-harness-grenzen)). „Unsichere Termine kennzeichnen“ taugt dafür nicht,
+   das verlangt der Skill schon.
 4. Der Agent ordnet ein (einmalig oder Regel) und schlägt Ort, Wortlaut und Prüffall vor. Tristan sagt Ja.
 5. Zweig mit Skill-Änderung und neuem Prüffall; Prüfskript grün; ein Pi-Agent in Sandcastle prüft den Vorschlag
    (entschieden 07.11.); Tristan merged; Version 2 wird gebaut und kommt als
@@ -314,6 +326,30 @@ wird angehalten. Ins Register kommt, welche Lücke das erzwingt. Genau diese Ste
 - Rakazo, Microsoft, Archon, Sandcastle, OpenRig, Paperclip
 - AI Act und ISO/IEC 42001 (L18). Das MVP hinterlässt nur Spuren, die später als Nachweis taugen: Git-Verlauf,
   Prüfergebnisse, Logbuch. Wie sie auf die Norm passen, steht in [#2](https://github.com/enving/kobetriebssystem/issues/2).
+
+## 6b. MVP 2: Microsoft Agent Framework
+
+**Vorschlag Claude Opus 5.5, 09.11.2026; entschieden ist nur, dass es dieses MVP gibt („Entschieden“ Nr. 11).** Grundlage:
+[Recherche](docs/architektur/microsoft-agent-framework-2026-11-09.md).
+
+- **Beweisfrage:** Tragen Agenten aus dem Microsoft Agent Framework die Firmen-Agenten (Änderungs-Prüfer, Routine mit
+  Rückfrage) mit Leitplanken, die im Code wirken statt nur im Text, und hinterlassen sie Spuren, die als Nachweis für
+  ISO/IEC 42001 taugen?
+- **Warum ein eigenes MVP:** Das Framework ist eine Bibliothek für eigene Agenten, kein fertiges Arbeitswerkzeug wie Claude
+  Code oder Codex. Dafür bringt es mit, was MVP 1 fehlt: Middleware vor jedem Werkzeugaufruf, Freigaben, Workflows mit
+  Checkpoints, OpenTelemetry und eine experimentelle Label-Verfolgung für Vertrauliches und Personendaten (FIDES).
+- **Umfang:** dieselben Quellen aus dem Repo (Grundregeln, Skill, Prüferkarte; die Steuerung bleibt in Git); der
+  Änderungs-Prüfer als zweiter Firmen-Agent neben Pi; die Routine aus S12 als Workflow; die Leitplanken aus S16 bis S19;
+  Spuren als OpenTelemetry-Export.
+- **Abnahme:** die Szenarien der Spalte „Microsoft Agent Framework“ in
+  [docs/pruefszenarien.md](docs/pruefszenarien.md#welcher-harness-welches-szenario-braucht), im Vergleich zu Pi.
+- **Offen:** Modellzugang und Kosten (L19, entscheidet Tristan). Die FIDES-Beispiele setzen Azure AI Foundry voraus; ob es
+  mit anderen Anbietern geht, ist ungeprüft. Sprache Python (Arbeitsentscheidung, weil die vorhandenen Prüfwerkzeuge
+  Python und Node sind).
+- **Nicht im MVP 2:** Hosting in Foundry, Agent 365, Anbindung an Entra, echte Daten. Die Zuordnung zu einzelnen
+  Anforderungen der Norm bleibt in [#2](https://github.com/enving/kobetriebssystem/issues/2).
+- **Abbruch:** Läuft es nur mit einem Azure-Konto und ist dafür kein Budget freigegeben, wird angehalten und die Lücke ins
+  Register geschrieben.
 
 ## 7. Danach: Stufen und wann ein Werkzeug dazukommt
 
@@ -380,6 +416,7 @@ Aufteilung (§3a) und die Lücken L1, L4 und L23 geklärt sind.
 | Codex | Arbeitsplatz | [Hooks erstellen](docs/hooks-erstellen.md) | Zielformat offen (L4) |
 | Claude-App mit Plugins | Arbeitsplatz ohne Terminal | [installation/README.md](installation/README.md) | ungeprüft |
 | Microsoft (Foundry Hosted Agents, Agent 365, Entra) | Laufzeit, Identität, Governance | [szenarien §5](docs/szenarien.md), [Bericht §11](docs/architektur/bericht-2026-11-05.md) | nicht gegen aktuelle Doku geprüft; Copilot für Mitarbeitende auf dem Parkplatz (§11) |
+| Microsoft Agent Framework | Agenten-Bibliothek mit Workflows, Middleware, Freigaben, Telemetrie | [Recherche](docs/architektur/microsoft-agent-framework-2026-11-09.md), §6b | eigenes MVP (Tristan, 08.11.) |
 | Google-Umgebung | Arbeitsplatz | – | nicht betrachtet |
 | Rakazo | Laufzeit mit Bots und Spaces | [Bericht](docs/architektur/bericht-2026-11-05.md), [Laufzeitvergleich](docs/architektur/laufzeitvergleich-2026-11-05.md) | zurückgestellt (Tristan, 06.11.) |
 | Hermes Agent | persönliche Assistenz, Bot in Slack | [Laufzeitvergleich](docs/architektur/laufzeitvergleich-2026-11-05.md), §6.3 Nr. 9 | Adapterziel im MVP (eigene Installation auf dem Laptop, später Slack), keine Auswahl |
@@ -438,6 +475,7 @@ Die zwölf Lücken aus dem [Abgleich §2](docs/architektur/abgleich-ai-first-202
 | L8 | Rückweg ohne Lesezugriff aufs Quell-Repo: `installation/README.md` sagt, Mitarbeitende brauchen nie Zugriff aufs Quell-Repo, und zugleich, ihr Agent erzeuge dort einen PR. Wer Pull Requests stellen kann, kann das Repo auch lesen, und dann schützt kein gefiltertes Paket mehr (recherche §4 B). | neu | offen | umgangen: Tristan hat Rechte am Repo | Tristan |
 | L9 | Endgeräte und Datenklassen: Dürfen Agenten auf Geräten mit Personaldaten laufen, welche Laufwerke werden gesperrt? | `SICHERHEIT.md` §3 | offen | nicht berührt | Tristan |
 | L24 | **Kontext ist unvollständig.** Ein großer Teil dessen, womit eine Person arbeitet, steckt nicht im Kontext: Mails, Chat (Slack, Teams), Kalender, Besprechungen, Dateien auf dem Gerät. Auch in Tristans eigenem Aufbau fehlen Mails und Slack. Offen: welche Quellen angebunden werden; ob nur live mit den Rechten der Person gelesen wird oder auch im Hintergrund (L1); was davon dauerhaft ins Wiki darf (L7); woran man merkt, dass Kontext fehlt (Kontext-Test in L22). Tristan, 06.11.: „kontext ist nocht vollständig auch bicht im kontext zb meine mails slack fehlen“ | [szenarien §3](docs/szenarien.md) „Kontext passend auswählen“; `kontext/landkarte.md`; L1, L7, L22 | offen | umgangen: einzige Quelle ist die erfundene Notiz | Tristan |
+| L26 | **Leitplanken: Ebene und Verbindlichkeit.** Eine Leitplanke (keine Personendaten nach außen, Vertrauliches bleibt drin, Anweisungen in Daten bleiben Daten) kann als Anweisung wirken, als Hook oder Middleware vor jedem Werkzeugaufruf oder im Harness eingebaut (Rechtemodell, Sandbox, Label-Verfolgung). Offen: welche Ebene für welche Leitplanke verbindlich ist, auf den Geräten wie bei Firmen-Agenten. Tristan, 08.11.: „the question is to integrate guard rails and probably which“ | `system/hooks/`, [faelle.json](system/tests/faelle.json) (drei bekannte Umgehungen); [S19](docs/pruefszenarien.md#s19-leitplanken-ebenen-im-vergleich) | offen | umgangen: Hooks als Textprüfung | Tristan |
 
 **Qualität und Lernen**
 
@@ -458,6 +496,7 @@ Die zwölf Lücken aus dem [Abgleich §2](docs/architektur/abgleich-ai-first-202
 |---|---|---|---|---|---|
 | L25 | **Firmeneigene Agenten neben den persönlichen.** Bisher kannte das Modell nur den Agenten der Person (Claude Code, Codex, Hermes) und dessen Unteragenten. Daneben braucht die Firma eigene Agenten: Änderungs-Prüfer, OS-Check, Routinen, Kontext-Ernte. Offen: welcher Harness (Kandidat Pi), welche Identität und welche Anmeldung (API-Schlüssel statt Abo), welche Werkzeuge je Agent, welche Abschottung, wer sie betreibt. Tristan, 07.11.: „ich denke es gibt mehrere“. | [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md); L1, L10, L15 | offen; entschieden ist der Harness: Pi in Sandcastle für Firmen-Agenten (Tristan, 07.11.); Identität, Rechte, Betrieb offen | Änderungs-Prüfer als Pi-Agent in Sandcastle am Mac | Tristan |
 | L15 | Routinen: auf Antwort warten, fortsetzen, prüfen, ob alle gelaufen sind, doppelte Ereignisse erkennen | [recherche §3](docs/recherche.md), §4 C; Bericht §9.3 | Arbeitsannahme Archon als Werkstatt (Opus 5.5, 05.11.); Engine für Firmen offen | nicht berührt | Agent (Technik); Einschalten: Mensch |
+| L27 | **Installationen auf Zuruf.** Mitarbeitende bitten einen Agenten, etwas zu installieren: Programm, Paket, Skill oder MCP-Server. Offen: wer das darf, wo (Gerät, Sandbox, Server), unter wessen Identität, mit welcher Freigabe und wie es zurückgenommen wird. Tristan, 08.11.: „ob das geht oder dass dazwischen verschiedenen Usern mit unterschiedlichen Rechten unterscheiden kann“ | L6, L23, L25; [S15](docs/pruefszenarien.md#s15-installation-auf-zuruf) | offen | nicht berührt | Tristan |
 
 **Organisation und Recht**
 
@@ -477,6 +516,8 @@ Die zwölf Lücken aus dem [Abgleich §2](docs/architektur/abgleich-ai-first-202
 - Vorbild ist `system/tests/pruefen.mjs` mit `faelle.json`: gleiche Fälle für alle Adapter, bekannte Umgehungen als „LÜCKE“
   markiert. Eine bekannte Lücke wird nie grün gezählt.
 - Prüffälle der Skills folgen `.agents/skills/_vorlage/evals/`.
+- Szenarien, an denen Harnesses und die nächsten Schritte geprüft werden, stehen in
+  [docs/pruefszenarien.md](docs/pruefszenarien.md).
 
 ## 11. Parkplatz
 

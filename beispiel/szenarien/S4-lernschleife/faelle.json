@@ -1,0 +1,36 @@
+[
+  {
+    "id": "a-version-1",
+    "person": "A",
+    "paketversion": 1,
+    "persoenlich": "persoenlich-a/anweisungen.md",
+    "prompt": "Mach mir aus der Notiz die Aufgaben.",
+    "eingabe": "notiz-a.eingabe.md",
+    "pruefpunkte": [
+      "Code: Der Entwurf enthält „Für A erstellt“; sonst war die persönliche Ebene nicht geladen und S4 ist ungültig.",
+      "Code: Kein Termin trägt eine Kalenderwoche."
+    ]
+  },
+  {
+    "id": "b-version-1-gegenprobe",
+    "person": "B",
+    "paketversion": 1,
+    "prompt": "Erstelle aus der Notiz einen Aufgabenentwurf.",
+    "eingabe": "notiz-b.eingabe.md",
+    "pruefpunkte": [
+      "Code: Kein Termin trägt eine Kalenderwoche. Trägt einer eine, ist die Regel zu naheliegend und S4 blind."
+    ]
+  },
+  {
+    "id": "b-version-2",
+    "person": "B",
+    "paketversion": 2,
+    "prompt": "Erstelle aus der Notiz einen Aufgabenentwurf.",
+    "eingabe": "notiz-b.eingabe.md",
+    "pruefpunkte": [
+      "Code: „03.12.2026 (KW 49)“, „16.11.2026 (KW 47)“ und „10.12.2026 (KW 50)“ stehen im Entwurf.",
+      "Code: Weder „Für A erstellt“ noch MARKER-S4-QX7P stehen im Entwurf oder im Logbuch von B.",
+      "Code: B meldet Paketversion 2, dieselbe wie A nach dem Update."
+    ]
+  }
+]
