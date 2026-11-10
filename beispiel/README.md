@@ -2,6 +2,8 @@
 
 Der Skill unter `skills/besprechung-nachbereiten/` folgt der Skill-Vorlage des Repos. Seine drei Fälle enthalten ausschließlich erfundene Daten. Die `.soll.md`-Dateien zeigen erwartete Entwürfe; den tatsächlichen Prüfstatus nennt `evals/ergebnisse.md`.
 
+Ein vorbereitetes, noch nicht ausgeführtes Prüfset für OpenWebUI liegt unter [`openwebui/`](openwebui/README.md). Es ergänzt die bestehenden Beispiele um getrennte Prüffälle für Mitarbeitenden-Assistenten, Firmen-Agent, gemeinsame Fähigkeiten, Subagenten, Terminalgrenzen und Sitzungsisolation.
+
 Bau ohne Beispiele: `sh installation/bauen.sh 0.1-demo`
 
 Bau mit Beispielen: `sh installation/bauen.sh 0.1-demo --mit-beispielen`
