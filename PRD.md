@@ -303,7 +303,7 @@ Das MVP ist bestanden, wenn:
   [Laufzeitvergleich](docs/architektur/laufzeitvergleich-2026-11-05.md#ein-nützlicher-prüffall-und-sechs-abnahmetore) im
   lokalen Maßstab halten;
 - die Grundregeln nachweislich wirken: Im Grenzfall wird nichts gesendet, und die Notiz gilt als Daten (L2);
-- beide Adapter denselben Stand melden und eine Verbesserung aus dem Claude-Weg in Slack wirkt;
+- beide Adapter denselben Stand melden (Slack gehört nicht zur Abnahme, sondern zum zweiten Schritt: Tristan, 10.11.2026, siehe §6.7);
 - jede Abkürzung im Register als „umgangen“ steht.
 
 Gemessen werden die Zahl der Korrekturen je Entwurf, ob der Skill ohne Namen gewählt wurde, und die Zeit bis zum ersten
@@ -316,7 +316,8 @@ wird angehalten. Ins Register kommt, welche Lücke das erzwingt. Genau diese Ste
 
 ### 6.7 Nicht im MVP
 
-- Läufe im Hintergrund und Slack (L1, L15)
+- Läufe im Hintergrund (L1, L15)
+- Slack, auch die Wirkung einer Verbesserung dort: zweiter Schritt, nicht Teil der Abnahme (Tristan, 10.11.2026: „Zum 2. schritt. Gehört jez nich dazu“)
 - Claude-App und Mitarbeitende ohne Terminal (L4)
 - Pakete je Rolle (L6)
 - echte Konnektoren und Firmendaten (L7, L9, L24)
