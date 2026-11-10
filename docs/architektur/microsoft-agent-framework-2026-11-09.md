@@ -1,5 +1,7 @@
 # Microsoft Agent Framework für KoBetriebssystem
 
+> **Vermerk 10.11.2026:** Hermes als MVP-Adapter gestrichen ([PRD](../../PRD.md), „Entschieden“ Nr. 6). Dieses Dokument bleibt als damaliger Befund unverändert.
+
 **Recherche und Einschätzung Claude Opus 5.5, 09.11.2026.** Anlass: Tristan will das Framework als eigenes MVP, „because
 it's big and it's probably interesting for also our requirements for ISO 42001“ ([PRD](../../PRD.md) „Entschieden“ Nr. 11).
 Gelesen: GitHub-API, README und Beispiele im Repo am Stand

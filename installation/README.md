@@ -21,7 +21,7 @@ PR im Firmen-Repo ──> Actions: prüfen ──> Review + Merge auf main ─�
 - **Claude-App (nicht Code):** Plugin über die Organisationsfunktionen der Claude-App bereitstellen, sofern der Tarif es zulässt. [OFFEN: Tarif und Funktionsumfang prüfen.]
 
 ## Rollen
-`bauen.sh` erzeugt Claude-, Hermes- und Codex-Pakete sowie die abgeleitete Pi-Prüferkarte
+`bauen.sh` erzeugt Claude- und Codex-Pakete sowie die abgeleitete Pi-Prüferkarte
 (siehe unten „Lokale MVP-Paketkette“). Ein verwalteter Codex-Rollout bleibt separat zu prüfen.
 Unterstützte Richtlinien, Vertrauensmodell und
 offene Abnahmefälle: [Managed Hooks für den Unternehmensrollout](../docs/hooks-erstellen.md#6-managed-hooks-für-den-unternehmensrollout).
@@ -77,23 +77,21 @@ Geprüft am 08.11.2026 (lokal, synthetisch):
 Keine realen Modellaufrufe, Geräteinstallation oder Anmeldung geprüft.
 Der historische Architekturbericht vom 05.11. bleibt als damaliger Befund erhalten.
 
-### Lokaler MVP-Bau: drei Adapter und Prüferkarte (#25)
+### Lokaler MVP-Bau: zwei Adapter und Prüferkarte (#25)
+
+Hermes ist als MVP-Adapter seit dem 10.11.2026 gestrichen; `bauen.sh` erzeugt kein `ko-hermes` mehr.
 
 `sh installation/bauen.sh auto --mit-beispielen` erzeugt aus denselben Quellen:
 
 - `dist/ko-basis`: Claude-Plugin einschließlich `agents/pruefer.md`.
-- `dist/ko-hermes`: Hermes-Distributionsinhalt mit Manifest, SOUL, leerer Konfiguration,
-  Skills, Kontext, leerem cron-Ordner und leerer MCP-Konfiguration.
 - `dist/ko-codex`: Projektpaket mit AGENTS.md, `.agents/skills/` und Kontext.
 - `dist/ko-pi`: abgeleitete Prüferkarte für die Pi-Beispielerweiterung subagent;
   kein installierter Dienst und keine automatisch geladene Erweiterung.
 - `dist/.claude-plugin/marketplace.json`: lokaler Marketplace nur für ko-basis.
 
 `auto` setzt UTC-Datum und Quell-Kurz-Hash als Version; eine ausdrückliche Version
-bleibt möglich. Alle vier Pakete erhalten dieselbe `version.json`. Lokaler Marketplace:
-`claude plugin marketplace add ./dist` (hier nicht installiert). Das Hermes-Verzeichnis
-ist Distributionsinhalt; ein eigenes Release-Git-Repo und profile install/update werden
-hier weder angelegt noch ausgeführt. Das Codex-Verzeichnis dient als Projektwurzel,
+bleibt möglich. Alle drei Pakete erhalten dieselbe `version.json`. Lokaler Marketplace:
+`claude plugin marketplace add ./dist` (hier nicht installiert). Das Codex-Verzeichnis dient als Projektwurzel,
 kein verwalteter globaler Rollout. Persönliche Konfiguration wird nie hineinkopiert.
 Die Markerprüfung läuft über sämtliche erzeugten Pakete vor Ersetzen von dist.
 
@@ -106,7 +104,7 @@ weiterhin ausdrücklich begrenzen. Die Karte allein bietet keine Sandbox.
 in jeden Skill-Lauf ist damit noch nicht belegt (L10).
 
 `python3 system/tests/adapter.py` zeigt Version 1, die erfundene Änderung in Version 2
-und die ursprünglichen Skillbytes unter neuer Version 3. Alle drei Adapter bekommen
+und die ursprünglichen Skillbytes unter neuer Version 3. Beide Adapter bekommen
 identische Skills; der private synthetische Marker einer Person fehlt überall.
 Rückwechsel ohne Beispiele und Abbruch bei klassifizierter Prüferkarte werden geprüft.
 Dies ist ein Paket-/Transportnachweis, kein echter Lernschleifen- oder Modelllauf.
@@ -115,7 +113,6 @@ Die Testbatterie `node system/tests/pruefen.mjs` führt die Probe mit aus.
 Quellen der Feldabbildung, gelesen 08.11.2026:
 [Claude-Unteragenten](https://code.claude.com/docs/en/sub-agents),
 [Pi-Beispielparser](https://github.com/earendil-works/pi/blob/085c84e98e7f4c950f2be606466fff4f75d8fe7c/packages/coding-agent/examples/extensions/subagent/agents.ts),
-[Hermes-Distribution](https://github.com/NousResearch/hermes-agent/blob/b200f5bc60e31588ba2cb60e288029c4a54ba5fa/website/docs/user-guide/profile-distributions.md),
 [Codex-Skills](https://developers.openai.com/codex/skills) und
 [AGENTS.md](https://developers.openai.com/codex/guides/agents-md).
 
