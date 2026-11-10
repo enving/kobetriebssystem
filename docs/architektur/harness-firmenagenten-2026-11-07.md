@@ -1,5 +1,7 @@
 # Harness für firmeneigene Agenten: Pi, pi-durable, DeepSeek Harness, Harness², DeepAgents
 
+> **Vermerk 10.11.2026:** Hermes als MVP-Adapter gestrichen ([PRD](../../PRD.md), „Entschieden“ Nr. 6). Dieses Dokument bleibt als damaliger Befund unverändert.
+
 **Recherche und Einschätzung Claude Opus 5.5, 07.11.2026.** **Entschieden (Tristan, 07.11.):** Firmen-Agenten wie der
 Änderungs-Prüfer laufen als Pi in Sandcastle, schon im MVP; Mitarbeitende nutzen verbreitete Werkzeuge (Claude, Codex);
 DeepSeek Harness und Copilot liegen auf dem Parkplatz ([PRD](../../PRD.md) „Entschieden“ Nr. 9, §11). Nur Doku, READMEs und Quelltext gelesen,

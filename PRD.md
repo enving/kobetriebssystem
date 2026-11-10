@@ -24,18 +24,20 @@ Keine offenen Fragen. Deine Antworten vom 06. und 07.11. stehen darunter.
 4. **Zwei weitere Lücken** von Tristan: Software auf den Endgeräten (L23) und unvollständiger Kontext (L24).
 5. **Testgerät:** Der Laptop ist im MVP das Gerät eines Mitarbeitenden; dort wird das Claude-Plugin geübt (§6.3 Nr. 6):
    „mit dem laptop sollten wa auch trainieren für sen adapter / plugin für claude“.
-6. **Zweiter Adapter: Hermes** (§6.3 Nr. 9): „Als beispiel könnten wir im mvp das betriebssystem als adapter statt
+6. **Zweiter Adapter: Hermes, gestrichen am 10.11.2026** (§6.3 Nr. 9). Tristan, 10.11.2026: Hermes Agent entfällt als
+   zweiter MVP-Adapter, weil der Hermes-Vergleich mit Rakazo entfällt. Ursprünglicher Auftrag (07.11.): „Als beispiel könnten wir im mvp das betriebssystem als adapter statt
    wie angeavht claude vllt eher mit slack verbinden der in slack angebunden ist. Der hermes läuft auf einem server von
    [Name].“ Repo und Zugang fragt Tristan beim Kollegen an. Kurz darauf: „Ah atimmt der hat nur claude. Hm mist ja
    dann installier da vllt hermes? Dann können wir da frei ausprobieren?“ Hermes kommt deshalb zuerst als eigene
-   Installation auf den Laptop; Slack und der Server des Kollegen sind der nächste Schritt.
+   Installation auf den Laptop; Slack und der Server des Kollegen sind der nächste Schritt. Beides entfällt mit der
+   Streichung; welcher Adapter an die Stelle tritt, ist nicht entschieden (§6.3 Nr. 6).
 7. **Codex auf dem Laptop:** „Und auf dem laptop ist codex / chatgpt im plus abi dh da können eir auchngut testen den
-   adapter“. Damit lassen sich ein dritter Adapter (Codex) und Hermes über den Anbieter `openai-codex` mit diesem Konto
-   testen. Ob der Anbieter die Nutzung des Abos durch Drittwerkzeuge erlaubt, ist nicht geprüft.
+   adapter“. Damit lässt sich ein dritter Adapter (Codex) mit diesem Konto testen. Der Test von Hermes über den Anbieter
+   `openai-codex`, samt der ungeprüften Frage, ob der Anbieter Drittwerkzeugen das Abo erlaubt, entfällt mit Nr. 6.
 8. **Mehrere Agenten neben dem persönlichen** (07.11., Vorschlag, keine Entscheidung): „Der hermes oder codex etc ist ja
    der agent eines mitarbeiters gell? Ich würde sagen dass daneben auch noch andere agenten sind … dafür würde ich pi
    agent vorschlagen als harness und pi durable“. Neue Lücke L25; Recherche zu Pi, pi-durable, DeepSeek Harness und
-   Harness² in [harness-firmenagenten-2026-11-07.md](docs/architektur/harness-firmenagenten-2026-11-07.md). Messpunkt: Hermes verbrauchte für „hi“ rund 15.000 Tokens.
+   Harness² in [harness-firmenagenten-2026-11-07.md](docs/architektur/harness-firmenagenten-2026-11-07.md). Messpunkt (Hermes ist seit Nr. 6 gestrichen): Hermes verbrauchte für „hi“ rund 15.000 Tokens.
 9. **Wer welchen Harness bekommt** (07.11.): „Ja kannst den mvp machen so … Also pi wegnehmen beim laptop. Das machen wir
    im sandcastle und ist eher für die firmen agenten oder halt deepseek. Für die mitarbeitenden orientieren wir uns an die
    massen tools wie codex und claude ggf etwas von microsoft zb copilot.. aber das auf parkplatz nicht zuviel jez
@@ -239,11 +241,12 @@ gelesen am 06.11.2026, teils als Zusammenfassung.
    ([#17](https://github.com/enving/kobetriebssystem/issues/17)). Struktur und Verweise prüft das vorhandene
    `system/tests/pruefen.mjs`, erweitert um diese Fälle.
 5. **Versionen:** `bauen.sh` vergibt Datum und Kurz-Hash; ein lokaler Marketplace am Mac statt des Release-Repos.
-6. **Drei Orte, zwei Adapter.** Der Mac ist die OS-Betreuung: Repo, Bau, Merge. **Person A** arbeitet auf Tristans
+6. **Drei Orte, ein Adapter fest, einer offen.** Der Mac ist die OS-Betreuung: Repo, Bau, Merge. **Person A** arbeitet auf Tristans
    zweitem Gerät, einem Windows-Laptop mit eigenem Nutzer ohne Adminrechte, erreichbar per SSH, mit dem Claude-Plugin.
-   **Person B** arbeitet mit Hermes, zuerst als eigene Installation auf demselben Laptop (Nr. 9), später in Slack. Den
-   zweiten Weg aus L1, einen zentralen Bot mit eigenem Konto statt der Rechte einer Person, prüft erst der Schritt nach
-   Slack.
+   **Person B** war mit Hermes vorgesehen (Nr. 9, gestrichen am 10.11.2026). [OFFEN: Adapter und Gerät für B. Gebaut ist
+   ein Codex-Paket, und auf dem Laptop ist Codex vorhanden (Entschieden Nr. 7); eine Zuordnung ist nicht entschieden.] Den
+   zweiten Weg aus L1, einen zentralen Bot mit eigenem Konto statt der Rechte einer Person, prüft kein Schritt mehr im
+   MVP, solange Slack entfällt.
    Stand Laptop am 06.11. abends (per SSH geprüft): erreichbar, Nutzer in der Konsole angemeldet, die Claude-App
    (4.4212) läuft. Die Kommandozeile von Claude Code liegt nur gebündelt in der App, ist nicht im Pfad, und im Profil liegt
    keine Anmeldedatei; Tristan meint die Anmeldung in der App. Für Läufe per SSH braucht es deshalb einmal
@@ -256,28 +259,19 @@ gelesen am 06.11.2026, teils als Zusammenfassung.
    läuft, Tristan merged. Im MVP lokal statt als GitHub-PR, weil das öffentliche Repo keine Testvorschläge bekommen soll.
 8. **Evals mit frischem Kontext:** `claude -p` mit leerem Konfigurationsordner und nur dem Plugin, der Fall als einzige Datei.
    Ein zweites Modell bewertet, das Ergebnis kommt in `evals/ergebnisse.md` des Skills.
-9. **Zweiter Adapter: Hermes-Profil.** Derselbe Bauschritt erzeugt neben dem Claude-Plugin eine Hermes-Distribution: ein
-   Git-Repo mit `distribution.yaml`, `SOUL.md`, `config.yaml`, `skills/`, `cron/` und `mcp.json`, installiert mit
-   `hermes profile install`, aktualisiert mit `hermes profile update` ([Doku](https://github.com/NousResearch/hermes-agent/blob/b200f5bc60e31588ba2cb60e288029c4a54ba5fa/website/docs/user-guide/profile-distributions.md)). Lokal
-   am 05.11. mit zwei Bots getestet (Befunde im Hermes-Werkzeugordner, nicht im Repo). Abbildung: Grundregeln,
-   Kontext-Index und Landkarte nach `SOUL.md`, das Hermes in jede Unterhaltung lädt
-   ([Kontextdateien](https://github.com/NousResearch/hermes-agent/blob/b200f5bc60e31588ba2cb60e288029c4a54ba5fa/website/docs/user-guide/features/context-files.md)); Skills nach `skills/`; Routinen nach `cron/`, erst in Stufe 2.
-   Ziel im MVP ist eine eigene Hermes-Installation auf dem Laptop: nativ unter Windows, im Nutzerprofil unter
-   `%LOCALAPPDATA%\hermes`, ohne Adminrechte (Hermes-README). Installiert am 06.11. abends, v0.23.0. Per SSH brach
-   der Installer beim Python-Verzeichnis mit Windows-Fehler 448 ab („nicht vertrauenswürdiger Bereitstellungspunkt“); in
-   der angemeldeten Desktop-Sitzung lief er durch. Ein Modell ist noch nicht angemeldet; naheliegend ist `openai-codex`
-   mit dem Konto auf dem Laptop (Nr. 7 unter „Entschieden“), anmelden muss Tristan selbst. Danach Slack über `hermes gateway`, auf dem Laptop oder auf
-   dem Server eines Kollegen; dort eigenes Profil, eigener Kanal, Zugang nur für die beiden. Immer nur erfundene Daten.
-   Die Anmeldung beim Modell macht Tristan selbst.
-   Grenzen laut Hermes-Doku: Hermes versteht sich als „single-tenant personal agent“; alle Nutzer eines Profils teilen
-   Gedächtnis und Skills, und Skills laufen im Agentenprozess auf dem Host. Der Rückweg aus Hermes ins Repo fehlt dort
-   ebenso (L8, L20). [OFFEN: welches Modell Hermes auf dem Laptop nutzt; für den Slack-Schritt Repo und Zugang zu
-   dem Hermes des Kollegen, welches Modell dort läuft und wer die Daten auf dem Server sieht (L16, L19); ob sich der Prüfer als
-   fester Unteragent mitliefern lässt (L10).]
+9. ~~**Zweiter Adapter: Hermes-Profil.**~~ **Gestrichen (Tristan, 10.11.2026).** Hermes Agent ist kein MVP-Adapter mehr,
+   weil der Hermes-Vergleich mit Rakazo entfällt. Mit der Streichung entfallen das Hermes-Profil (`ko-hermes` im Bauschritt,
+   Tests und Dokumentation, entfernt am 10.11.2026), die Hermes-Installation auf dem Laptop und der Slack-Schritt auf dem
+   Server eines Kollegen. Zuletzt belegt vor der Streichung: Hermes v0.23.0 am 06.11. auf dem Laptop installiert (Windows-
+   Fehler 448 per SSH, in der Desktop-Sitzung durchgelaufen); Stand 06.11.: kein Modell angemeldet. Der frühere
+   Wortlaut dieser Nummer steht im Git-Verlauf dieser Datei. Die zugehörigen offenen Punkte (Modell, Zugang zum Server des
+   Kollegen, L16, L19, ob der Prüfer als fester Unteragent mitliefert) entfallen als MVP-Punkte; L10 gilt weiter für Claude
+   und Pi.
+   [OFFEN: Adapter und Gerät für Person B (Nr. 6) und damit der Update-Weg zu B (§6.4 Nr. 5).]
 
 ### 6.4 Ablauf
 
-1. Version 1 bauen: Plugin für A und Hermes-Profil für B, beide zuerst auf dem Laptop.
+1. Version 1 bauen: Plugin für A und [OFFEN: Paket für B; Hermes-Profil gestrichen am 10.11.2026], zuerst auf dem Laptop.
 2. A bittet: „Mach mir aus der Notiz die Aufgaben.“ Der Agent wählt den Skill ohne dessen Namen, der Prüfer prüft, der Entwurf
    liegt im Ordner von A, das Logbuch von A bekommt eine Zeile mit der Version.
 3. Tristan korrigiert ein allgemeines Muster, das Version 1 noch nicht kennt, etwa: Termine zusätzlich mit Kalenderwoche
@@ -286,8 +280,8 @@ gelesen am 06.11.2026, teils als Zusammenfassung.
 4. Der Agent ordnet ein (einmalig oder Regel) und schlägt Ort, Wortlaut und Prüffall vor. Tristan sagt Ja.
 5. Zweig mit Skill-Änderung und neuem Prüffall; Prüfskript grün; ein Pi-Agent in Sandcastle prüft den Vorschlag
    (entschieden 07.11.); Tristan merged; Version 2 wird gebaut und kommt als
-   Plugin-Update zu A und per `hermes profile update` zu B.
-6. B gibt dem Hermes mit Version 2 eine andere Notiz, später über Slack. Die Regel wirkt. Der Marker von A steht weder im Vorschlag noch in
+   Plugin-Update zu A und [OFFEN: Update-Weg zu B] zu B.
+6. B gibt seinem Agenten [OFFEN: welcher, Nr. 6] mit Version 2 eine andere Notiz. Die Regel wirkt. Der Marker von A steht weder im Vorschlag noch in
    Ergebnis oder Logbuch von B.
 7. Rücknahme: Version 1 wird als Version 3 neu veröffentlicht. A und B arbeiten wieder nach der alten Fassung und melden
    Version 3.
@@ -303,7 +297,7 @@ Das MVP ist bestanden, wenn:
   [Laufzeitvergleich](docs/architektur/laufzeitvergleich-2026-11-05.md#ein-nützlicher-prüffall-und-sechs-abnahmetore) im
   lokalen Maßstab halten;
 - die Grundregeln nachweislich wirken: Im Grenzfall wird nichts gesendet, und die Notiz gilt als Daten (L2);
-- beide Adapter denselben Stand melden und eine Verbesserung aus dem Claude-Weg in Slack wirkt;
+- beide Adapter denselben Stand melden und eine Verbesserung aus dem Claude-Weg bei B wirkt [OFFEN: Adapter von B; früher Hermes in Slack];
 - jede Abkürzung im Register als „umgangen“ steht.
 
 Gemessen werden die Zahl der Korrekturen je Entwurf, ob der Skill ohne Namen gewählt wurde, und die Zeit bis zum ersten
@@ -419,7 +413,7 @@ Aufteilung (§3a) und die Lücken L1, L4 und L23 geklärt sind.
 | Microsoft Agent Framework | Agenten-Bibliothek mit Workflows, Middleware, Freigaben, Telemetrie | [Recherche](docs/architektur/microsoft-agent-framework-2026-11-09.md), §6b | eigenes MVP (Tristan, 08.11.) |
 | Google-Umgebung | Arbeitsplatz | – | nicht betrachtet |
 | Rakazo | Laufzeit mit Bots und Spaces | [Bericht](docs/architektur/bericht-2026-11-05.md), [Laufzeitvergleich](docs/architektur/laufzeitvergleich-2026-11-05.md) | zurückgestellt (Tristan, 06.11.) |
-| Hermes Agent | persönliche Assistenz, Bot in Slack | [Laufzeitvergleich](docs/architektur/laufzeitvergleich-2026-11-05.md), §6.3 Nr. 9 | Adapterziel im MVP (eigene Installation auf dem Laptop, später Slack), keine Auswahl |
+| Hermes Agent | persönliche Assistenz, Bot in Slack | [Laufzeitvergleich](docs/architektur/laufzeitvergleich-2026-11-05.md), §6.3 Nr. 9 | als MVP-Adapter gestrichen (Tristan, 10.11.2026), keine Auswahl |
 | Pi mit OpenShell | Agentenkern, Sandbox | [Laufzeitvergleich §1](docs/architektur/laufzeitvergleich-2026-11-05.md), [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md) | engster Kandidat für Firmen-Agenten (L25) |
 | pi-durable | fortsetzbare Agentenläufe | [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md) | experimentell, erst für Routinen (L15) |
 | DeepSeek Harness | Harness mit Sandbox und Plugins | [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md) | Parkplatz (§11) |
@@ -494,7 +488,7 @@ Die zwölf Lücken aus dem [Abgleich §2](docs/architektur/abgleich-ai-first-202
 
 | Nr | Lücke | bisher behandelt | Status | im MVP | entscheidet |
 |---|---|---|---|---|---|
-| L25 | **Firmeneigene Agenten neben den persönlichen.** Bisher kannte das Modell nur den Agenten der Person (Claude Code, Codex, Hermes) und dessen Unteragenten. Daneben braucht die Firma eigene Agenten: Änderungs-Prüfer, OS-Check, Routinen, Kontext-Ernte. Offen: welcher Harness (Kandidat Pi), welche Identität und welche Anmeldung (API-Schlüssel statt Abo), welche Werkzeuge je Agent, welche Abschottung, wer sie betreibt. Tristan, 07.11.: „ich denke es gibt mehrere“. | [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md); L1, L10, L15 | offen; entschieden ist der Harness: Pi in Sandcastle für Firmen-Agenten (Tristan, 07.11.); Identität, Rechte, Betrieb offen | Änderungs-Prüfer als Pi-Agent in Sandcastle am Mac | Tristan |
+| L25 | **Firmeneigene Agenten neben den persönlichen.** Bisher kannte das Modell nur den Agenten der Person (Claude Code, Codex; früher auch Hermes, gestrichen am 10.11.2026) und dessen Unteragenten. Daneben braucht die Firma eigene Agenten: Änderungs-Prüfer, OS-Check, Routinen, Kontext-Ernte. Offen: welcher Harness (Kandidat Pi), welche Identität und welche Anmeldung (API-Schlüssel statt Abo), welche Werkzeuge je Agent, welche Abschottung, wer sie betreibt. Tristan, 07.11.: „ich denke es gibt mehrere“. | [Harness-Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md); L1, L10, L15 | offen; entschieden ist der Harness: Pi in Sandcastle für Firmen-Agenten (Tristan, 07.11.); Identität, Rechte, Betrieb offen | Änderungs-Prüfer als Pi-Agent in Sandcastle am Mac | Tristan |
 | L15 | Routinen: auf Antwort warten, fortsetzen, prüfen, ob alle gelaufen sind, doppelte Ereignisse erkennen | [recherche §3](docs/recherche.md), §4 C; Bericht §9.3 | Arbeitsannahme Archon als Werkstatt (Opus 5.5, 05.11.); Engine für Firmen offen | nicht berührt | Agent (Technik); Einschalten: Mensch |
 | L27 | **Installationen auf Zuruf.** Mitarbeitende bitten einen Agenten, etwas zu installieren: Programm, Paket, Skill oder MCP-Server. Offen: wer das darf, wo (Gerät, Sandbox, Server), unter wessen Identität, mit welcher Freigabe und wie es zurückgenommen wird. Tristan, 08.11.: „ob das geht oder dass dazwischen verschiedenen Usern mit unterschiedlichen Rechten unterscheiden kann“ | L6, L23, L25; [S15](docs/pruefszenarien.md#s15-installation-auf-zuruf) | offen | nicht berührt | Tristan |
 
@@ -527,7 +521,7 @@ Ideen, die bewusst nicht jetzt bearbeitet werden (Tristan, 07.11.: „nicht zuvi
   bestimmten Rollen besondere Plugins bereitstellen. Stärkstes eingebautes Rechtemodell der geprüften Harnesses, aber
   Vorschau ([Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md)).
 - **Microsoft für Mitarbeitende,** etwa Copilot, als weiteres Zielformat neben Claude und Codex (L4).
-- **Hermes in Slack** auf dem Server eines Kollegen als zentraler Bot (§6.3 Nr. 9).
+- ~~**Hermes in Slack** auf dem Server eines Kollegen als zentraler Bot (§6.3 Nr. 9).~~ Gestrichen am 10.11.2026 mit dem Hermes-Adapter.
 - **Harness²** (Google Research), um Skills und Prüfer anhand der Prüffälle zu verbessern.
 
 ## 12. Quellen

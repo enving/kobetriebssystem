@@ -1,5 +1,7 @@
 # Hermes, Rakazo und ein kleinerer Unterbau für KoBetriebssystem
 
+> **Vermerk 10.11.2026:** Hermes als MVP-Adapter gestrichen ([PRD](../../PRD.md), „Entschieden“ Nr. 6). Dieses Dokument bleibt als damaliger Befund unverändert.
+
 **Bedarf zuerst (06.11.2026):** [Rückkehr zum AI-FIRST-Gedanken und zum gemeinsamen Lernen](../szenarien.md). Die technische Shortlist unten ist keine Auswahlentscheidung; zuerst ist der dort beschriebene fachliche Durchlauf zu klären.
 
 Einschätzung und Recherche: GPT-6.1-sol, 05.11.2026. Zwei gleichzeitige Recherche-Agenten derselben Modellfamilie; tragende Befunde zusätzlich an Originalquellen geprüft. Die unabhängige Gegenprobe mit Claude Sonnet 5.5 scheiterte am API-Limit. Technischer Vorschlag, keine Auswahlentscheidung Tristans und keine neue Betriebsregel.
