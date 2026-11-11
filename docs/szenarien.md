@@ -2,6 +2,10 @@
 
 **Einordnung, GPT-6.1-sol, 06.11.2026:** Zurück zum Bedarf aus Felix Schlenthers AI-FIRST-Artikeln und Tristans Einwand gegen isolierte Wissensinseln. Diese Seite beschreibt eine zu prüfende Anforderungshypothese, keine neue Betriebsregel und keine Auswahl einer Laufzeit. Zuständige Verhaltensregeln bleiben [AGENTS.md](../AGENTS.md), technische Grenzen [SICHERHEIT.md](../SICHERHEIT.md), Verteilung [installation/README.md](../installation/README.md), kritische Architekturfragen [recherche §4](recherche.md#architektur).
 
+Die [BPMN-Prozessansicht](prozesse/README.md) konkretisiert den OpenWebUI-Versuch als versionierten
+Entwurf mit getrennten Abläufen für Auftrag, Terminal, Prüfung, Lernschleife, Kontextpflege und Tests.
+Sie ist keine Freigabe der dort noch offenen Architekturentscheidungen.
+
 # An Tristan
 
 1. Welcher erste echte Vorgang soll die Verbindung aus gemeinsamer Fähigkeit und übernommener Verbesserung zeigen? Die Prioritätsfrage wurde im Chat gestellt; eine Auswahl ist noch offen. Vorschlag (Opus 5.5, 06.11.): „Besprechung nachbereiten“ als MVP, siehe [PRD §6](../PRD.md).

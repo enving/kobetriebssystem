@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_p02BegrenzterAuftragImLinuxTerminal" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="collaboration_p02BegrenzterAuftragImLinuxTerminal">
+    <bpmn:participant id="P02_Pool" name="P02 · Begrenzter Auftrag im Linux-Terminal" processRef="Process_P02" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P02" name="P02 · Begrenzter Auftrag im Linux-Terminal" isExecutable="false">
+    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+Zweck: Codex als beauftragten Ausführer mit technischen Grenzen und überprüfbarer Rückgabe modellieren.
+Offen: L25: fachlicher Bearbeiter oder Betriebssystem-Pflege? L6/L9: technische Nutzertrennung und Netzwerkgrenzen. Ein gemeinsam genutztes Home beweist diese Trennung nicht.
+Quellen: ../../PRD.md ; ../../SICHERHEIT.md ; ../pruefszenarien.md ; ../../beispiel/openwebui/fixtures/04-test-cases.md
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+    <bpmn:laneSet id="laneSet_p02BegrenzterAuftragImLinuxTerminal">
+      <bpmn:lane id="P02_Lane_g" name="Adapter / Laufsteuerung">
+        <bpmn:flowNodeRef>P02_Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Vertrag</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Mandat</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Raum</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Isolation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Gesperrt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Stand</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Blockiert</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_EndeFehler</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Stoppen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_EndeAbbruch</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Sammeln</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Rueckgabe</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P02_Lane_a" name="Codex im isolierten Arbeitsraum">
+        <bpmn:flowNodeRef>P02_Codex</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Provider</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P02_Abbruch</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P02_Lane_m" name="Zuständige Person">
+        <bpmn:flowNodeRef>P02_Warten</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="P02_Start" name="Terminalauftrag empfangen">
+      <bpmn:documentation>Auftrag aus P01; Rohchat, private Postfächer und Connector-Zugangsdaten gehören nicht automatisch dazu.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:outgoing>P02_Flow_Start_Vertrag</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="P02_Flow_Start_Vertrag" sourceRef="P02_Start" targetRef="P02_Vertrag" />
+    <bpmn:scriptTask id="P02_Vertrag" name="Mandat und Arbeitsauftrag prüfen">
+      <bpmn:documentation>Prüfen: authentifizierter Auftraggeber, Aufgabe, freigegebene Rolle, Quellstand, erlaubte Eingaben, Schreibbereich, Ergebnisziel und Laufgrenzen. Auswahl der Mandatsart bleibt offen.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Start_Vertrag</bpmn:incoming>
+      <bpmn:outgoing>P02_Flow_Vertrag_Mandat</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P02_Flow_Vertrag_Mandat" sourceRef="P02_Vertrag" targetRef="P02_Mandat" />
+    <bpmn:exclusiveGateway id="P02_Mandat" name="Mandat ausdrücklich gedeckt?">
+      <bpmn:documentation>Fachliche Bearbeitung und Pflege des gemeinsamen Betriebssystems sind unterschiedliche Rechte. Unentschieden bedeutet nicht freigegeben.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Vertrag_Mandat</bpmn:incoming>
+      <bpmn:outgoing>P02_Flow_Mandat_Warten</bpmn:outgoing>
+      <bpmn:outgoing>P02_Flow_Mandat_Raum</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P02_Flow_Mandat_Warten" name="nein / offen" sourceRef="P02_Mandat" targetRef="P02_Warten" />
+    <bpmn:sequenceFlow id="P02_Flow_Mandat_Raum" name="ja" sourceRef="P02_Mandat" targetRef="P02_Raum" />
+    <bpmn:endEvent id="P02_Warten" name="Mandat fehlt: Entscheidung nötig">
+      <bpmn:documentation>Die zuständige Person muss das Mandat bestimmen. Das Modell dieses Prozesses entscheidet es nicht.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Mandat_Warten</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P02_Raum" name="Arbeitsraum passend zum Auftrag zuweisen">
+      <bpmn:documentation>Getrennter Bereich je Schutzbedarf. Quellen nur lesbar, Ausgaben gesondert schreibbar; keine fremden Homes, Host-Mounts oder Docker-Sockets. Netz und Prozesse technisch begrenzen.
+Quelle: ../../SICHERHEIT.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Mandat_Raum</bpmn:incoming>
+      <bpmn:outgoing>P02_Flow_Raum_Isolation</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P02_Flow_Raum_Isolation" sourceRef="P02_Raum" targetRef="P02_Isolation" />
+    <bpmn:exclusiveGateway id="P02_Isolation" name="Grenzen nachgewiesen?">
+      <bpmn:documentation>Die Isolation muss vor einem Mehrnutzer- oder Dateigrenzentest belegt sein. Ein Pfadname oder Prompt genügt nicht.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Raum_Isolation</bpmn:incoming>
+      <bpmn:outgoing>P02_Flow_Isolation_Gesperrt</bpmn:outgoing>
+      <bpmn:outgoing>P02_Flow_Isolation_Stand</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P02_Flow_Isolation_Gesperrt" name="nein" sourceRef="P02_Isolation" targetRef="P02_Gesperrt" />
+    <bpmn:sequenceFlow id="P02_Flow_Isolation_Stand" name="ja" sourceRef="P02_Isolation" targetRef="P02_Stand" />
+    <bpmn:endEvent id="P02_Gesperrt" name="Ausführung gesperrt">
+      <bpmn:documentation>Die technische Voraussetzung fehlt. Kein Fallback auf eine unbeschränkte gemeinsame Shell.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Isolation_Gesperrt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:scriptTask id="P02_Stand" name="Auftrag und Startzustand sichern">
+      <bpmn:documentation>Auftragskennung, Quellversionen, Status und Ausgangsdateien festhalten. Wiederholung darf keinen zweiten unabhängigen Auftrag verstecken.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Isolation_Stand</bpmn:incoming>
+      <bpmn:outgoing>P02_Flow_Stand_Codex</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P02_Flow_Stand_Codex" sourceRef="P02_Stand" targetRef="P02_Codex" />
+    <bpmn:serviceTask id="P02_Codex" name="Codex im begrenzten Mandat ausführen">
+      <bpmn:documentation>Codex liest nur zulässige Eingaben und erstellt Artefakte im Ausgabebereich. Änderungen an gemeinsamer Steuerung bleiben Änderungsvorschläge; keine pauschale Rechteausweitung.
+Quelle: ../../SICHERHEIT.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Stand_Codex</bpmn:incoming>
+      <bpmn:outgoing>P02_Flow_Codex_Sammeln</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P02_Flow_Codex_Sammeln" sourceRef="P02_Codex" targetRef="P02_Sammeln" />
+    <bpmn:boundaryEvent id="P02_Provider" name="Provider- / Laufzeitfehler" attachedToRef="P02_Codex">
+      <bpmn:documentation>Providerfehler, Kontingent oder Laufzeitfehler. Keine automatischen Anbieterwechsel und keine Wiederholungs-Endlosschleife. Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:outgoing>P02_Flow_Provider_Blockiert</bpmn:outgoing>
+      <bpmn:errorEventDefinition errorRef="error_terminalfehler" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="P02_Flow_Provider_Blockiert" sourceRef="P02_Provider" targetRef="P02_Blockiert" />
+    <bpmn:boundaryEvent id="P02_Abbruch" name="Abbruch angefordert" attachedToRef="P02_Codex">
+      <bpmn:documentation>Abbruch ist ein eigener Status. Prozessbeendigung und Folgen müssen technisch geprüft werden. Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:outgoing>P02_Flow_Abbruch_Stoppen</bpmn:outgoing>
+      <bpmn:signalEventDefinition signalRef="signal_auftragStoppen" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="P02_Flow_Abbruch_Stoppen" sourceRef="P02_Abbruch" targetRef="P02_Stoppen" />
+    <bpmn:scriptTask id="P02_Blockiert" name="Blocker und Zwischenstand erfassen">
+      <bpmn:documentation>Status BLOCKIERT; keine Annahme über vollständige Ausgaben. Vor einer Wiederaufnahme bereits entstandene Artefakte und Wirkungen prüfen.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Provider_Blockiert</bpmn:incoming>
+      <bpmn:outgoing>P02_Flow_Blockiert_EndeFehler</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P02_Flow_Blockiert_EndeFehler" sourceRef="P02_Blockiert" targetRef="P02_EndeFehler" />
+    <bpmn:endEvent id="P02_EndeFehler" name="Blockiert zurückmelden">
+      <bpmn:documentation>Fortsetzung nur nach P06 beziehungsweise neu bestätigtem Auftrag; Lauf bleibt als fehlgeschlagen sichtbar.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Blockiert_EndeFehler</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P02_Stoppen" name="Prozesse stoppen und Zustand erfassen">
+      <bpmn:documentation>Abbruch bestätigen, laufende Kindprozesse prüfen, unvollständige Artefakte markieren. Keine Ausgabe als erfolgreich ausgeben.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Abbruch_Stoppen</bpmn:incoming>
+      <bpmn:outgoing>P02_Flow_Stoppen_EndeAbbruch</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P02_Flow_Stoppen_EndeAbbruch" sourceRef="P02_Stoppen" targetRef="P02_EndeAbbruch" />
+    <bpmn:endEvent id="P02_EndeAbbruch" name="Abgebrochen zurückmelden">
+      <bpmn:documentation>Abbruchstatus samt überprüftem Zwischenstand zurückgeben.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Stoppen_EndeAbbruch</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:scriptTask id="P02_Sammeln" name="Artefakte und Nachweise einsammeln">
+      <bpmn:documentation>Nur erlaubte Ergebnisdateien, Quellenbezüge, Quellversionen, Dateiveränderungen und Befehlsresultate zurückgeben. Geheimnisse aus Rückgabe und Logs fernhalten.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Codex_Sammeln</bpmn:incoming>
+      <bpmn:outgoing>P02_Flow_Sammeln_Rueckgabe</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P02_Flow_Sammeln_Rueckgabe" sourceRef="P02_Sammeln" targetRef="P02_Rueckgabe" />
+    <bpmn:endEvent id="P02_Rueckgabe" name="Ergebnis zur Prüfung bereit">
+      <bpmn:documentation>P03 prüft Ergebnis und Nachweise. Ein erfolgreicher Prozess-Exit beweist noch keine fachliche Richtigkeit.
+Quelle: ../../agents/pruefer.md</bpmn:documentation>
+      <bpmn:incoming>P02_Flow_Sammeln_Rueckgabe</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:error id="error_terminalfehler" name="Terminalfehler" errorCode="TERMINAL_FAILED" />
+  <bpmn:signal id="signal_auftragStoppen" name="Auftrag stoppen" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_collaboration_p02BegrenzterAuftragImLinuxTerminal">
+    <bpmndi:BPMNPlane id="BPMNPlane_collaboration_p02BegrenzterAuftragImLinuxTerminal" bpmnElement="collaboration_p02BegrenzterAuftragImLinuxTerminal">
+      <bpmndi:BPMNShape id="BPMNShape_P02_Pool" bpmnElement="P02_Pool" isHorizontal="true">
+        <dc:Bounds x="80" y="80" width="1747" height="782" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Lane_g" bpmnElement="P02_Lane_g" isHorizontal="true">
+        <dc:Bounds x="110" y="80" width="1717" height="420" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Lane_a" bpmnElement="P02_Lane_a" isHorizontal="true">
+        <dc:Bounds x="110" y="500" width="1717" height="204" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Lane_m" bpmnElement="P02_Lane_m" isHorizontal="true">
+        <dc:Bounds x="110" y="704" width="1717" height="158" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Start" bpmnElement="P02_Start">
+        <dc:Bounds x="170" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="130" y="174" width="117" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Vertrag" bpmnElement="P02_Vertrag" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="266" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Mandat" bpmnElement="P02_Mandat" isMarkerVisible="true">
+        <dc:Bounds x="426" y="125" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="457" y="181" width="96" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Warten" bpmnElement="P02_Warten">
+        <dc:Bounds x="597" y="734" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="639" y="724" width="96" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Raum" bpmnElement="P02_Raum" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="565" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Isolation" bpmnElement="P02_Isolation" isMarkerVisible="true">
+        <dc:Bounds x="725" y="125" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="699" y="91" width="103" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Gesperrt" bpmnElement="P02_Gesperrt">
+        <dc:Bounds x="867" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="844" y="314" width="82" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Stand" bpmnElement="P02_Stand" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="835" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Codex" bpmnElement="P02_Codex" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="995" y="549" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Provider" bpmnElement="P02_Provider">
+        <dc:Bounds x="1052" y="611" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1092" y="631" width="110" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Abbruch" bpmnElement="P02_Abbruch">
+        <dc:Bounds x="1008" y="611" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="915" y="631" width="89" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Blockiert" bpmnElement="P02_Blockiert" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1571" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_EndeFehler" bpmnElement="P02_EndeFehler">
+        <dc:Bounds x="1731" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1701" y="314" width="96" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Stoppen" bpmnElement="P02_Stoppen" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1315" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_EndeAbbruch" bpmnElement="P02_EndeAbbruch">
+        <dc:Bounds x="1475" y="412" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1445" y="454" width="96" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Sammeln" bpmnElement="P02_Sammeln" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1155" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P02_Rueckgabe" bpmnElement="P02_Rueckgabe">
+        <dc:Bounds x="1347" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1321" y="174" width="89" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Start_Vertrag" bpmnElement="P02_Flow_Start_Vertrag">
+        <di:waypoint x="206" y="150" />
+        <di:waypoint x="266" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Vertrag_Mandat" bpmnElement="P02_Flow_Vertrag_Mandat">
+        <di:waypoint x="366" y="150" />
+        <di:waypoint x="426" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Mandat_Warten" bpmnElement="P02_Flow_Mandat_Warten">
+        <di:waypoint x="451" y="175" />
+        <di:waypoint x="451" y="785" />
+        <di:waypoint x="615" y="785" />
+        <di:waypoint x="615" y="770" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="459" y="789" width="54" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Mandat_Raum" bpmnElement="P02_Flow_Mandat_Raum">
+        <di:waypoint x="476" y="150" />
+        <di:waypoint x="565" y="150" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="484" y="132" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Raum_Isolation" bpmnElement="P02_Flow_Raum_Isolation">
+        <di:waypoint x="665" y="150" />
+        <di:waypoint x="725" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Isolation_Gesperrt" bpmnElement="P02_Flow_Isolation_Gesperrt">
+        <di:waypoint x="750" y="175" />
+        <di:waypoint x="750" y="290" />
+        <di:waypoint x="867" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="758" y="272" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Isolation_Stand" bpmnElement="P02_Flow_Isolation_Stand">
+        <di:waypoint x="775" y="150" />
+        <di:waypoint x="835" y="150" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="783" y="132" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Stand_Codex" bpmnElement="P02_Flow_Stand_Codex">
+        <di:waypoint x="935" y="150" />
+        <di:waypoint x="965" y="150" />
+        <di:waypoint x="965" y="589" />
+        <di:waypoint x="995" y="589" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Codex_Sammeln" bpmnElement="P02_Flow_Codex_Sammeln">
+        <di:waypoint x="1095" y="589" />
+        <di:waypoint x="1205" y="589" />
+        <di:waypoint x="1205" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Provider_Blockiert" bpmnElement="P02_Flow_Provider_Blockiert">
+        <di:waypoint x="1088" y="629" />
+        <di:waypoint x="1300" y="629" />
+        <di:waypoint x="1300" y="235" />
+        <di:waypoint x="1621" y="235" />
+        <di:waypoint x="1621" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Abbruch_Stoppen" bpmnElement="P02_Flow_Abbruch_Stoppen">
+        <di:waypoint x="1026" y="647" />
+        <di:waypoint x="1026" y="689" />
+        <di:waypoint x="1365" y="689" />
+        <di:waypoint x="1365" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Blockiert_EndeFehler" bpmnElement="P02_Flow_Blockiert_EndeFehler">
+        <di:waypoint x="1671" y="290" />
+        <di:waypoint x="1731" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Stoppen_EndeAbbruch" bpmnElement="P02_Flow_Stoppen_EndeAbbruch">
+        <di:waypoint x="1415" y="430" />
+        <di:waypoint x="1475" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P02_Flow_Sammeln_Rueckgabe" bpmnElement="P02_Flow_Sammeln_Rueckgabe">
+        <di:waypoint x="1255" y="150" />
+        <di:waypoint x="1347" y="150" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

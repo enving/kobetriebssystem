@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_p05WissenFindenAnreichernUndPflegen" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="collaboration_p05WissenFindenAnreichernUndPflegen">
+    <bpmn:participant id="P05_Pool" name="P05 · Wissen finden, anreichern und pflegen" processRef="Process_P05" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P05" name="P05 · Wissen finden, anreichern und pflegen" isExecutable="false">
+    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+Zweck: Dauerhaftes Wissen mit Herkunft und Besitzer pflegen, ohne persönliche Vorgänge in einen größeren Kreis zu verschieben.
+Offen: L1/L7/L12: Identität, Informationsfluss und Logbuch der Routine. Automatische Übernahme unstrittiger Artikel-Ergänzungen wird hier nicht als neue lokale Freigaberegel übernommen.
+Quellen: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst ; ../szenarien.md ; ../../PRD.md ; ../../AGENTS.md
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+    <bpmn:laneSet id="laneSet_p05WissenFindenAnreichernUndPflegen">
+      <bpmn:lane id="P05_Lane_g" name="Freigegebener Pflegeauftrag / technische Prüfung">
+        <bpmn:flowNodeRef>P05_Pflege</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Scan</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Kreis</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Privat</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Lernen</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P05_Lane_a" name="Kontext-Agent">
+        <bpmn:flowNodeRef>P05_Hinweis</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Ernte</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Inhalt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Merge</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Nutzen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Vorgang</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Beleg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Eindeutig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Offen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Vorschlag</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Ende</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Join_Vorschlag</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P05_Lane_m" name="Quellen- / Bereichsbesitzer">
+        <bpmn:flowNodeRef>P05_Besitzer</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P05_Geklaert</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="P05_Hinweis" name="Kontext-Hinweis oder Ansage">
+      <bpmn:documentation>Eine Person meldet einen neuen oder widersprüchlichen Fakt. Er bleibt zunächst im berechtigten Vorgang.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:outgoing>P05_Flow_Hinweis_Ernte</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="P05_Flow_Hinweis_Ernte" sourceRef="P05_Hinweis" targetRef="P05_Ernte" />
+    <bpmn:serviceTask id="P05_Ernte" name="Zulässige neue Quellen lesen">
+      <bpmn:documentation>Nur Quellen lesen, die der ausdrücklich freigegebene Auftrag erlaubt. Ursprung, Zeitpunkt und zulässigen Empfängerkreis mitführen.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Hinweis_Ernte</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Ernte_Merge</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P05_Flow_Ernte_Merge" sourceRef="P05_Ernte" targetRef="P05_Merge" />
+    <bpmn:startEvent id="P05_Pflege" name="Bestandspflege beauftragt">
+      <bpmn:documentation>Eine freigegebene Routine nach P06 oder eine manuelle Beauftragung. Kein fest eingebauter neuer Zeitplan.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:outgoing>P05_Flow_Pflege_Scan</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="P05_Flow_Pflege_Scan" sourceRef="P05_Pflege" targetRef="P05_Scan" />
+    <bpmn:scriptTask id="P05_Scan" name="Verweise, Metadaten und Fälligkeit prüfen">
+      <bpmn:documentation>Index, Quellen, Besitzer, Prüfdatum, kaputte Verweise und verwaiste Einträge gegen den geltenden Stand prüfen. Werte und Regeln bleiben an ihren zuständigen Quellen.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Pflege_Scan</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Scan_Inhalt</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P05_Flow_Scan_Inhalt" sourceRef="P05_Scan" targetRef="P05_Inhalt" />
+    <bpmn:serviceTask id="P05_Inhalt" name="Widersprüche und doppelte Aussagen finden">
+      <bpmn:documentation>Fachliche Prüfung von Aktualität und Quellenlage. Ein älteres Dokument wird nicht allein wegen einer neueren Fundstelle automatisch falsch.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Scan_Inhalt</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Inhalt_Merge</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P05_Flow_Inhalt_Merge" sourceRef="P05_Inhalt" targetRef="P05_Merge" />
+    <bpmn:exclusiveGateway id="P05_Merge">
+      <bpmn:documentation>Die folgenden Fragen gelten sowohl für neue Aussagen als auch für Pflegebefunde.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Ernte_Merge</bpmn:incoming>
+      <bpmn:incoming>P05_Flow_Inhalt_Merge</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Merge_Nutzen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P05_Flow_Merge_Nutzen" sourceRef="P05_Merge" targetRef="P05_Nutzen" />
+    <bpmn:exclusiveGateway id="P05_Nutzen" name="Dauerhaftes Arbeitswissen?">
+      <bpmn:documentation>Nur Kandidaten, die künftiges Arbeiten verändern, in die gemeinsame Pflege geben. Laufende Vorgänge bleiben im Tool.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Merge_Nutzen</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Nutzen_Vorgang</bpmn:outgoing>
+      <bpmn:outgoing>P05_Flow_Nutzen_Kreis</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P05_Flow_Nutzen_Vorgang" name="nein" sourceRef="P05_Nutzen" targetRef="P05_Vorgang" />
+    <bpmn:sequenceFlow id="P05_Flow_Nutzen_Kreis" name="ja" sourceRef="P05_Nutzen" targetRef="P05_Kreis" />
+    <bpmn:endEvent id="P05_Vorgang" name="Im Quellsystem belassen">
+      <bpmn:documentation>Keine Kopie des operativen Vorgangs in ein allgemeines Wiki.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Nutzen_Vorgang</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P05_Kreis" name="Zielkreis von Quelle gedeckt?">
+      <bpmn:documentation>Ein Ergebnis oder eine Zusammenfassung darf nicht breiter sichtbar sein als die zugrunde liegende Quelle. Im Zweifel keine gemeinsame Aufnahme.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Nutzen_Kreis</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Kreis_Privat</bpmn:outgoing>
+      <bpmn:outgoing>P05_Flow_Kreis_Beleg</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P05_Flow_Kreis_Privat" name="nein / offen" sourceRef="P05_Kreis" targetRef="P05_Privat" />
+    <bpmn:sequenceFlow id="P05_Flow_Kreis_Beleg" name="ja" sourceRef="P05_Kreis" targetRef="P05_Beleg" />
+    <bpmn:endEvent id="P05_Privat" name="Quelle bleibt im bisherigen Kreis">
+      <bpmn:documentation>Privater Kontext-Hinweis gegebenenfalls nur dem berechtigten Besitzer vorlegen; keine Veröffentlichung über Logs oder Index.
+Quelle: ../../SICHERHEIT.md</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Kreis_Privat</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P05_Beleg" name="Aussage, Quelle und Abhängigkeiten prüfen">
+      <bpmn:documentation>Was gilt jetzt? Wer besitzt den Bereich? Welche Skills oder Dateien bauen darauf auf? Fehlende Belege und widersprüchliche Ansagen offenhalten.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Kreis_Beleg</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Beleg_Eindeutig</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P05_Flow_Beleg_Eindeutig" sourceRef="P05_Beleg" targetRef="P05_Eindeutig" />
+    <bpmn:exclusiveGateway id="P05_Eindeutig" name="Quelle und Geltung geklärt?">
+      <bpmn:documentation>Widersprüche, Grundlagenthemen und fachliche Entscheidungen bleiben beim zuständigen Besitzer.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Beleg_Eindeutig</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Eindeutig_Besitzer</bpmn:outgoing>
+      <bpmn:outgoing>P05_Flow_Eindeutig_Vorschlag</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P05_Flow_Eindeutig_Besitzer" name="nein" sourceRef="P05_Eindeutig" targetRef="P05_Besitzer" />
+    <bpmn:sequenceFlow id="P05_Flow_Eindeutig_Vorschlag" name="ja" sourceRef="P05_Eindeutig" targetRef="P05_Join_Vorschlag" />
+    <bpmn:userTask id="P05_Besitzer" name="Geltende Aussage klären">
+      <bpmn:documentation>Der Besitzer bestätigt oder verwirft eine konkrete Aussage mit Quelle und Datum. Keine still erfundene Zuständigkeit.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Eindeutig_Besitzer</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Besitzer_Geklaert</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="P05_Flow_Besitzer_Geklaert" sourceRef="P05_Besitzer" targetRef="P05_Geklaert" />
+    <bpmn:exclusiveGateway id="P05_Geklaert" name="Klärung möglich?">
+      <bpmn:documentation>Auch nach einer Rückfrage kann eine Quelle fehlen. Dann bleibt der Kontext-Hinweis offen.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Besitzer_Geklaert</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Geklaert_Offen</bpmn:outgoing>
+      <bpmn:outgoing>P05_Flow_Geklaert_Vorschlag</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P05_Flow_Geklaert_Offen" name="nein" sourceRef="P05_Geklaert" targetRef="P05_Offen" />
+    <bpmn:sequenceFlow id="P05_Flow_Geklaert_Vorschlag" name="ja" sourceRef="P05_Geklaert" targetRef="P05_Join_Vorschlag" />
+    <bpmn:endEvent id="P05_Offen" name="Kontext-Lücke sichtbar">
+      <bpmn:documentation>Fehlende Grundlage und benötigte Entscheidung vermerken, ohne sie im Wiki als Tatsache darzustellen.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Geklaert_Offen</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P05_Vorschlag" name="Änderung an zuständiger Quelle entwerfen">
+      <bpmn:documentation>Eine aktuelle Aussage je Thema mit Herkunft; veraltete Fassung über Versionierung nachvollziehbar. Abhängige Quellen und betroffene Prüffragen mitprüfen.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Join_Vorschlag_Vorschlag</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Vorschlag_Lernen</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P05_Flow_Vorschlag_Lernen" sourceRef="P05_Vorschlag" targetRef="P05_Lernen" />
+    <bpmn:callActivity id="P05_Lernen" name="P04 · Freigabe und geprüfter Rückweg" calledElement="Process_P04">
+      <bpmn:documentation>Die bestehenden lokalen Freigaberegeln gelten auch für Kontext-Ernte. Der Artikel beschreibt teilweise automatische Übernahme; diese wird hier nicht neu eingeführt.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Vorschlag_Lernen</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Lernen_Ende</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="P05_Flow_Lernen_Ende" sourceRef="P05_Lernen" targetRef="P05_Ende" />
+    <bpmn:endEvent id="P05_Ende" name="Kandidat geprüft oder bewusst offen">
+      <bpmn:documentation>Pflegebefund und Entscheidung bleiben erreichbar. Verteilung eines neuen Stands erfolgt nur nach P04.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Lernen_Ende</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P05_Join_Vorschlag">
+      <bpmn:documentation>Alternative Eingänge ausdrücklich zusammenführen; keine Synchronisation paralleler Ausführungen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P05_Flow_Eindeutig_Vorschlag</bpmn:incoming>
+      <bpmn:incoming>P05_Flow_Geklaert_Vorschlag</bpmn:incoming>
+      <bpmn:outgoing>P05_Flow_Join_Vorschlag_Vorschlag</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P05_Flow_Join_Vorschlag_Vorschlag" sourceRef="P05_Join_Vorschlag" targetRef="P05_Vorschlag" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_collaboration_p05WissenFindenAnreichernUndPflegen">
+    <bpmndi:BPMNPlane id="BPMNPlane_collaboration_p05WissenFindenAnreichernUndPflegen" bpmnElement="collaboration_p05WissenFindenAnreichernUndPflegen">
+      <bpmndi:BPMNShape id="BPMNShape_P05_Pool" bpmnElement="P05_Pool" isHorizontal="true">
+        <dc:Bounds x="80" y="80" width="2006" height="796" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Lane_g" bpmnElement="P05_Lane_g" isHorizontal="true">
+        <dc:Bounds x="110" y="80" width="1976" height="280" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Lane_a" bpmnElement="P05_Lane_a" isHorizontal="true">
+        <dc:Bounds x="110" y="360" width="1976" height="376" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Lane_m" bpmnElement="P05_Lane_m" isHorizontal="true">
+        <dc:Bounds x="110" y="736" width="1976" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Hinweis" bpmnElement="P05_Hinweis">
+        <dc:Bounds x="170" y="412" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="130" y="454" width="117" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Ernte" bpmnElement="P05_Ernte" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="266" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Pflege" bpmnElement="P05_Pflege">
+        <dc:Bounds x="170" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="133" y="314" width="110" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Scan" bpmnElement="P05_Scan" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="266" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Inhalt" bpmnElement="P05_Inhalt" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="426" y="530" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Merge" bpmnElement="P05_Merge" isMarkerVisible="true">
+        <dc:Bounds x="586" y="405" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Nutzen" bpmnElement="P05_Nutzen" isMarkerVisible="true">
+        <dc:Bounds x="696" y="405" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="605" y="371" width="110" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Vorgang" bpmnElement="P05_Vorgang">
+        <dc:Bounds x="813" y="670" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="787" y="712" width="89" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Kreis" bpmnElement="P05_Kreis" isMarkerVisible="true">
+        <dc:Bounds x="806" y="125" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="837" y="181" width="82" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Privat" bpmnElement="P05_Privat">
+        <dc:Bounds x="970" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="947" y="174" width="82" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Beleg" bpmnElement="P05_Beleg" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="938" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Eindeutig" bpmnElement="P05_Eindeutig" isMarkerVisible="true">
+        <dc:Bounds x="1098" y="405" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1082" y="357" width="82" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Besitzer" bpmnElement="P05_Besitzer" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="1208" y="766" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Geklaert" bpmnElement="P05_Geklaert" isMarkerVisible="true">
+        <dc:Bounds x="1368" y="781" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1359" y="747" width="68" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Offen" bpmnElement="P05_Offen">
+        <dc:Bounds x="1478" y="552" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1445" y="518" width="103" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Vorschlag" bpmnElement="P05_Vorschlag" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="1684" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Lernen" bpmnElement="P05_Lernen" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1844" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Ende" bpmnElement="P05_Ende">
+        <dc:Bounds x="2004" y="412" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1988" y="454" width="68" height="70" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P05_Join_Vorschlag" bpmnElement="P05_Join_Vorschlag" isMarkerVisible="true">
+        <dc:Bounds x="1574" y="405" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Hinweis_Ernte" bpmnElement="P05_Flow_Hinweis_Ernte">
+        <di:waypoint x="206" y="430" />
+        <di:waypoint x="266" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Ernte_Merge" bpmnElement="P05_Flow_Ernte_Merge">
+        <di:waypoint x="316" y="470" />
+        <di:waypoint x="316" y="625" />
+        <di:waypoint x="611" y="625" />
+        <di:waypoint x="611" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Pflege_Scan" bpmnElement="P05_Flow_Pflege_Scan">
+        <di:waypoint x="206" y="290" />
+        <di:waypoint x="266" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Scan_Inhalt" bpmnElement="P05_Flow_Scan_Inhalt">
+        <di:waypoint x="366" y="290" />
+        <di:waypoint x="396" y="290" />
+        <di:waypoint x="396" y="570" />
+        <di:waypoint x="426" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Inhalt_Merge" bpmnElement="P05_Flow_Inhalt_Merge">
+        <di:waypoint x="526" y="570" />
+        <di:waypoint x="611" y="570" />
+        <di:waypoint x="611" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Merge_Nutzen" bpmnElement="P05_Flow_Merge_Nutzen">
+        <di:waypoint x="636" y="430" />
+        <di:waypoint x="696" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Nutzen_Vorgang" bpmnElement="P05_Flow_Nutzen_Vorgang">
+        <di:waypoint x="721" y="455" />
+        <di:waypoint x="721" y="688" />
+        <di:waypoint x="813" y="688" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="729" y="670" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Nutzen_Kreis" bpmnElement="P05_Flow_Nutzen_Kreis">
+        <di:waypoint x="721" y="405" />
+        <di:waypoint x="721" y="110" />
+        <di:waypoint x="831" y="110" />
+        <di:waypoint x="831" y="125" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="729" y="92" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Kreis_Privat" bpmnElement="P05_Flow_Kreis_Privat">
+        <di:waypoint x="856" y="150" />
+        <di:waypoint x="970" y="150" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="886" y="118" width="54" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Kreis_Beleg" bpmnElement="P05_Flow_Kreis_Beleg">
+        <di:waypoint x="831" y="175" />
+        <di:waypoint x="831" y="430" />
+        <di:waypoint x="938" y="430" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="839" y="412" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Beleg_Eindeutig" bpmnElement="P05_Flow_Beleg_Eindeutig">
+        <di:waypoint x="1038" y="430" />
+        <di:waypoint x="1098" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Eindeutig_Besitzer" bpmnElement="P05_Flow_Eindeutig_Besitzer">
+        <di:waypoint x="1123" y="455" />
+        <di:waypoint x="1123" y="806" />
+        <di:waypoint x="1208" y="806" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1131" y="788" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Eindeutig_Vorschlag" bpmnElement="P05_Flow_Eindeutig_Vorschlag">
+        <di:waypoint x="1148" y="430" />
+        <di:waypoint x="1574" y="430" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1156" y="412" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Besitzer_Geklaert" bpmnElement="P05_Flow_Besitzer_Geklaert">
+        <di:waypoint x="1308" y="806" />
+        <di:waypoint x="1368" y="806" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Geklaert_Offen" bpmnElement="P05_Flow_Geklaert_Offen">
+        <di:waypoint x="1418" y="806" />
+        <di:waypoint x="1496" y="806" />
+        <di:waypoint x="1496" y="588" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1426" y="788" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Geklaert_Vorschlag" bpmnElement="P05_Flow_Geklaert_Vorschlag">
+        <di:waypoint x="1418" y="806" />
+        <di:waypoint x="1599" y="806" />
+        <di:waypoint x="1599" y="455" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1496" y="788" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Vorschlag_Lernen" bpmnElement="P05_Flow_Vorschlag_Lernen">
+        <di:waypoint x="1784" y="430" />
+        <di:waypoint x="1869" y="430" />
+        <di:waypoint x="1869" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Lernen_Ende" bpmnElement="P05_Flow_Lernen_Ende">
+        <di:waypoint x="1894" y="190" />
+        <di:waypoint x="1894" y="430" />
+        <di:waypoint x="2004" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P05_Flow_Join_Vorschlag_Vorschlag" bpmnElement="P05_Flow_Join_Vorschlag_Vorschlag">
+        <di:waypoint x="1624" y="430" />
+        <di:waypoint x="1684" y="430" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

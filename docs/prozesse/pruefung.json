@@ -1,0 +1,2303 @@
+{
+  "scope": "Prozessmodell, kein Integrationstest",
+  "cliVersion": "0.10.0",
+  "source": "*.bpmn",
+  "structuralChecks": "bestanden",
+  "viewerSha256": "7a8338d304b250f4b8deadcbb0a45608ef64847bd8feb80b7ff950852146fd92",
+  "rendererSha256": "d135775d544223f89ff6aa0be119e6c92ce2fd7094dcabb1bd6c2adfa5f3e61c",
+  "templateSha256": "04d2b54928eb52c36bb778a452f860bf3d7f0a53bf0104fda30543b83b2934fd",
+  "models": [
+    {
+      "file": "00-gesamtprozess.bpmn",
+      "sha256": "926938eedfd6bf80cfb8ae8b8384b4f0f2bca5deebf721a76769df8918166ddf",
+      "svgSha256": "ea8a080dc5687b45f5a5b346e9ab5fae4e0d923a5c1f109f0a67758ddd1e0ac9",
+      "nodeCount": 16,
+      "flowCount": 20,
+      "validation": {
+        "ok": true,
+        "file": "00-gesamtprozess.bpmn",
+        "findings": [],
+        "state": {
+          "errors": 0,
+          "warnings": 0
+        },
+        "platform": {
+          "platform": "none",
+          "source": "none",
+          "detail": "no executionPlatform and no vendor namespace",
+          "counts": {
+            "deploy": 0,
+            "runtime": 0,
+            "practice": 0
+          }
+        },
+        "validators": [],
+        "layout": {
+          "status": "ok"
+        },
+        "importWarnings": []
+      },
+      "diagram": {
+        "file": "00-gesamtprozess.bpmn",
+        "score": 5,
+        "counts": {
+          "crossings": 1,
+          "overlaps": 0,
+          "frameIntrusion": 0,
+          "frameOverlap": 0,
+          "through": 0,
+          "diagonal": 0,
+          "degenerateEdge": 0,
+          "detachedEdge": 0,
+          "missing": 0,
+          "labelClash": 0,
+          "labelOnLine": 0,
+          "inOut": 0,
+          "parallelRun": 0,
+          "outsideLane": 0,
+          "outsidePool": 0,
+          "outsideSub": 0,
+          "edgeLeavesLane": 0,
+          "edgeOutside": 0,
+          "msgThroughPool": 0,
+          "laneGap": 0,
+          "backwardFlow": 0,
+          "segmentOverlap": 0,
+          "labelOutsideFrame": 0,
+          "labelOnTitle": 0,
+          "messageLabelFar": 0,
+          "failed": 0
+        },
+        "problems": [
+          {
+            "kind": "crossings",
+            "ids": [
+              "P00_Flow_Status_Korrektur",
+              "P00_Flow_Fortsetzen_Auftrag"
+            ]
+          }
+        ],
+        "rows": [
+          {
+            "id": "BPMNPlane_collaboration_p00VonDerAufgabeZurGemeinsamen",
+            "root": "collaboration_p00VonDerAufgabeZurGemeinsamen",
+            "columns": 14,
+            "gaps": [],
+            "frames": [
+              {
+                "id": "P00_Pool",
+                "kind": "participant",
+                "name": "P00 · Von der Aufgabe zur gemeinsamen Verbesserung",
+                "rows": [],
+                "columns": []
+              },
+              {
+                "id": "P00_Lane_m",
+                "kind": "lane",
+                "name": "Mitarbeitende",
+                "parent": "P00_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P00_Start",
+                      "kind": "startEvent",
+                      "name": "Aufgabe liegt vor"
+                    },
+                    {
+                      "id": "P00_Join_Ende",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P00_Ende",
+                      "kind": "endEvent",
+                      "name": "Ergebnis und Stand nachvollziehbar"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P00_Join_EndeOffen",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P00_EndeOffen",
+                      "kind": "endEvent",
+                      "name": "Offen oder abgebrochen"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    0,
+                    12,
+                    13
+                  ],
+                  [
+                    10,
+                    11
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P00_Lane_a",
+                "kind": "lane",
+                "name": "OpenWebUI / persönlicher Arbeitsagent",
+                "parent": "P00_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P00_Join_Auftrag",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P00_Auftrag",
+                      "kind": "callActivity",
+                      "name": "P01 · Auftrag, Kontext und persönliche Tools"
+                    },
+                    {
+                      "id": "P00_Vorbereitet",
+                      "kind": "exclusiveGateway",
+                      "name": "Vorbereitung erfolgreich?"
+                    },
+                    {
+                      "id": "P00_TerminalNoetig",
+                      "kind": "exclusiveGateway",
+                      "name": "Terminal-Arbeit nötig?"
+                    },
+                    {
+                      "id": "P00_Terminal",
+                      "kind": "callActivity",
+                      "name": "P02 · Begrenzten Terminalauftrag bearbeiten"
+                    },
+                    {
+                      "id": "P00_Ausgefuehrt",
+                      "kind": "exclusiveGateway",
+                      "name": "Terminal-Ergebnis vorhanden?"
+                    },
+                    {
+                      "id": "P00_Ergebnis",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P00_Pruefen",
+                      "kind": "callActivity",
+                      "name": "P03 · Ergebnis prüfen und vorlegen"
+                    },
+                    {
+                      "id": "P00_Status",
+                      "kind": "exclusiveGateway",
+                      "name": "Wie endet der Auftrag?"
+                    },
+                    {
+                      "id": "P00_Fortsetzen",
+                      "kind": "exclusiveGateway",
+                      "name": "Weiterbearbeitung im Mandat?"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    11
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      9
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P00_Lane_g",
+                "kind": "lane",
+                "name": "Firmenbetrieb / zuständige Quelle",
+                "parent": "P00_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P00_Korrektur",
+                      "kind": "callActivity",
+                      "name": "P04 · Korrektur passend einordnen"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    10
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "file": "01-auftrag-und-tools.bpmn",
+      "sha256": "1c65a54f2ae0dcaaad330eac9b41cb42dec0da23119f010b4acab4ce0459dfe2",
+      "svgSha256": "7a8985b016a6c3a5ed9f19be052ba0155abd324898836998ce464bfeca25dfa8",
+      "nodeCount": 21,
+      "flowCount": 21,
+      "validation": {
+        "ok": true,
+        "file": "01-auftrag-und-tools.bpmn",
+        "findings": [],
+        "state": {
+          "errors": 0,
+          "warnings": 0
+        },
+        "platform": {
+          "platform": "none",
+          "source": "none",
+          "detail": "no executionPlatform and no vendor namespace",
+          "counts": {
+            "deploy": 0,
+            "runtime": 0,
+            "practice": 0
+          }
+        },
+        "validators": [],
+        "layout": {
+          "status": "ok"
+        },
+        "importWarnings": []
+      },
+      "diagram": {
+        "file": "01-auftrag-und-tools.bpmn",
+        "score": 5,
+        "counts": {
+          "crossings": 1,
+          "overlaps": 0,
+          "frameIntrusion": 0,
+          "frameOverlap": 0,
+          "through": 0,
+          "diagonal": 0,
+          "degenerateEdge": 0,
+          "detachedEdge": 0,
+          "missing": 0,
+          "labelClash": 0,
+          "labelOnLine": 0,
+          "inOut": 0,
+          "parallelRun": 0,
+          "outsideLane": 0,
+          "outsidePool": 0,
+          "outsideSub": 0,
+          "edgeLeavesLane": 0,
+          "edgeOutside": 0,
+          "msgThroughPool": 0,
+          "laneGap": 0,
+          "backwardFlow": 0,
+          "segmentOverlap": 0,
+          "labelOutsideFrame": 0,
+          "labelOnTitle": 0,
+          "messageLabelFar": 0,
+          "failed": 0
+        },
+        "problems": [
+          {
+            "kind": "crossings",
+            "ids": [
+              "P01_Flow_ToolNoetig_Zusammen",
+              "P01_Message_Aufruf"
+            ]
+          }
+        ],
+        "rows": [
+          {
+            "id": "BPMNPlane_collaboration_p01AuftragKontextUndPersoenlicheTools",
+            "root": "collaboration_p01AuftragKontextUndPersoenlicheTools",
+            "columns": 17,
+            "gaps": [],
+            "frames": [
+              {
+                "id": "P01_Tools",
+                "kind": "participant",
+                "name": "Persönliche Quellsysteme · z. B. Gmail / Composio",
+                "rows": [],
+                "columns": []
+              },
+              {
+                "id": "P01_Pool",
+                "kind": "participant",
+                "name": "P01 · Auftrag, Kontext und persönliche Tools",
+                "rows": [],
+                "columns": []
+              },
+              {
+                "id": "P01_Lane_m",
+                "kind": "lane",
+                "name": "Mitarbeitende",
+                "parent": "P01_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P01_Rueckfrage",
+                      "kind": "userTask",
+                      "name": "Gezielte Rückfrage beantworten"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    8
+                  ]
+                ]
+              },
+              {
+                "id": "P01_Lane_a",
+                "kind": "lane",
+                "name": "OpenWebUI-Agent",
+                "parent": "P01_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P01_Start",
+                      "kind": "startEvent",
+                      "name": "Bitte eingegangen"
+                    },
+                    {
+                      "id": "P01_Join_Aufgabe",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P01_Aufgabe",
+                      "kind": "serviceTask",
+                      "name": "Ziel und Fertigkriterien klären"
+                    },
+                    {
+                      "id": "P01_Klar",
+                      "kind": "exclusiveGateway",
+                      "name": "Auftrag hinreichend klar?"
+                    },
+                    {
+                      "id": "P01_Index",
+                      "kind": "serviceTask",
+                      "name": "Index und Quellenverweise lesen"
+                    },
+                    {
+                      "id": "P01_ToolNoetig",
+                      "kind": "exclusiveGateway",
+                      "name": "Live-Quelle nötig?"
+                    },
+                    {
+                      "id": "P01_Lesen",
+                      "kind": "serviceTask",
+                      "name": "Quelle direkt über Tool lesen"
+                    },
+                    {
+                      "id": "P01_Zusammen",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P01_PaketAuftrag",
+                      "kind": "serviceTask",
+                      "name": "Ergebnis oder Arbeitsauftrag vorbereiten"
+                    },
+                    {
+                      "id": "P01_Ende",
+                      "kind": "endEvent",
+                      "name": "Auftrag und zulässige Quellen bereit"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P01_Stop",
+                      "kind": "endEvent",
+                      "name": "Start blockiert"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P01_Fehlt",
+                      "kind": "endEvent",
+                      "name": "Zugriff fehlt: offen melden"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    0,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    12,
+                    14,
+                    15,
+                    16
+                  ],
+                  [
+                    4
+                  ],
+                  [
+                    12
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      1,
+                      6
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P01_Lane_g",
+                "kind": "lane",
+                "name": "Adapter / Anmeldung / Rechteprüfung",
+                "parent": "P01_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P01_Identitaet",
+                      "kind": "serviceTask",
+                      "name": "Nutzer und erlaubte Kreise ermitteln"
+                    },
+                    {
+                      "id": "P01_Paket",
+                      "kind": "serviceTask",
+                      "name": "Freigegebenen Paketstand binden"
+                    },
+                    {
+                      "id": "P01_Gueltig",
+                      "kind": "exclusiveGateway",
+                      "name": "Startgrundlage gültig?"
+                    },
+                    {
+                      "id": "P01_Konto",
+                      "kind": "serviceTask",
+                      "name": "Eigenes Tool-Konto und Umfang prüfen"
+                    },
+                    {
+                      "id": "P01_Zugriff",
+                      "kind": "exclusiveGateway",
+                      "name": "Zugriff erlaubt?"
+                    },
+                    {
+                      "id": "P01_Belege",
+                      "kind": "serviceTask",
+                      "name": "Belege und Sichtbarkeit festhalten"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P01_Blockiert",
+                      "kind": "endEvent",
+                      "name": "Toolfehler: blockiert"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    1,
+                    2,
+                    3,
+                    10,
+                    11,
+                    13
+                  ],
+                  [
+                    13
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      3
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "file": "02-terminalauftrag.bpmn",
+      "sha256": "563a70954377e69f14dd07e70dc79459431faea466e75feac02330b0308eb5d5",
+      "svgSha256": "c823180e63c72bc7a8bdd29bcf1ab552fdcbd50258474b2cc77618e20599c218",
+      "nodeCount": 17,
+      "flowCount": 14,
+      "validation": {
+        "ok": true,
+        "file": "02-terminalauftrag.bpmn",
+        "findings": [],
+        "state": {
+          "errors": 0,
+          "warnings": 0
+        },
+        "platform": {
+          "platform": "none",
+          "source": "none",
+          "detail": "no executionPlatform and no vendor namespace",
+          "counts": {
+            "deploy": 0,
+            "runtime": 0,
+            "practice": 0
+          }
+        },
+        "validators": [],
+        "layout": {
+          "status": "ok"
+        },
+        "importWarnings": []
+      },
+      "diagram": {
+        "file": "02-terminalauftrag.bpmn",
+        "score": 0,
+        "counts": {
+          "crossings": 0,
+          "overlaps": 0,
+          "frameIntrusion": 0,
+          "frameOverlap": 0,
+          "through": 0,
+          "diagonal": 0,
+          "degenerateEdge": 0,
+          "detachedEdge": 0,
+          "missing": 0,
+          "labelClash": 0,
+          "labelOnLine": 0,
+          "inOut": 0,
+          "parallelRun": 0,
+          "outsideLane": 0,
+          "outsidePool": 0,
+          "outsideSub": 0,
+          "edgeLeavesLane": 0,
+          "edgeOutside": 0,
+          "msgThroughPool": 0,
+          "laneGap": 0,
+          "backwardFlow": 0,
+          "segmentOverlap": 0,
+          "labelOutsideFrame": 0,
+          "labelOnTitle": 0,
+          "messageLabelFar": 0,
+          "failed": 0
+        },
+        "problems": [],
+        "rows": [
+          {
+            "id": "BPMNPlane_collaboration_p02BegrenzterAuftragImLinuxTerminal",
+            "root": "collaboration_p02BegrenzterAuftragImLinuxTerminal",
+            "columns": 12,
+            "gaps": [],
+            "frames": [
+              {
+                "id": "P02_Pool",
+                "kind": "participant",
+                "name": "P02 · Begrenzter Auftrag im Linux-Terminal",
+                "rows": [],
+                "columns": []
+              },
+              {
+                "id": "P02_Lane_g",
+                "kind": "lane",
+                "name": "Adapter / Laufsteuerung",
+                "parent": "P02_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P02_Start",
+                      "kind": "startEvent",
+                      "name": "Terminalauftrag empfangen"
+                    },
+                    {
+                      "id": "P02_Vertrag",
+                      "kind": "scriptTask",
+                      "name": "Mandat und Arbeitsauftrag prüfen"
+                    },
+                    {
+                      "id": "P02_Mandat",
+                      "kind": "exclusiveGateway",
+                      "name": "Mandat ausdrücklich gedeckt?"
+                    },
+                    {
+                      "id": "P02_Raum",
+                      "kind": "serviceTask",
+                      "name": "Arbeitsraum passend zum Auftrag zuweisen"
+                    },
+                    {
+                      "id": "P02_Isolation",
+                      "kind": "exclusiveGateway",
+                      "name": "Grenzen nachgewiesen?"
+                    },
+                    {
+                      "id": "P02_Stand",
+                      "kind": "scriptTask",
+                      "name": "Auftrag und Startzustand sichern"
+                    },
+                    {
+                      "id": "P02_Sammeln",
+                      "kind": "scriptTask",
+                      "name": "Artefakte und Nachweise einsammeln"
+                    },
+                    {
+                      "id": "P02_Rueckgabe",
+                      "kind": "endEvent",
+                      "name": "Ergebnis zur Prüfung bereit"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P02_Gesperrt",
+                      "kind": "endEvent",
+                      "name": "Ausführung gesperrt"
+                    },
+                    {
+                      "id": "P02_Blockiert",
+                      "kind": "scriptTask",
+                      "name": "Blocker und Zwischenstand erfassen"
+                    },
+                    {
+                      "id": "P02_EndeFehler",
+                      "kind": "endEvent",
+                      "name": "Blockiert zurückmelden"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P02_Stoppen",
+                      "kind": "serviceTask",
+                      "name": "Prozesse stoppen und Zustand erfassen"
+                    },
+                    {
+                      "id": "P02_EndeAbbruch",
+                      "kind": "endEvent",
+                      "name": "Abgebrochen zurückmelden"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    7,
+                    8
+                  ],
+                  [
+                    5,
+                    10,
+                    11
+                  ],
+                  [
+                    8,
+                    9
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 1,
+                    "before": [
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P02_Lane_a",
+                "kind": "lane",
+                "name": "Codex im isolierten Arbeitsraum",
+                "parent": "P02_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P02_Codex",
+                      "kind": "serviceTask",
+                      "name": "Codex im begrenzten Mandat ausführen"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    6
+                  ]
+                ]
+              },
+              {
+                "id": "P02_Lane_m",
+                "kind": "lane",
+                "name": "Zuständige Person",
+                "parent": "P02_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P02_Warten",
+                      "kind": "endEvent",
+                      "name": "Mandat fehlt: Entscheidung nötig"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    3
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "file": "03-pruefung-und-mensch.bpmn",
+      "sha256": "8fc9dbfba61a8c8d19de3134ddef59c2d577d492f3d767029fd67cafd0c5ee54",
+      "svgSha256": "7fb4b0e91a3d8a38bbee1b8cc6c4a2b0088378d1f8fd75485b39a03488d2c000",
+      "nodeCount": 25,
+      "flowCount": 27,
+      "validation": {
+        "ok": true,
+        "file": "03-pruefung-und-mensch.bpmn",
+        "findings": [],
+        "state": {
+          "errors": 0,
+          "warnings": 0
+        },
+        "platform": {
+          "platform": "none",
+          "source": "none",
+          "detail": "no executionPlatform and no vendor namespace",
+          "counts": {
+            "deploy": 0,
+            "runtime": 0,
+            "practice": 0
+          }
+        },
+        "validators": [],
+        "layout": {
+          "status": "ok"
+        },
+        "importWarnings": []
+      },
+      "diagram": {
+        "file": "03-pruefung-und-mensch.bpmn",
+        "score": 20,
+        "counts": {
+          "crossings": 4,
+          "overlaps": 0,
+          "frameIntrusion": 0,
+          "frameOverlap": 0,
+          "through": 0,
+          "diagonal": 0,
+          "degenerateEdge": 0,
+          "detachedEdge": 0,
+          "missing": 0,
+          "labelClash": 0,
+          "labelOnLine": 0,
+          "inOut": 0,
+          "parallelRun": 0,
+          "outsideLane": 0,
+          "outsidePool": 0,
+          "outsideSub": 0,
+          "edgeLeavesLane": 0,
+          "edgeOutside": 0,
+          "msgThroughPool": 0,
+          "laneGap": 0,
+          "backwardFlow": 0,
+          "segmentOverlap": 0,
+          "labelOutsideFrame": 0,
+          "labelOnTitle": 0,
+          "messageLabelFar": 0,
+          "failed": 0
+        },
+        "problems": [
+          {
+            "kind": "crossings",
+            "ids": [
+              "P03_Flow_Mangel_Reparieren",
+              "P03_Flow_Vorlegen_Mensch"
+            ]
+          },
+          {
+            "kind": "crossings",
+            "ids": [
+              "P03_Flow_Budget_Offen",
+              "P03_Flow_Entscheid_Lernkandidat"
+            ]
+          },
+          {
+            "kind": "crossings",
+            "ids": [
+              "P03_Flow_Budget_Offen",
+              "P03_Flow_Ablage_Extern"
+            ]
+          },
+          {
+            "kind": "crossings",
+            "ids": [
+              "P03_Flow_Entscheid_Lernkandidat",
+              "P03_Flow_Ablage_Extern"
+            ]
+          }
+        ],
+        "rows": [
+          {
+            "id": "BPMNPlane_collaboration_p03GegenpruefungUndMenschliche",
+            "root": "collaboration_p03GegenpruefungUndMenschliche",
+            "columns": 15,
+            "gaps": [],
+            "frames": [
+              {
+                "id": "P03_Pool",
+                "kind": "participant",
+                "name": "P03 · Gegenprüfung und menschliche Entscheidung",
+                "rows": [],
+                "columns": []
+              },
+              {
+                "id": "P03_Lane_g",
+                "kind": "lane",
+                "name": "Technische Prüfungen",
+                "parent": "P03_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P03_Start",
+                      "kind": "startEvent",
+                      "name": "Ergebnis + Kriterien + Quellen vorliegend"
+                    },
+                    {
+                      "id": "P03_Join_Technik",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P03_Technik",
+                      "kind": "scriptTask",
+                      "name": "Messbare Eigenschaften prüfen"
+                    },
+                    {
+                      "id": "P03_Daten",
+                      "kind": "exclusiveGateway",
+                      "name": "Prüfgrundlage vollständig und zulässig?"
+                    },
+                    {
+                      "id": "P03_Paket",
+                      "kind": "serviceTask",
+                      "name": "Frisches Prüfpaket übergeben"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P03_Blockiert",
+                      "kind": "endEvent",
+                      "name": "BLOCKIERT: Prüflauf fehlt"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P03_Join_Offen",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P03_Offen",
+                      "kind": "endEvent",
+                      "name": "OFFEN: Prüfgrundlage fehlt"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  [
+                    6
+                  ],
+                  [
+                    10,
+                    11
+                  ]
+                ]
+              },
+              {
+                "id": "P03_Lane_r",
+                "kind": "lane",
+                "name": "Frischer Prüflauf / begrenzte Leserechte",
+                "parent": "P03_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P03_Review",
+                      "kind": "serviceTask",
+                      "name": "Quellen lesen und Kriterien bewerten"
+                    },
+                    {
+                      "id": "P03_Urteil",
+                      "kind": "exclusiveGateway",
+                      "name": "Prüfurteil?"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P03_Mangel",
+                      "kind": "serviceTask",
+                      "name": "Belegte Mängel zurückgeben"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    5,
+                    6
+                  ],
+                  [
+                    7
+                  ]
+                ]
+              },
+              {
+                "id": "P03_Lane_m",
+                "kind": "lane",
+                "name": "Mitarbeitende",
+                "parent": "P03_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P03_Mensch",
+                      "kind": "userTask",
+                      "name": "Ergebnis prüfen und entscheiden"
+                    },
+                    {
+                      "id": "P03_Entscheid",
+                      "kind": "exclusiveGateway",
+                      "name": "Entscheidung?"
+                    },
+                    {
+                      "id": "P03_Extern",
+                      "kind": "exclusiveGateway",
+                      "name": "Außenhandlung gewünscht?"
+                    },
+                    {
+                      "id": "P03_Selbst",
+                      "kind": "userTask",
+                      "name": "Außenhandlung selbst ausführen"
+                    },
+                    {
+                      "id": "P03_Join_Angenommen",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P03_Angenommen",
+                      "kind": "endEvent",
+                      "name": "Angenommen, Status nachvollziehbar"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P03_Ablehnen",
+                      "kind": "endEvent",
+                      "name": "Abgebrochen"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    8,
+                    9,
+                    11,
+                    12,
+                    13,
+                    14
+                  ],
+                  [
+                    10
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      2
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P03_Lane_a",
+                "kind": "lane",
+                "name": "Bearbeitender Agent",
+                "parent": "P03_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P03_Vorlegen",
+                      "kind": "serviceTask",
+                      "name": "Entwurf mit Belegen und Prüfurteil vorlegen"
+                    },
+                    {
+                      "id": "P03_Ablage",
+                      "kind": "serviceTask",
+                      "name": "Angenommenen Entwurf zulässig ablegen"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P03_Reparieren",
+                      "kind": "serviceTask",
+                      "name": "Ergebnis im bestehenden Mandat korrigieren"
+                    },
+                    {
+                      "id": "P03_Budget",
+                      "kind": "exclusiveGateway",
+                      "name": "Korrektur im Mandat möglich?"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P03_Lernkandidat",
+                      "kind": "serviceTask",
+                      "name": "Korrektur und Ergebnisfassung erfassen"
+                    },
+                    {
+                      "id": "P03_EndeKorrektur",
+                      "kind": "endEvent",
+                      "name": "Korrektur übergeben"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    7,
+                    10
+                  ],
+                  [
+                    8,
+                    9
+                  ],
+                  [
+                    10,
+                    11
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "file": "04-lernen-und-verteilen.bpmn",
+      "sha256": "0d2bed87a0fdd809197d9854db57f46c9d74ce0978e81f999986b1c8b719fcb3",
+      "svgSha256": "9ba00042d7cfcd2d5f3bc59be94543e78aacc050556562ba7782f1e20daae5b2",
+      "nodeCount": 27,
+      "flowCount": 27,
+      "validation": {
+        "ok": true,
+        "file": "04-lernen-und-verteilen.bpmn",
+        "findings": [],
+        "state": {
+          "errors": 0,
+          "warnings": 0
+        },
+        "platform": {
+          "platform": "none",
+          "source": "none",
+          "detail": "no executionPlatform and no vendor namespace",
+          "counts": {
+            "deploy": 0,
+            "runtime": 0,
+            "practice": 0
+          }
+        },
+        "validators": [],
+        "layout": {
+          "status": "ok"
+        },
+        "importWarnings": []
+      },
+      "diagram": {
+        "file": "04-lernen-und-verteilen.bpmn",
+        "score": 5,
+        "counts": {
+          "crossings": 1,
+          "overlaps": 0,
+          "frameIntrusion": 0,
+          "frameOverlap": 0,
+          "through": 0,
+          "diagonal": 0,
+          "degenerateEdge": 0,
+          "detachedEdge": 0,
+          "missing": 0,
+          "labelClash": 0,
+          "labelOnLine": 0,
+          "inOut": 0,
+          "parallelRun": 0,
+          "outsideLane": 0,
+          "outsidePool": 0,
+          "outsideSub": 0,
+          "edgeLeavesLane": 0,
+          "edgeOutside": 0,
+          "msgThroughPool": 0,
+          "laneGap": 0,
+          "backwardFlow": 0,
+          "segmentOverlap": 0,
+          "labelOutsideFrame": 0,
+          "labelOnTitle": 0,
+          "messageLabelFar": 0,
+          "failed": 0
+        },
+        "problems": [
+          {
+            "kind": "crossings",
+            "ids": [
+              "P04_Flow_Bestanden_Fehlgeschlagen",
+              "P04_Flow_Merge_Build"
+            ]
+          }
+        ],
+        "rows": [
+          {
+            "id": "BPMNPlane_collaboration_p04KorrekturAenderungsvorschlag",
+            "root": "collaboration_p04KorrekturAenderungsvorschlag",
+            "columns": 21,
+            "gaps": [],
+            "frames": [
+              {
+                "id": "P04_Pool",
+                "kind": "participant",
+                "name": "P04 · Korrektur, Änderungsvorschlag und Verteilung",
+                "rows": [],
+                "columns": []
+              },
+              {
+                "id": "P04_Lane_a",
+                "kind": "lane",
+                "name": "Arbeitsagent / Vorschlag",
+                "parent": "P04_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P04_Start",
+                      "kind": "startEvent",
+                      "name": "Bestätigte Korrektur liegt vor"
+                    },
+                    {
+                      "id": "P04_Ursache",
+                      "kind": "serviceTask",
+                      "name": "Ursache und Geltungsbereich einordnen"
+                    },
+                    {
+                      "id": "P04_Bereich",
+                      "kind": "exclusiveGateway",
+                      "name": "Welcher Geltungsbereich?"
+                    },
+                    {
+                      "id": "P04_Vorschlag",
+                      "kind": "serviceTask",
+                      "name": "Änderung + Prüffall + Herkunft entwerfen"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P04_Einmalig",
+                      "kind": "endEvent",
+                      "name": "Einmalig, im privaten Vorgang vermerkt"
+                    },
+                    {
+                      "id": "P04_Zurueck",
+                      "kind": "endEvent",
+                      "name": "Privat belassen oder neu aufbereiten"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P04_Nein",
+                      "kind": "endEvent",
+                      "name": "Nicht übernommen / einmalig"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  [
+                    3,
+                    6
+                  ],
+                  [
+                    8
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 1,
+                    "before": [
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P04_Lane_m",
+                "kind": "lane",
+                "name": "Person / zuständiger Besitzer",
+                "parent": "P04_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P04_JaNein",
+                      "kind": "userTask",
+                      "name": "Zuständige Person entscheidet über Vorschlag"
+                    },
+                    {
+                      "id": "P04_Ja",
+                      "kind": "exclusiveGateway",
+                      "name": "Zustimmung liegt vor?"
+                    },
+                    {
+                      "id": "P04_Release",
+                      "kind": "userTask",
+                      "name": "Bereitstellung ausdrücklich freigeben"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P04_Persoenlich",
+                      "kind": "userTask",
+                      "name": "Persönliche Änderung bestätigen"
+                    },
+                    {
+                      "id": "P04_EndePrivat",
+                      "kind": "endEvent",
+                      "name": "Persönlicher Stand angepasst"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    6,
+                    7,
+                    18
+                  ],
+                  [
+                    3,
+                    4
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      2
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P04_Lane_r",
+                "kind": "lane",
+                "name": "Prüfung / Repository",
+                "parent": "P04_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P04_Sichtbarkeit",
+                      "kind": "scriptTask",
+                      "name": "Eignung für den Zielkreis prüfen"
+                    },
+                    {
+                      "id": "P04_Geeignet",
+                      "kind": "exclusiveGateway",
+                      "name": "Vorschlag für Zielkreis geeignet?"
+                    },
+                    {
+                      "id": "P04_Rueckweg",
+                      "kind": "exclusiveGateway",
+                      "name": "Zulässiger Beitragsweg vorhanden?"
+                    },
+                    {
+                      "id": "P04_PR",
+                      "kind": "serviceTask",
+                      "name": "Änderung als Pull Request vorlegen"
+                    },
+                    {
+                      "id": "P04_Pruefung",
+                      "kind": "serviceTask",
+                      "name": "Regression, Quellen und Schutzregeln prüfen"
+                    },
+                    {
+                      "id": "P04_Bestanden",
+                      "kind": "exclusiveGateway",
+                      "name": "Prüfungen bestanden?"
+                    },
+                    {
+                      "id": "P04_Merge",
+                      "kind": "serviceTask",
+                      "name": "Geltende Freigabe und Mergeverfahren anwenden"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P04_Wartet",
+                      "kind": "endEvent",
+                      "name": "Wartet auf Beitragsweg / L8"
+                    },
+                    {
+                      "id": "P04_Join_Fehlgeschlagen",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P04_Fehlgeschlagen",
+                      "kind": "endEvent",
+                      "name": "Änderung abgelehnt, alter Stand gilt"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    4,
+                    5,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                  ],
+                  [
+                    9,
+                    16,
+                    17
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      2
+                    ]
+                  },
+                  {
+                    "row": 1,
+                    "before": [
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P04_Lane_g",
+                "kind": "lane",
+                "name": "Paketbau / Verteilung",
+                "parent": "P04_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P04_Build",
+                      "kind": "scriptTask",
+                      "name": "Pakete je zulässigem Kreis bauen"
+                    },
+                    {
+                      "id": "P04_Test",
+                      "kind": "callActivity",
+                      "name": "P07 · Neue Fassung und Rücknahme prüfen"
+                    },
+                    {
+                      "id": "P04_TestOk",
+                      "kind": "exclusiveGateway",
+                      "name": "Bereitstellung abgenommen?"
+                    },
+                    {
+                      "id": "P04_Stand",
+                      "kind": "serviceTask",
+                      "name": "Version bereitstellen und Sitzungen zuordnen"
+                    },
+                    {
+                      "id": "P04_Ende",
+                      "kind": "endEvent",
+                      "name": "Geprüfte Verbesserung bereit"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    13,
+                    14,
+                    15,
+                    19,
+                    20
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      3
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "file": "05-kontextpflege.bpmn",
+      "sha256": "a9e80f927a94bb1cd977c058b4fdaece9a4b57f0da5845b55d8afd426f392498",
+      "svgSha256": "08d82d4a1a7ef51b954dd253fb8b5906ede584a4eb0370e29f92c7951e16d07a",
+      "nodeCount": 19,
+      "flowCount": 19,
+      "validation": {
+        "ok": true,
+        "file": "05-kontextpflege.bpmn",
+        "findings": [],
+        "state": {
+          "errors": 0,
+          "warnings": 0
+        },
+        "platform": {
+          "platform": "none",
+          "source": "none",
+          "detail": "no executionPlatform and no vendor namespace",
+          "counts": {
+            "deploy": 0,
+            "runtime": 0,
+            "practice": 0
+          }
+        },
+        "validators": [],
+        "layout": {
+          "status": "ok"
+        },
+        "importWarnings": []
+      },
+      "diagram": {
+        "file": "05-kontextpflege.bpmn",
+        "score": 0,
+        "counts": {
+          "crossings": 0,
+          "overlaps": 0,
+          "frameIntrusion": 0,
+          "frameOverlap": 0,
+          "through": 0,
+          "diagonal": 0,
+          "degenerateEdge": 0,
+          "detachedEdge": 0,
+          "missing": 0,
+          "labelClash": 0,
+          "labelOnLine": 0,
+          "inOut": 0,
+          "parallelRun": 0,
+          "outsideLane": 0,
+          "outsidePool": 0,
+          "outsideSub": 0,
+          "edgeLeavesLane": 0,
+          "edgeOutside": 0,
+          "msgThroughPool": 0,
+          "laneGap": 0,
+          "backwardFlow": 0,
+          "segmentOverlap": 0,
+          "labelOutsideFrame": 0,
+          "labelOnTitle": 0,
+          "messageLabelFar": 0,
+          "failed": 0
+        },
+        "problems": [],
+        "rows": [
+          {
+            "id": "BPMNPlane_collaboration_p05WissenFindenAnreichernUndPflegen",
+            "root": "collaboration_p05WissenFindenAnreichernUndPflegen",
+            "columns": 15,
+            "gaps": [],
+            "frames": [
+              {
+                "id": "P05_Pool",
+                "kind": "participant",
+                "name": "P05 · Wissen finden, anreichern und pflegen",
+                "rows": [],
+                "columns": []
+              },
+              {
+                "id": "P05_Lane_g",
+                "kind": "lane",
+                "name": "Freigegebener Pflegeauftrag / technische Prüfung",
+                "parent": "P05_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P05_Kreis",
+                      "kind": "exclusiveGateway",
+                      "name": "Zielkreis von Quelle gedeckt?"
+                    },
+                    {
+                      "id": "P05_Privat",
+                      "kind": "endEvent",
+                      "name": "Quelle bleibt im bisherigen Kreis"
+                    },
+                    {
+                      "id": "P05_Lernen",
+                      "kind": "callActivity",
+                      "name": "P04 · Freigabe und geprüfter Rückweg"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P05_Pflege",
+                      "kind": "startEvent",
+                      "name": "Bestandspflege beauftragt"
+                    },
+                    {
+                      "id": "P05_Scan",
+                      "kind": "scriptTask",
+                      "name": "Verweise, Metadaten und Fälligkeit prüfen"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    5,
+                    6,
+                    13
+                  ],
+                  [
+                    0,
+                    1
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      2
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P05_Lane_a",
+                "kind": "lane",
+                "name": "Kontext-Agent",
+                "parent": "P05_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P05_Hinweis",
+                      "kind": "startEvent",
+                      "name": "Kontext-Hinweis oder Ansage"
+                    },
+                    {
+                      "id": "P05_Ernte",
+                      "kind": "serviceTask",
+                      "name": "Zulässige neue Quellen lesen"
+                    },
+                    {
+                      "id": "P05_Merge",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P05_Nutzen",
+                      "kind": "exclusiveGateway",
+                      "name": "Dauerhaftes Arbeitswissen?"
+                    },
+                    {
+                      "id": "P05_Beleg",
+                      "kind": "serviceTask",
+                      "name": "Aussage, Quelle und Abhängigkeiten prüfen"
+                    },
+                    {
+                      "id": "P05_Eindeutig",
+                      "kind": "exclusiveGateway",
+                      "name": "Quelle und Geltung geklärt?"
+                    },
+                    {
+                      "id": "P05_Join_Vorschlag",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P05_Vorschlag",
+                      "kind": "serviceTask",
+                      "name": "Änderung an zuständiger Quelle entwerfen"
+                    },
+                    {
+                      "id": "P05_Ende",
+                      "kind": "endEvent",
+                      "name": "Kandidat geprüft oder bewusst offen"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P05_Inhalt",
+                      "kind": "serviceTask",
+                      "name": "Widersprüche und doppelte Aussagen finden"
+                    },
+                    {
+                      "id": "P05_Offen",
+                      "kind": "endEvent",
+                      "name": "Kontext-Lücke sichtbar"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P05_Vorgang",
+                      "kind": "endEvent",
+                      "name": "Im Quellsystem belassen"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    0,
+                    1,
+                    3,
+                    4,
+                    6,
+                    7,
+                    11,
+                    12,
+                    14
+                  ],
+                  [
+                    2,
+                    10
+                  ],
+                  [
+                    5
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      6
+                    ]
+                  },
+                  {
+                    "row": 1,
+                    "before": [
+                      1
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P05_Lane_m",
+                "kind": "lane",
+                "name": "Quellen- / Bereichsbesitzer",
+                "parent": "P05_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P05_Besitzer",
+                      "kind": "userTask",
+                      "name": "Geltende Aussage klären"
+                    },
+                    {
+                      "id": "P05_Geklaert",
+                      "kind": "exclusiveGateway",
+                      "name": "Klärung möglich?"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    8,
+                    9
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "file": "06-routine-und-wiederaufnahme.bpmn",
+      "sha256": "e9e7e42b6187a88d8549b453e20df9257b996ffb961f3914d0429c83ec719d09",
+      "svgSha256": "317091e1917e8f296799572974789677c6b50bd8c8c729b3b875fb931650b51f",
+      "nodeCount": 25,
+      "flowCount": 24,
+      "validation": {
+        "ok": true,
+        "file": "06-routine-und-wiederaufnahme.bpmn",
+        "findings": [],
+        "state": {
+          "errors": 0,
+          "warnings": 0
+        },
+        "platform": {
+          "platform": "none",
+          "source": "none",
+          "detail": "no executionPlatform and no vendor namespace",
+          "counts": {
+            "deploy": 0,
+            "runtime": 0,
+            "practice": 0
+          }
+        },
+        "validators": [],
+        "layout": {
+          "status": "ok"
+        },
+        "importWarnings": []
+      },
+      "diagram": {
+        "file": "06-routine-und-wiederaufnahme.bpmn",
+        "score": 5,
+        "counts": {
+          "crossings": 1,
+          "overlaps": 0,
+          "frameIntrusion": 0,
+          "frameOverlap": 0,
+          "through": 0,
+          "diagonal": 0,
+          "degenerateEdge": 0,
+          "detachedEdge": 0,
+          "missing": 0,
+          "labelClash": 0,
+          "labelOnLine": 0,
+          "inOut": 0,
+          "parallelRun": 0,
+          "outsideLane": 0,
+          "outsidePool": 0,
+          "outsideSub": 0,
+          "edgeLeavesLane": 0,
+          "edgeOutside": 0,
+          "msgThroughPool": 0,
+          "laneGap": 0,
+          "backwardFlow": 0,
+          "segmentOverlap": 0,
+          "labelOutsideFrame": 0,
+          "labelOnTitle": 0,
+          "messageLabelFar": 0,
+          "failed": 0
+        },
+        "problems": [
+          {
+            "kind": "crossings",
+            "ids": [
+              "P06_Flow_Stop_Beenden",
+              "P06_Flow_Gueltig_Ja"
+            ]
+          }
+        ],
+        "rows": [
+          {
+            "id": "BPMNPlane_collaboration_p06RoutineUnterbrechungUnd",
+            "root": "collaboration_p06RoutineUnterbrechungUndWiederaufnahme",
+            "columns": 18,
+            "gaps": [],
+            "frames": [
+              {
+                "id": "P06_Pool",
+                "kind": "participant",
+                "name": "P06 · Routine, Unterbrechung und Wiederaufnahme",
+                "rows": [],
+                "columns": []
+              },
+              {
+                "id": "P06_Lane_g",
+                "kind": "lane",
+                "name": "Laufsteuerung / dauerhafter Auftragsstatus",
+                "parent": "P06_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P06_Start",
+                      "kind": "startEvent",
+                      "name": "Auslöser oder Fortsetzung eingegangen"
+                    },
+                    {
+                      "id": "P06_Auftrag",
+                      "kind": "scriptTask",
+                      "name": "Freigabe, Identität und Grenzen prüfen"
+                    },
+                    {
+                      "id": "P06_Aktiv",
+                      "kind": "exclusiveGateway",
+                      "name": "Auftrag gültig und freigegeben?"
+                    },
+                    {
+                      "id": "P06_Schluessel",
+                      "kind": "scriptTask",
+                      "name": "Kennung und bisherigen Zustand ermitteln"
+                    },
+                    {
+                      "id": "P06_Doppelt",
+                      "kind": "exclusiveGateway",
+                      "name": "Schon erledigt oder noch laufend?"
+                    },
+                    {
+                      "id": "P06_Checkpoint",
+                      "kind": "scriptTask",
+                      "name": "Prüfpunkt und nächste Aktion sichern"
+                    },
+                    {
+                      "id": "P06_Melden",
+                      "kind": "serviceTask",
+                      "name": "Konkrete Fassung zur Entscheidung zustellen"
+                    },
+                    {
+                      "id": "P06_Antwort",
+                      "kind": "receiveTask",
+                      "name": "Auf gebundene Entscheidung warten"
+                    },
+                    {
+                      "id": "P06_Gueltig",
+                      "kind": "exclusiveGateway",
+                      "name": "Person, Fassung und Rechte noch gültig?"
+                    },
+                    {
+                      "id": "P06_Neu",
+                      "kind": "endEvent",
+                      "name": "Neue Entscheidung erforderlich"
+                    },
+                    {
+                      "id": "P06_Vereinen",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P06_Wirkung",
+                      "kind": "scriptTask",
+                      "name": "Erlaubte Wirkung mit Zustand abgleichen"
+                    },
+                    {
+                      "id": "P06_Fertig",
+                      "kind": "serviceTask",
+                      "name": "Ergebnis und tatsächliche Wirkung melden"
+                    },
+                    {
+                      "id": "P06_Ende",
+                      "kind": "endEvent",
+                      "name": "Abgeschlossen und nachvollziehbar"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P06_Inaktiv",
+                      "kind": "endEvent",
+                      "name": "Nicht gestartet"
+                    },
+                    {
+                      "id": "P06_Alt",
+                      "kind": "endEvent",
+                      "name": "Bisherigen Status zurückgeben"
+                    },
+                    {
+                      "id": "P06_Blockiert",
+                      "kind": "scriptTask",
+                      "name": "Blocker und sicheren Prüfpunkt melden"
+                    },
+                    {
+                      "id": "P06_EndeBlock",
+                      "kind": "endEvent",
+                      "name": "BLOCKIERT, Fortsetzung ausstehend"
+                    },
+                    {
+                      "id": "P06_Join_Beenden",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P06_Beenden",
+                      "kind": "endEvent",
+                      "name": "ABGEBROCHEN, Stand erhalten"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    8,
+                    9,
+                    10,
+                    11,
+                    14,
+                    15,
+                    16,
+                    17
+                  ],
+                  [
+                    3,
+                    5,
+                    8,
+                    9,
+                    12,
+                    13
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      6,
+                      10
+                    ]
+                  },
+                  {
+                    "row": 1,
+                    "before": [
+                      1,
+                      2,
+                      4
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P06_Lane_a",
+                "kind": "lane",
+                "name": "Beauftragter Agent",
+                "parent": "P06_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P06_Arbeiten",
+                      "kind": "serviceTask",
+                      "name": "Freigegebenen Teilauftrag ausführen"
+                    },
+                    {
+                      "id": "P06_Rueckfrage",
+                      "kind": "exclusiveGateway",
+                      "name": "Entscheidung nötig?"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    6,
+                    7
+                  ]
+                ]
+              },
+              {
+                "id": "P06_Lane_m",
+                "kind": "lane",
+                "name": "Zuständige Person",
+                "parent": "P06_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P06_Ja",
+                      "kind": "exclusiveGateway",
+                      "name": "Zugestimmt?"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    11
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "file": "07-testbetrieb.bpmn",
+      "sha256": "94bf1ee6a733978606ba6537ba9d321f1f68b845a1245f1867122395895af563",
+      "svgSha256": "42c00e2fea8c85b0ec49ee84bdc64d215070f5a42e50abe1455dd1873f73e31f",
+      "nodeCount": 19,
+      "flowCount": 19,
+      "validation": {
+        "ok": true,
+        "file": "07-testbetrieb.bpmn",
+        "findings": [],
+        "state": {
+          "errors": 0,
+          "warnings": 0
+        },
+        "platform": {
+          "platform": "none",
+          "source": "none",
+          "detail": "no executionPlatform and no vendor namespace",
+          "counts": {
+            "deploy": 0,
+            "runtime": 0,
+            "practice": 0
+          }
+        },
+        "validators": [],
+        "layout": {
+          "status": "ok"
+        },
+        "importWarnings": []
+      },
+      "diagram": {
+        "file": "07-testbetrieb.bpmn",
+        "score": 0,
+        "counts": {
+          "crossings": 0,
+          "overlaps": 0,
+          "frameIntrusion": 0,
+          "frameOverlap": 0,
+          "through": 0,
+          "diagonal": 0,
+          "degenerateEdge": 0,
+          "detachedEdge": 0,
+          "missing": 0,
+          "labelClash": 0,
+          "labelOnLine": 0,
+          "inOut": 0,
+          "parallelRun": 0,
+          "outsideLane": 0,
+          "outsidePool": 0,
+          "outsideSub": 0,
+          "edgeLeavesLane": 0,
+          "edgeOutside": 0,
+          "msgThroughPool": 0,
+          "laneGap": 0,
+          "backwardFlow": 0,
+          "segmentOverlap": 0,
+          "labelOutsideFrame": 0,
+          "labelOnTitle": 0,
+          "messageLabelFar": 0,
+          "failed": 0
+        },
+        "problems": [],
+        "rows": [
+          {
+            "id": "BPMNPlane_collaboration_p07ReproduzierbarerTestMitFiktiver",
+            "root": "collaboration_p07ReproduzierbarerTestMitFiktiverFirma",
+            "columns": 17,
+            "gaps": [],
+            "frames": [
+              {
+                "id": "P07_Pool",
+                "kind": "participant",
+                "name": "P07 · Reproduzierbarer Test mit fiktiver Firma",
+                "rows": [],
+                "columns": []
+              },
+              {
+                "id": "P07_Lane_m",
+                "kind": "lane",
+                "name": "Testverantwortliche",
+                "parent": "P07_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P07_Start",
+                      "kind": "startEvent",
+                      "name": "Konkreter Teststand vorgesehen"
+                    },
+                    {
+                      "id": "P07_Plan",
+                      "kind": "userTask",
+                      "name": "Fälle und Sollkriterien vorab festlegen"
+                    },
+                    {
+                      "id": "P07_Entscheidung",
+                      "kind": "userTask",
+                      "name": "Nächste Entwicklung oder Bereitstellung entscheiden"
+                    },
+                    {
+                      "id": "P07_Ende",
+                      "kind": "endEvent",
+                      "name": "Befund und wiederholbarer Startstand bereit"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    0,
+                    1,
+                    14,
+                    16
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      2
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P07_Lane_g",
+                "kind": "lane",
+                "name": "Testaufbau / Rechte / Messung",
+                "parent": "P07_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P07_Manifest",
+                      "kind": "scriptTask",
+                      "name": "Testmanifest und festen Startstand erfassen"
+                    },
+                    {
+                      "id": "P07_Aufbau",
+                      "kind": "serviceTask",
+                      "name": "Getrennte Testkonten und Arbeitsräume aufbauen"
+                    },
+                    {
+                      "id": "P07_Grenzen",
+                      "kind": "scriptTask",
+                      "name": "Isolation und Rechte vorab nachweisen"
+                    },
+                    {
+                      "id": "P07_Sicher",
+                      "kind": "exclusiveGateway",
+                      "name": "Grenzen belegt?"
+                    },
+                    {
+                      "id": "P07_Sperre",
+                      "kind": "endEvent",
+                      "name": "Test blockiert: Voraussetzung fehlt"
+                    },
+                    {
+                      "id": "P07_Messung",
+                      "kind": "scriptTask",
+                      "name": "Antworten, Status und Spuren erfassen"
+                    },
+                    {
+                      "id": "P07_Reset",
+                      "kind": "serviceTask",
+                      "name": "Teststand kontrolliert zurücksetzen"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    9,
+                    15
+                  ]
+                ],
+                "gaps": [
+                  {
+                    "row": 0,
+                    "before": [
+                      5,
+                      6
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "P07_Lane_a",
+                "kind": "lane",
+                "name": "OpenWebUI und Codex im Test",
+                "parent": "P07_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P07_Normal",
+                      "kind": "serviceTask",
+                      "name": "Normalfall und fehlende Quelle durchspielen"
+                    },
+                    {
+                      "id": "P07_Fehler",
+                      "kind": "serviceTask",
+                      "name": "Providerfehler und Abbruch simulieren"
+                    },
+                    {
+                      "id": "P07_Update",
+                      "kind": "serviceTask",
+                      "name": "Gemeinsame Verbesserung und Rücknahme prüfen"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    6,
+                    7,
+                    8
+                  ]
+                ]
+              },
+              {
+                "id": "P07_Lane_r",
+                "kind": "lane",
+                "name": "Auswertung / Gegenprobe",
+                "parent": "P07_Pool",
+                "rows": [
+                  [
+                    {
+                      "id": "P07_Ergebnis",
+                      "kind": "exclusiveGateway",
+                      "name": "Auswertbares Ergebnis vorhanden?"
+                    },
+                    {
+                      "id": "P07_Infra",
+                      "kind": "serviceTask",
+                      "name": "Technischen Blocker gesondert ausweisen"
+                    },
+                    {
+                      "id": "P07_Zusammen",
+                      "kind": "exclusiveGateway"
+                    },
+                    {
+                      "id": "P07_Bericht",
+                      "kind": "serviceTask",
+                      "name": "Befund mit Belegen vorlegen"
+                    }
+                  ],
+                  [
+                    {
+                      "id": "P07_Qualitaet",
+                      "kind": "serviceTask",
+                      "name": "Gegen Sollkriterien und Gegenproben auswerten"
+                    }
+                  ]
+                ],
+                "columns": [
+                  [
+                    10,
+                    11,
+                    12,
+                    13
+                  ],
+                  [
+                    11
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

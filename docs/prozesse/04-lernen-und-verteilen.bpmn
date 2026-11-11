@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_p04KorrekturAenderungsvorschlag" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="collaboration_p04KorrekturAenderungsvorschlag">
+    <bpmn:participant id="P04_Pool" name="P04 · Korrektur, Änderungsvorschlag und Verteilung" processRef="Process_P04" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P04" name="P04 · Korrektur, Änderungsvorschlag und Verteilung" isExecutable="false">
+    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+Zweck: Passende Korrekturen in die zuständige Quelle zurückführen und eine geprüfte Fassung für berechtigte Sitzungen bereitstellen.
+Offen: L8: Rückweg ohne Repo-Leserecht; L6: Pakete je Kreis; L5: Wechsel bestehender Sitzungen. Diagramm beschreibt Prüfpunkte und löst die technischen Lücken nicht.
+Quellen: ../../AGENTS.md ; ../../installation/README.md ; ../pruefszenarien.md ; ../../PRD.md
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+    <bpmn:laneSet id="laneSet_p04KorrekturAenderungsvorschlag">
+      <bpmn:lane id="P04_Lane_a" name="Arbeitsagent / Vorschlag">
+        <bpmn:flowNodeRef>P04_Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Ursache</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Bereich</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Einmalig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Vorschlag</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Zurueck</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Nein</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P04_Lane_m" name="Person / zuständiger Besitzer">
+        <bpmn:flowNodeRef>P04_Persoenlich</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_EndePrivat</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_JaNein</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Ja</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Release</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P04_Lane_r" name="Prüfung / Repository">
+        <bpmn:flowNodeRef>P04_Sichtbarkeit</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Geeignet</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Rueckweg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Wartet</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_PR</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Pruefung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Bestanden</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Fehlgeschlagen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Join_Fehlgeschlagen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Merge</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P04_Lane_g" name="Paketbau / Verteilung">
+        <bpmn:flowNodeRef>P04_Build</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Test</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_TestOk</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Stand</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P04_Ende</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="P04_Start" name="Bestätigte Korrektur liegt vor">
+      <bpmn:documentation>Auch ein Kontext-Hinweis aus P05 kann Material sein. Ein bloß beobachtetes Verhalten ist noch keine neue Firmenregel.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:outgoing>P04_Flow_Start_Ursache</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="P04_Flow_Start_Ursache" sourceRef="P04_Start" targetRef="P04_Ursache" />
+    <bpmn:serviceTask id="P04_Ursache" name="Ursache und Geltungsbereich einordnen">
+      <bpmn:documentation>Quelle falsch, Kontext fehlt, Skill unklar, Werkzeuggrenze oder einmalige Präferenz? Zuständige vorhandene Quelle suchen, keine zusätzliche Regelkopie schaffen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Start_Ursache</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Ursache_Bereich</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P04_Flow_Ursache_Bereich" sourceRef="P04_Ursache" targetRef="P04_Bereich" />
+    <bpmn:exclusiveGateway id="P04_Bereich" name="Welcher Geltungsbereich?">
+      <bpmn:documentation>Im Zweifel einmalig. Persönlich, Projekt/Rolle und firmenweit sind unterschiedliche Zielkreise.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Ursache_Bereich</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Bereich_Einmalig</bpmn:outgoing>
+      <bpmn:outgoing>P04_Flow_Bereich_Persoenlich</bpmn:outgoing>
+      <bpmn:outgoing>P04_Flow_Bereich_Vorschlag</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P04_Flow_Bereich_Einmalig" name="einmalig" sourceRef="P04_Bereich" targetRef="P04_Einmalig" />
+    <bpmn:sequenceFlow id="P04_Flow_Bereich_Persoenlich" name="persönlich" sourceRef="P04_Bereich" targetRef="P04_Persoenlich" />
+    <bpmn:sequenceFlow id="P04_Flow_Bereich_Vorschlag" name="Projekt / Rolle / Firma" sourceRef="P04_Bereich" targetRef="P04_Vorschlag" />
+    <bpmn:endEvent id="P04_Einmalig" name="Einmalig, im privaten Vorgang vermerkt">
+      <bpmn:documentation>Kein gemeinsamer Paketwechsel. Der Inhalt bleibt im zulässigen persönlichen Arbeitsbereich.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Bereich_Einmalig</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="P04_Persoenlich" name="Persönliche Änderung bestätigen">
+      <bpmn:documentation>Nur im persönlichen Bereich und nach Zustimmung der Person pflegen. Firmenregeln bleiben davon unberührt.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Bereich_Persoenlich</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Persoenlich_EndePrivat</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="P04_Flow_Persoenlich_EndePrivat" sourceRef="P04_Persoenlich" targetRef="P04_EndePrivat" />
+    <bpmn:endEvent id="P04_EndePrivat" name="Persönlicher Stand angepasst">
+      <bpmn:documentation>Keine Weitergabe privater Inhalte an andere Personen.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Persoenlich_EndePrivat</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P04_Vorschlag" name="Änderung + Prüffall + Herkunft entwerfen">
+      <bpmn:documentation>Ort, Wortlaut und Prüffall für die zuständige Quelle beschreiben. Projekt-/Rollenänderungen behalten ihren begrenzten Empfängerkreis.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Bereich_Vorschlag</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Vorschlag_Sichtbarkeit</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P04_Flow_Vorschlag_Sichtbarkeit" sourceRef="P04_Vorschlag" targetRef="P04_Sichtbarkeit" />
+    <bpmn:scriptTask id="P04_Sichtbarkeit" name="Eignung für den Zielkreis prüfen">
+      <bpmn:documentation>Keine privaten Rohchats, Kunden-/Personendaten oder Zugangsdaten in gemeinsame beziehungsweise öffentliche Artefakte übernehmen. Automatische Markerprüfung allein ist kein Vollständigkeitsbeweis.
+Quelle: ../../SICHERHEIT.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Vorschlag_Sichtbarkeit</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Sichtbarkeit_Geeignet</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P04_Flow_Sichtbarkeit_Geeignet" sourceRef="P04_Sichtbarkeit" targetRef="P04_Geeignet" />
+    <bpmn:exclusiveGateway id="P04_Geeignet" name="Vorschlag für Zielkreis geeignet?">
+      <bpmn:documentation>Eine private Zusammenfassung wird durch Nützlichkeit nicht firmenöffentlich. Bei Zweifel zurück zur Quelle und zum Besitzer.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Sichtbarkeit_Geeignet</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Geeignet_Zurueck</bpmn:outgoing>
+      <bpmn:outgoing>P04_Flow_Geeignet_JaNein</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P04_Flow_Geeignet_Zurueck" name="nein / offen" sourceRef="P04_Geeignet" targetRef="P04_Zurueck" />
+    <bpmn:sequenceFlow id="P04_Flow_Geeignet_JaNein" name="ja" sourceRef="P04_Geeignet" targetRef="P04_JaNein" />
+    <bpmn:endEvent id="P04_Zurueck" name="Privat belassen oder neu aufbereiten">
+      <bpmn:documentation>Keine Erweiterung des Leser- oder Empfängerkreises.
+Quelle: ../../SICHERHEIT.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Geeignet_Zurueck</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="P04_JaNein" name="Zuständige Person entscheidet über Vorschlag">
+      <bpmn:documentation>Die in AGENTS geregelte Zustimmung einholen. Ein Diagramm oder Modellurteil ersetzt dieses Ja nicht.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Geeignet_JaNein</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_JaNein_Ja</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="P04_Flow_JaNein_Ja" sourceRef="P04_JaNein" targetRef="P04_Ja" />
+    <bpmn:exclusiveGateway id="P04_Ja" name="Zustimmung liegt vor?">
+      <bpmn:documentation>Nein oder einmalig beendet die gemeinsame Änderung. Zustimmung und zugrunde liegende Fassung festhalten.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_JaNein_Ja</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Ja_Nein</bpmn:outgoing>
+      <bpmn:outgoing>P04_Flow_Ja_Rueckweg</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P04_Flow_Ja_Nein" name="nein / einmalig" sourceRef="P04_Ja" targetRef="P04_Nein" />
+    <bpmn:sequenceFlow id="P04_Flow_Ja_Rueckweg" name="ja" sourceRef="P04_Ja" targetRef="P04_Rueckweg" />
+    <bpmn:endEvent id="P04_Nein" name="Nicht übernommen / einmalig">
+      <bpmn:documentation>Entscheidung vermerken; keine gemeinsame Quelle ändern.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Ja_Nein</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P04_Rueckweg" name="Zulässiger Beitragsweg vorhanden?">
+      <bpmn:documentation>Mitarbeitende mit gefiltertem Paket erhalten nicht automatisch Leserechte am vollständigen Quell-Repo. Der technische Rückweg ist L8.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Ja_Rueckweg</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Rueckweg_Wartet</bpmn:outgoing>
+      <bpmn:outgoing>P04_Flow_Rueckweg_PR</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P04_Flow_Rueckweg_Wartet" name="nein" sourceRef="P04_Rueckweg" targetRef="P04_Wartet" />
+    <bpmn:sequenceFlow id="P04_Flow_Rueckweg_PR" name="ja" sourceRef="P04_Rueckweg" targetRef="P04_PR" />
+    <bpmn:endEvent id="P04_Wartet" name="Wartet auf Beitragsweg / L8">
+      <bpmn:documentation>Keinen Repository-Zugang oder externen Transport erfinden.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Rueckweg_Wartet</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P04_PR" name="Änderung als Pull Request vorlegen">
+      <bpmn:documentation>Nur die freigegebene, zulässige Änderung an der zuständigen Quelle. Ein PR bleibt ein Vorschlag.
+Quelle: ../../installation/README.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Rueckweg_PR</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_PR_Pruefung</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P04_Flow_PR_Pruefung" sourceRef="P04_PR" targetRef="P04_Pruefung" />
+    <bpmn:serviceTask id="P04_Pruefung" name="Regression, Quellen und Schutzregeln prüfen">
+      <bpmn:documentation>Bestehende Evals, Quellenverweise, Klassifizierungs- und Geheimnisprüfungen anwenden. Kriterien und Ampel nicht still lockern.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_PR_Pruefung</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Pruefung_Bestanden</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P04_Flow_Pruefung_Bestanden" sourceRef="P04_Pruefung" targetRef="P04_Bestanden" />
+    <bpmn:exclusiveGateway id="P04_Bestanden" name="Prüfungen bestanden?">
+      <bpmn:documentation>Fehler erhalten bisherigen freigegebenen Stand. Reparatur als neuer Vorschlagsstand, keine Umgehung des Prüftors.
+Quelle: ../../installation/README.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Pruefung_Bestanden</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Bestanden_Fehlgeschlagen</bpmn:outgoing>
+      <bpmn:outgoing>P04_Flow_Bestanden_Merge</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P04_Flow_Bestanden_Fehlgeschlagen" name="nein" sourceRef="P04_Bestanden" targetRef="P04_Join_Fehlgeschlagen" />
+    <bpmn:sequenceFlow id="P04_Flow_Bestanden_Merge" name="ja" sourceRef="P04_Bestanden" targetRef="P04_Merge" />
+    <bpmn:endEvent id="P04_Fehlgeschlagen" name="Änderung abgelehnt, alter Stand gilt">
+      <bpmn:documentation>Befund samt fehlgeschlagenem Prüffall zurückgeben.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Join_Fehlgeschlagen_Fehlgeschlagen</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P04_Merge" name="Geltende Freigabe und Mergeverfahren anwenden">
+      <bpmn:documentation>Die zuvor bestätigte Änderung gemäß geltendem Repository-Verfahren und Branchschutz zusammenführen. Zuständige menschliche Freigaben bleiben erhalten; erlaubtes technisches Mergen darf ein Agent übernehmen. Ampel, Sperren und Grundregeln gibt ausschließlich ein Mensch frei. Diese Darstellung verlangt keine zusätzliche pauschale manuelle Mergefreigabe.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Bestanden_Merge</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Merge_Build</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P04_Flow_Merge_Build" sourceRef="P04_Merge" targetRef="P04_Build" />
+    <bpmn:scriptTask id="P04_Build" name="Pakete je zulässigem Kreis bauen">
+      <bpmn:documentation>Gleicher Quellstand, erkennbare Version. OpenWebUI und Codex beziehen ihre Grundlage aus denselben zuständigen Quellen; Adapter erfinden keinen zweiten Regelbestand.
+Quelle: ../../installation/README.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Merge_Build</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Build_Test</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P04_Flow_Build_Test" sourceRef="P04_Build" targetRef="P04_Test" />
+    <bpmn:callActivity id="P04_Test" name="P07 · Neue Fassung und Rücknahme prüfen" calledElement="Process_P07">
+      <bpmn:documentation>In Testumgebung einschließlich frischer Sitzung B ohne privaten Marker von A prüfen. Ein Paketvergleich ist noch kein echter Sitzungsnachweis.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Build_Test</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Test_TestOk</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="P04_Flow_Test_TestOk" sourceRef="P04_Test" targetRef="P04_TestOk" />
+    <bpmn:exclusiveGateway id="P04_TestOk" name="Bereitstellung abgenommen?">
+      <bpmn:documentation>Ohne erfolgreiche Abnahme kein Wechsel des aktiven gemeinsamen Stands.
+Quelle: ../../installation/README.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Test_TestOk</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_TestOk_Fehlgeschlagen</bpmn:outgoing>
+      <bpmn:outgoing>P04_Flow_TestOk_Release</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P04_Flow_TestOk_Fehlgeschlagen" name="nein" sourceRef="P04_TestOk" targetRef="P04_Join_Fehlgeschlagen" />
+    <bpmn:sequenceFlow id="P04_Flow_TestOk_Release" name="ja" sourceRef="P04_TestOk" targetRef="P04_Release" />
+    <bpmn:userTask id="P04_Release" name="Bereitstellung ausdrücklich freigeben">
+      <bpmn:documentation>Die geltende Release-Freigabe anwenden. Der Modellierungsauftrag schaltet keine Verteilung ein.
+Quelle: ../../installation/README.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_TestOk_Release</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Release_Stand</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="P04_Flow_Release_Stand" sourceRef="P04_Release" targetRef="P04_Stand" />
+    <bpmn:serviceTask id="P04_Stand" name="Version bereitstellen und Sitzungen zuordnen">
+      <bpmn:documentation>Frische Sitzungen erhalten passende neue Fassung. Bestehende Sitzungen behalten erkennbaren Stand oder wechseln kontrolliert; kein sofortiges Update behaupten.
+Quelle: ../../installation/README.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Release_Stand</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Stand_Ende</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P04_Flow_Stand_Ende" sourceRef="P04_Stand" targetRef="P04_Ende" />
+    <bpmn:endEvent id="P04_Ende" name="Geprüfte Verbesserung bereit">
+      <bpmn:documentation>Version, Zielkreis, Prüfnachweis und möglicher Rücknahmestand sind nachvollziehbar.
+Quelle: ../../installation/README.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Stand_Ende</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P04_Join_Fehlgeschlagen">
+      <bpmn:documentation>Alternative Eingänge ausdrücklich zusammenführen; keine Synchronisation paralleler Ausführungen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P04_Flow_Bestanden_Fehlgeschlagen</bpmn:incoming>
+      <bpmn:incoming>P04_Flow_TestOk_Fehlgeschlagen</bpmn:incoming>
+      <bpmn:outgoing>P04_Flow_Join_Fehlgeschlagen_Fehlgeschlagen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P04_Flow_Join_Fehlgeschlagen_Fehlgeschlagen" sourceRef="P04_Join_Fehlgeschlagen" targetRef="P04_Fehlgeschlagen" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_collaboration_p04KorrekturAenderungsvorschlag">
+    <bpmndi:BPMNPlane id="BPMNPlane_collaboration_p04KorrekturAenderungsvorschlag" bpmnElement="collaboration_p04KorrekturAenderungsvorschlag">
+      <bpmndi:BPMNShape id="BPMNShape_P04_Pool" bpmnElement="P04_Pool" isHorizontal="true">
+        <dc:Bounds x="80" y="80" width="3027" height="1028" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Lane_a" bpmnElement="P04_Lane_a" isHorizontal="true">
+        <dc:Bounds x="110" y="80" width="2997" height="332" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Lane_m" bpmnElement="P04_Lane_m" isHorizontal="true">
+        <dc:Bounds x="110" y="412" width="2997" height="280" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Lane_r" bpmnElement="P04_Lane_r" isHorizontal="true">
+        <dc:Bounds x="110" y="692" width="2997" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Lane_g" bpmnElement="P04_Lane_g" isHorizontal="true">
+        <dc:Bounds x="110" y="942" width="2997" height="166" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Start" bpmnElement="P04_Start">
+        <dc:Bounds x="170" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="147" y="174" width="82" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Ursache" bpmnElement="P04_Ursache" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="266" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Bereich" bpmnElement="P04_Bereich" isMarkerVisible="true">
+        <dc:Bounds x="426" y="125" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="389" y="91" width="124" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Einmalig" bpmnElement="P04_Einmalig">
+        <dc:Bounds x="632" y="250" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="606" y="292" width="89" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Persoenlich" bpmnElement="P04_Persoenlich" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="600" y="582" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_EndePrivat" bpmnElement="P04_EndePrivat">
+        <dc:Bounds x="792" y="604" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="762" y="646" width="96" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Vorschlag" bpmnElement="P04_Vorschlag" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="600" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Sichtbarkeit" bpmnElement="P04_Sichtbarkeit" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="760" y="722" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Geeignet" bpmnElement="P04_Geeignet" isMarkerVisible="true">
+        <dc:Bounds x="920" y="737" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="908" y="793" width="75" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Zurueck" bpmnElement="P04_Zurueck">
+        <dc:Bounds x="1081" y="250" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1055" y="292" width="89" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_JaNein" bpmnElement="P04_JaNein" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="1049" y="442" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Ja" bpmnElement="P04_Ja" isMarkerVisible="true">
+        <dc:Bounds x="1209" y="457" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1193" y="423" width="82" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Nein" bpmnElement="P04_Nein">
+        <dc:Bounds x="1362" y="346" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1339" y="298" width="82" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Rueckweg" bpmnElement="P04_Rueckweg" isMarkerVisible="true">
+        <dc:Bounds x="1355" y="737" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1336" y="689" width="89" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Wartet" bpmnElement="P04_Wartet">
+        <dc:Bounds x="1497" y="869" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1471" y="911" width="89" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_PR" bpmnElement="P04_PR" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="1465" y="722" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Pruefung" bpmnElement="P04_Pruefung" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="1625" y="722" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Bestanden" bpmnElement="P04_Bestanden" isMarkerVisible="true">
+        <dc:Bounds x="1785" y="737" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1769" y="703" width="82" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Fehlgeschlagen" bpmnElement="P04_Fehlgeschlagen">
+        <dc:Bounds x="2595" y="869" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2569" y="911" width="89" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Merge" bpmnElement="P04_Merge" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="1895" y="722" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Build" bpmnElement="P04_Build" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="2055" y="972" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Test" bpmnElement="P04_Test" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="2215" y="972" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_TestOk" bpmnElement="P04_TestOk" isMarkerVisible="true">
+        <dc:Bounds x="2375" y="987" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2345" y="953" width="110" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Release" bpmnElement="P04_Release" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="2691" y="442" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Stand" bpmnElement="P04_Stand" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="2851" y="972" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Ende" bpmnElement="P04_Ende">
+        <dc:Bounds x="3011" y="994" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2981" y="1036" width="96" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P04_Join_Fehlgeschlagen" bpmnElement="P04_Join_Fehlgeschlagen" isMarkerVisible="true">
+        <dc:Bounds x="2485" y="862" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Start_Ursache" bpmnElement="P04_Flow_Start_Ursache">
+        <di:waypoint x="206" y="150" />
+        <di:waypoint x="266" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Ursache_Bereich" bpmnElement="P04_Flow_Ursache_Bereich">
+        <di:waypoint x="366" y="150" />
+        <di:waypoint x="426" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Bereich_Einmalig" bpmnElement="P04_Flow_Bereich_Einmalig">
+        <di:waypoint x="451" y="175" />
+        <di:waypoint x="451" y="268" />
+        <di:waypoint x="632" y="268" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="459" y="250" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Bereich_Persoenlich" bpmnElement="P04_Flow_Bereich_Persoenlich">
+        <di:waypoint x="451" y="175" />
+        <di:waypoint x="451" y="622" />
+        <di:waypoint x="600" y="622" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="459" y="604" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Bereich_Vorschlag" bpmnElement="P04_Flow_Bereich_Vorschlag">
+        <di:waypoint x="476" y="150" />
+        <di:waypoint x="600" y="150" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="501" y="154" width="75" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Persoenlich_EndePrivat" bpmnElement="P04_Flow_Persoenlich_EndePrivat">
+        <di:waypoint x="700" y="622" />
+        <di:waypoint x="792" y="622" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Vorschlag_Sichtbarkeit" bpmnElement="P04_Flow_Vorschlag_Sichtbarkeit">
+        <di:waypoint x="650" y="110" />
+        <di:waypoint x="650" y="95" />
+        <di:waypoint x="875" y="95" />
+        <di:waypoint x="875" y="707" />
+        <di:waypoint x="810" y="707" />
+        <di:waypoint x="810" y="722" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Sichtbarkeit_Geeignet" bpmnElement="P04_Flow_Sichtbarkeit_Geeignet">
+        <di:waypoint x="860" y="762" />
+        <di:waypoint x="920" y="762" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Geeignet_Zurueck" bpmnElement="P04_Flow_Geeignet_Zurueck">
+        <di:waypoint x="945" y="737" />
+        <di:waypoint x="945" y="268" />
+        <di:waypoint x="1081" y="268" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="953" y="236" width="54" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Geeignet_JaNein" bpmnElement="P04_Flow_Geeignet_JaNein">
+        <di:waypoint x="970" y="762" />
+        <di:waypoint x="1099" y="762" />
+        <di:waypoint x="1099" y="522" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="978" y="744" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_JaNein_Ja" bpmnElement="P04_Flow_JaNein_Ja">
+        <di:waypoint x="1149" y="482" />
+        <di:waypoint x="1209" y="482" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Ja_Nein" bpmnElement="P04_Flow_Ja_Nein">
+        <di:waypoint x="1259" y="482" />
+        <di:waypoint x="1380" y="482" />
+        <di:waypoint x="1380" y="382" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1286" y="450" width="68" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Ja_Rueckweg" bpmnElement="P04_Flow_Ja_Rueckweg">
+        <di:waypoint x="1234" y="507" />
+        <di:waypoint x="1234" y="762" />
+        <di:waypoint x="1355" y="762" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1242" y="744" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Rueckweg_Wartet" bpmnElement="P04_Flow_Rueckweg_Wartet">
+        <di:waypoint x="1380" y="787" />
+        <di:waypoint x="1380" y="887" />
+        <di:waypoint x="1497" y="887" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1388" y="869" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Rueckweg_PR" bpmnElement="P04_Flow_Rueckweg_PR">
+        <di:waypoint x="1405" y="762" />
+        <di:waypoint x="1465" y="762" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1413" y="744" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_PR_Pruefung" bpmnElement="P04_Flow_PR_Pruefung">
+        <di:waypoint x="1565" y="762" />
+        <di:waypoint x="1625" y="762" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Pruefung_Bestanden" bpmnElement="P04_Flow_Pruefung_Bestanden">
+        <di:waypoint x="1725" y="762" />
+        <di:waypoint x="1785" y="762" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Bestanden_Fehlgeschlagen" bpmnElement="P04_Flow_Bestanden_Fehlgeschlagen">
+        <di:waypoint x="1810" y="787" />
+        <di:waypoint x="1810" y="887" />
+        <di:waypoint x="2485" y="887" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1818" y="869" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Bestanden_Merge" bpmnElement="P04_Flow_Bestanden_Merge">
+        <di:waypoint x="1835" y="762" />
+        <di:waypoint x="1895" y="762" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1843" y="744" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Merge_Build" bpmnElement="P04_Flow_Merge_Build">
+        <di:waypoint x="1945" y="802" />
+        <di:waypoint x="1945" y="1012" />
+        <di:waypoint x="2055" y="1012" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Build_Test" bpmnElement="P04_Flow_Build_Test">
+        <di:waypoint x="2155" y="1012" />
+        <di:waypoint x="2215" y="1012" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Test_TestOk" bpmnElement="P04_Flow_Test_TestOk">
+        <di:waypoint x="2315" y="1012" />
+        <di:waypoint x="2375" y="1012" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_TestOk_Fehlgeschlagen" bpmnElement="P04_Flow_TestOk_Fehlgeschlagen">
+        <di:waypoint x="2425" y="1012" />
+        <di:waypoint x="2510" y="1012" />
+        <di:waypoint x="2510" y="912" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2433" y="994" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_TestOk_Release" bpmnElement="P04_Flow_TestOk_Release">
+        <di:waypoint x="2425" y="1012" />
+        <di:waypoint x="2716" y="1012" />
+        <di:waypoint x="2716" y="522" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2427" y="1016" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Release_Stand" bpmnElement="P04_Flow_Release_Stand">
+        <di:waypoint x="2741" y="522" />
+        <di:waypoint x="2741" y="1012" />
+        <di:waypoint x="2851" y="1012" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Stand_Ende" bpmnElement="P04_Flow_Stand_Ende">
+        <di:waypoint x="2951" y="1012" />
+        <di:waypoint x="3011" y="1012" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P04_Flow_Join_Fehlgeschlagen_Fehlgeschlagen" bpmnElement="P04_Flow_Join_Fehlgeschlagen_Fehlgeschlagen">
+        <di:waypoint x="2535" y="887" />
+        <di:waypoint x="2595" y="887" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_p07ReproduzierbarerTestMitFiktiverFirma" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="collaboration_p07ReproduzierbarerTestMitFiktiverFirma">
+    <bpmn:participant id="P07_Pool" name="P07 · Reproduzierbarer Test mit fiktiver Firma" processRef="Process_P07" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P07" name="P07 · Reproduzierbarer Test mit fiktiver Firma" isExecutable="false">
+    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+Zweck: Die entworfenen Abläufe mit getrennten Testpersonen, festen Eingaben und nachprüfbaren Grenzen erproben, bevor der Adapter freigegeben wird.
+Offen: Noch kein Testlauf beauftragt. Echte Konten, Isolation, Anbieter und Zustellung sind vor einem späteren Lauf zu prüfen. Providerfehler und Qualitätsfehler getrennt erfassen.
+Quellen: ../../beispiel/openwebui/fixtures/04-test-cases.md ; ../pruefszenarien.md ; ../../installation/README.md ; ../../SICHERHEIT.md
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+    <bpmn:laneSet id="laneSet_p07ReproduzierbarerTestMitFiktiverFirma">
+      <bpmn:lane id="P07_Lane_m" name="Testverantwortliche">
+        <bpmn:flowNodeRef>P07_Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Plan</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Entscheidung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Ende</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P07_Lane_g" name="Testaufbau / Rechte / Messung">
+        <bpmn:flowNodeRef>P07_Manifest</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Aufbau</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Grenzen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Sicher</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Sperre</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Messung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Reset</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P07_Lane_a" name="OpenWebUI und Codex im Test">
+        <bpmn:flowNodeRef>P07_Normal</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Fehler</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Update</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P07_Lane_r" name="Auswertung / Gegenprobe">
+        <bpmn:flowNodeRef>P07_Ergebnis</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Infra</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Qualitaet</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Zusammen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P07_Bericht</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="P07_Start" name="Konkreter Teststand vorgesehen">
+      <bpmn:documentation>Modellierter Ablauf für spätere Adaptertests; diese Diagrammerstellung selbst führt keine Modelltests aus.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:outgoing>P07_Flow_Start_Plan</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="P07_Flow_Start_Plan" sourceRef="P07_Start" targetRef="P07_Plan" />
+    <bpmn:userTask id="P07_Plan" name="Fälle und Sollkriterien vorab festlegen">
+      <bpmn:documentation>Bestehende Fälle A–K und passende S1–S19 referenzieren. Die offene Codex-Rolle als Varianten prüfen, statt sie durch den Testaufbau zu entscheiden.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Start_Plan</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Plan_Manifest</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="P07_Flow_Plan_Manifest" sourceRef="P07_Plan" targetRef="P07_Manifest" />
+    <bpmn:scriptTask id="P07_Manifest" name="Testmanifest und festen Startstand erfassen">
+      <bpmn:documentation>Repo-Commit, Paket-/Modellstand, relevante Konfiguration, synthetische Datenversion, Rollen, Quellen und Fallkennungen protokollieren. Keine Zugangsdaten.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Plan_Manifest</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Manifest_Aufbau</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P07_Flow_Manifest_Aufbau" sourceRef="P07_Manifest" targetRef="P07_Aufbau" />
+    <bpmn:serviceTask id="P07_Aufbau" name="Getrennte Testkonten und Arbeitsräume aufbauen">
+      <bpmn:documentation>Zwei fiktive Personen, gemeinsame gültige Grundlagen, getrennte private Quellen und Ausgaben. Persönliche Tools zunächst mit synthetischen Daten simulieren.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Manifest_Aufbau</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Aufbau_Grenzen</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P07_Flow_Aufbau_Grenzen" sourceRef="P07_Aufbau" targetRef="P07_Grenzen" />
+    <bpmn:scriptTask id="P07_Grenzen" name="Isolation und Rechte vorab nachweisen">
+      <bpmn:documentation>A darf Bs Daten weder im Tool, Terminal, Cache, Log noch über freigegebene Ableitungen sehen. Positivkontrolle zeigt, dass eigene erlaubte Daten erreichbar sind.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Aufbau_Grenzen</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Grenzen_Sicher</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P07_Flow_Grenzen_Sicher" sourceRef="P07_Grenzen" targetRef="P07_Sicher" />
+    <bpmn:exclusiveGateway id="P07_Sicher" name="Grenzen belegt?">
+      <bpmn:documentation>Ohne Isolation keinen Mehrbenutzer- oder Terminalgrenzentest durchführen. Eine gemeinsame Shell ist kein Nachweis.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Grenzen_Sicher</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Sicher_Sperre</bpmn:outgoing>
+      <bpmn:outgoing>P07_Flow_Sicher_Normal</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P07_Flow_Sicher_Sperre" name="nein" sourceRef="P07_Sicher" targetRef="P07_Sperre" />
+    <bpmn:sequenceFlow id="P07_Flow_Sicher_Normal" name="ja" sourceRef="P07_Sicher" targetRef="P07_Normal" />
+    <bpmn:endEvent id="P07_Sperre" name="Test blockiert: Voraussetzung fehlt">
+      <bpmn:documentation>Blocker und nicht ausgeführte Fälle nennen. Ein blockierter Test ist kein bestandener Test.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Sicher_Sperre</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P07_Normal" name="Normalfall und fehlende Quelle durchspielen">
+      <bpmn:documentation>P01–P03: Aufgabe, direkte Tools, bei freigegebenem Mandat Terminal, Quellenbelege und Review. Fehlende Zuständigkeiten oder Termine müssen offenbleiben.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Sicher_Normal</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Normal_Fehler</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P07_Flow_Normal_Fehler" sourceRef="P07_Normal" targetRef="P07_Fehler" />
+    <bpmn:serviceTask id="P07_Fehler" name="Providerfehler und Abbruch simulieren">
+      <bpmn:documentation>Ausschließlich ungefährliche Testunterbrechungen: Limitantwort, fehlende Quelle, Prozessabbruch, alte Zustimmung und doppelte Eingabe. Keine Kontorotation oder Anbieterwechsel durch den Test.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Normal_Fehler</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Fehler_Update</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P07_Flow_Fehler_Update" sourceRef="P07_Fehler" targetRef="P07_Update" />
+    <bpmn:serviceTask id="P07_Update" name="Gemeinsame Verbesserung und Rücknahme prüfen">
+      <bpmn:documentation>Sitzung A liefert eine bestätigte allgemeine Korrektur. Frische Sitzung B verwendet freigegebenen neuen Stand ohne privaten Marker von A. Bestehende Chats und Rücknahme gesondert prüfen.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Fehler_Update</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Update_Messung</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P07_Flow_Update_Messung" sourceRef="P07_Update" targetRef="P07_Messung" />
+    <bpmn:scriptTask id="P07_Messung" name="Antworten, Status und Spuren erfassen">
+      <bpmn:documentation>Je Fall Antwort/Artefakt, Quellen und Version, Rechtest, Prüfurteil, menschliche Nacharbeit und tatsächliche Unterbrechung erfassen. Zeit-/Kostenzahlen nur messen, nicht schätzen.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Update_Messung</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Messung_Ergebnis</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P07_Flow_Messung_Ergebnis" sourceRef="P07_Messung" targetRef="P07_Ergebnis" />
+    <bpmn:exclusiveGateway id="P07_Ergebnis" name="Auswertbares Ergebnis vorhanden?">
+      <bpmn:documentation>Provider-/Infrastrukturfehler separat als BLOCKIERT/FEHLER führen. Sie beweisen weder gute noch schlechte fachliche Antwortqualität.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Messung_Ergebnis</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Ergebnis_Infra</bpmn:outgoing>
+      <bpmn:outgoing>P07_Flow_Ergebnis_Qualitaet</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P07_Flow_Ergebnis_Infra" name="nein" sourceRef="P07_Ergebnis" targetRef="P07_Infra" />
+    <bpmn:sequenceFlow id="P07_Flow_Ergebnis_Qualitaet" name="ja" sourceRef="P07_Ergebnis" targetRef="P07_Qualitaet" />
+    <bpmn:serviceTask id="P07_Infra" name="Technischen Blocker gesondert ausweisen">
+      <bpmn:documentation>Betroffenen Fall und Fehler nennen; keinen bestandenen Lauf aus einem unvollständigen Ergebnis ableiten.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Ergebnis_Infra</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Infra_Zusammen</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P07_Flow_Infra_Zusammen" sourceRef="P07_Infra" targetRef="P07_Zusammen" />
+    <bpmn:serviceTask id="P07_Qualitaet" name="Gegen Sollkriterien und Gegenproben auswerten">
+      <bpmn:documentation>Automatisch prüfbare Eigenschaften mit Code, fachliche Aussagen mit Quellen und menschlicher Stichprobe. Saubere Fälle verhindern einen Prüfer, der einfach alles ablehnt.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Ergebnis_Qualitaet</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Qualitaet_Zusammen</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P07_Flow_Qualitaet_Zusammen" sourceRef="P07_Qualitaet" targetRef="P07_Zusammen" />
+    <bpmn:exclusiveGateway id="P07_Zusammen">
+      <bpmn:documentation>Technische Blocker und auswertbare Qualitätsbefunde fließen mit getrennten Status in den Bericht.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Infra_Zusammen</bpmn:incoming>
+      <bpmn:incoming>P07_Flow_Qualitaet_Zusammen</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Zusammen_Bericht</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P07_Flow_Zusammen_Bericht" sourceRef="P07_Zusammen" targetRef="P07_Bericht" />
+    <bpmn:serviceTask id="P07_Bericht" name="Befund mit Belegen vorlegen">
+      <bpmn:documentation>Bestanden, verletzt, offen und nicht ausgeführt unterscheiden. Keine bereits funktionierende Integration aus einem gezeichneten Prozess ableiten.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Zusammen_Bericht</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Bericht_Entscheidung</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P07_Flow_Bericht_Entscheidung" sourceRef="P07_Bericht" targetRef="P07_Entscheidung" />
+    <bpmn:userTask id="P07_Entscheidung" name="Nächste Entwicklung oder Bereitstellung entscheiden">
+      <bpmn:documentation>Adapteränderung erst auf Grundlage des Befunds und der geltenden Freigabe. Keine Freigabe durch bloße Existenz dieses Prozessmodells.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Bericht_Entscheidung</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Entscheidung_Reset</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="P07_Flow_Entscheidung_Reset" sourceRef="P07_Entscheidung" targetRef="P07_Reset" />
+    <bpmn:serviceTask id="P07_Reset" name="Teststand kontrolliert zurücksetzen">
+      <bpmn:documentation>Nur den eigenen Testlauf nach Sichtprüfung und Sicherung zurücksetzen. Gemeinsamen Stack und fremde Arbeit erhalten; benötigte Nachweise behalten.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Entscheidung_Reset</bpmn:incoming>
+      <bpmn:outgoing>P07_Flow_Reset_Ende</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P07_Flow_Reset_Ende" sourceRef="P07_Reset" targetRef="P07_Ende" />
+    <bpmn:endEvent id="P07_Ende" name="Befund und wiederholbarer Startstand bereit">
+      <bpmn:documentation>Gleiche Eingaben und Startzustände sind wiederherstellbar. Sprachmodellantworten müssen deshalb nicht bytegleich sein.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P07_Flow_Reset_Ende</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_collaboration_p07ReproduzierbarerTestMitFiktiver">
+    <bpmndi:BPMNPlane id="BPMNPlane_collaboration_p07ReproduzierbarerTestMitFiktiver" bpmnElement="collaboration_p07ReproduzierbarerTestMitFiktiverFirma">
+      <bpmndi:BPMNShape id="BPMNShape_P07_Pool" bpmnElement="P07_Pool" isHorizontal="true">
+        <dc:Bounds x="80" y="80" width="2539" height="700" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Lane_m" bpmnElement="P07_Lane_m" isHorizontal="true">
+        <dc:Bounds x="110" y="80" width="2509" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Lane_g" bpmnElement="P07_Lane_g" isHorizontal="true">
+        <dc:Bounds x="110" y="220" width="2509" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Lane_a" bpmnElement="P07_Lane_a" isHorizontal="true">
+        <dc:Bounds x="110" y="360" width="2509" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Lane_r" bpmnElement="P07_Lane_r" isHorizontal="true">
+        <dc:Bounds x="110" y="500" width="2509" height="280" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Start" bpmnElement="P07_Start">
+        <dc:Bounds x="170" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="147" y="174" width="82" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Plan" bpmnElement="P07_Plan" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="266" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Manifest" bpmnElement="P07_Manifest" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="426" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Aufbau" bpmnElement="P07_Aufbau" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="586" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Grenzen" bpmnElement="P07_Grenzen" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="746" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Sicher" bpmnElement="P07_Sicher" isMarkerVisible="true">
+        <dc:Bounds x="906" y="265" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="901" y="231" width="61" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Sperre" bpmnElement="P07_Sperre">
+        <dc:Bounds x="1048" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1015" y="314" width="103" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Normal" bpmnElement="P07_Normal" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="1016" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Fehler" bpmnElement="P07_Fehler" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="1176" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Update" bpmnElement="P07_Update" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="1336" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Messung" bpmnElement="P07_Messung" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1496" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Ergebnis" bpmnElement="P07_Ergebnis" isMarkerVisible="true">
+        <dc:Bounds x="1656" y="545" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1633" y="497" width="96" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Infra" bpmnElement="P07_Infra" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="1766" y="530" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Qualitaet" bpmnElement="P07_Qualitaet" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="1766" y="670" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Zusammen" bpmnElement="P07_Zusammen" isMarkerVisible="true">
+        <dc:Bounds x="1926" y="545" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Bericht" bpmnElement="P07_Bericht" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="2036" y="530" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Entscheidung" bpmnElement="P07_Entscheidung" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="2196" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Reset" bpmnElement="P07_Reset" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="2356" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P07_Ende" bpmnElement="P07_Ende">
+        <dc:Bounds x="2516" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2479" y="294" width="110" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Start_Plan" bpmnElement="P07_Flow_Start_Plan">
+        <di:waypoint x="206" y="150" />
+        <di:waypoint x="266" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Plan_Manifest" bpmnElement="P07_Flow_Plan_Manifest">
+        <di:waypoint x="316" y="190" />
+        <di:waypoint x="316" y="290" />
+        <di:waypoint x="426" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Manifest_Aufbau" bpmnElement="P07_Flow_Manifest_Aufbau">
+        <di:waypoint x="526" y="290" />
+        <di:waypoint x="586" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Aufbau_Grenzen" bpmnElement="P07_Flow_Aufbau_Grenzen">
+        <di:waypoint x="686" y="290" />
+        <di:waypoint x="746" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Grenzen_Sicher" bpmnElement="P07_Flow_Grenzen_Sicher">
+        <di:waypoint x="846" y="290" />
+        <di:waypoint x="906" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Sicher_Sperre" bpmnElement="P07_Flow_Sicher_Sperre">
+        <di:waypoint x="956" y="290" />
+        <di:waypoint x="1048" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="964" y="272" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Sicher_Normal" bpmnElement="P07_Flow_Sicher_Normal">
+        <di:waypoint x="931" y="315" />
+        <di:waypoint x="931" y="430" />
+        <di:waypoint x="1016" y="430" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="939" y="412" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Normal_Fehler" bpmnElement="P07_Flow_Normal_Fehler">
+        <di:waypoint x="1116" y="430" />
+        <di:waypoint x="1176" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Fehler_Update" bpmnElement="P07_Flow_Fehler_Update">
+        <di:waypoint x="1276" y="430" />
+        <di:waypoint x="1336" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Update_Messung" bpmnElement="P07_Flow_Update_Messung">
+        <di:waypoint x="1436" y="430" />
+        <di:waypoint x="1521" y="430" />
+        <di:waypoint x="1521" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Messung_Ergebnis" bpmnElement="P07_Flow_Messung_Ergebnis">
+        <di:waypoint x="1546" y="330" />
+        <di:waypoint x="1546" y="570" />
+        <di:waypoint x="1656" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Ergebnis_Infra" bpmnElement="P07_Flow_Ergebnis_Infra">
+        <di:waypoint x="1706" y="570" />
+        <di:waypoint x="1766" y="570" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1714" y="552" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Ergebnis_Qualitaet" bpmnElement="P07_Flow_Ergebnis_Qualitaet">
+        <di:waypoint x="1681" y="595" />
+        <di:waypoint x="1681" y="710" />
+        <di:waypoint x="1766" y="710" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1689" y="692" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Infra_Zusammen" bpmnElement="P07_Flow_Infra_Zusammen">
+        <di:waypoint x="1866" y="570" />
+        <di:waypoint x="1926" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Qualitaet_Zusammen" bpmnElement="P07_Flow_Qualitaet_Zusammen">
+        <di:waypoint x="1866" y="710" />
+        <di:waypoint x="1951" y="710" />
+        <di:waypoint x="1951" y="595" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Zusammen_Bericht" bpmnElement="P07_Flow_Zusammen_Bericht">
+        <di:waypoint x="1976" y="570" />
+        <di:waypoint x="2036" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Bericht_Entscheidung" bpmnElement="P07_Flow_Bericht_Entscheidung">
+        <di:waypoint x="2136" y="570" />
+        <di:waypoint x="2221" y="570" />
+        <di:waypoint x="2221" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Entscheidung_Reset" bpmnElement="P07_Flow_Entscheidung_Reset">
+        <di:waypoint x="2246" y="190" />
+        <di:waypoint x="2246" y="290" />
+        <di:waypoint x="2356" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P07_Flow_Reset_Ende" bpmnElement="P07_Flow_Reset_Ende">
+        <di:waypoint x="2456" y="290" />
+        <di:waypoint x="2534" y="290" />
+        <di:waypoint x="2534" y="168" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
