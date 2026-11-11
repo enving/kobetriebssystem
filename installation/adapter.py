@@ -8,9 +8,7 @@ import sys
 root = pathlib.Path(sys.argv[1])
 plugin = root / 'ko-basis'
 version = json.loads((plugin / '.claude-plugin/plugin.json').read_text())['version']
-context = '\n\n'.join('## ' + name + '\n\n' + (plugin / name).read_text()
-                       for name in ('AGENTS.md', 'kontext/index.md', 'kontext/landkarte.md'))
-for name in ('ko-basis', 'ko-hermes', 'ko-codex', 'ko-pi'):
+for name in ('ko-basis', 'ko-codex', 'ko-pi'):
     target = root / name
     target.mkdir(exist_ok=True)
     (target / 'version.json').write_text(json.dumps({'version': version}, ensure_ascii=False) + '\n')
@@ -21,18 +19,6 @@ marketplace.mkdir()
     'name': 'ko-lokal', 'owner': {'name': 'OS-Betreuung'},
     'plugins': [{'name': 'ko-basis', 'source': './ko-basis'}]
 }, ensure_ascii=False) + '\n')
-hermes = root / 'ko-hermes'
-# JSON strings are also YAML scalars. No model, login, cron job or connector is configured.
-(hermes / 'distribution.yaml').write_text('name: ko-basis\nversion: ' + json.dumps(version) + '\ndescription: "Erzeugtes Firmenprofil"\n')
-(hermes / 'SOUL.md').write_text('# Firmenkontext\n\nVersion: ' + version + '\n\n' + context)
-(hermes / 'config.yaml').write_text('{}\n')
-(hermes / 'mcp.json').write_text('{}\n')
-(hermes / 'cron').mkdir()
-(hermes / '.gitignore').write_text('auth.json\n.env\nmemories/\nsessions/\nlogs/\nstate.db*\n')
-shutil.copy2(plugin / 'AGENTS.md', hermes / 'AGENTS.md')
-shutil.copytree(plugin / 'skills', hermes / 'skills')
-shutil.copytree(plugin / 'kontext', hermes / 'kontext')
-
 codex = root / 'ko-codex'
 (codex / 'AGENTS.md').write_text((plugin / 'AGENTS.md').read_text() + '\n\nPaketversion: ' + version + '\n')
 (codex / '.agents').mkdir()

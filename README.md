@@ -55,11 +55,11 @@ persönlichen Kompass (PRD L12, L20, L21). Den ersten Durchlauf zeigt das MVP.
 |---|---|---|
 | Mitarbeitende | verbreitete Agenten: Claude, Codex | MVP auf einem Windows-Testgerät ohne Adminrechte; Microsoft Copilot später |
 | Firmen-Agenten: Prüfer, OS-Check, Routinen | schlanker Harness mit genau eingestellten Rechten, abgeschottet | Pi in Sandcastle für den Prüfer im MVP; Vergleich mit pi-durable und DeepSeek Harness ([Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md)) |
-| Persönliche Assistenz | Hermes Agent | zweiter Adapter im MVP |
+| Persönliche Assistenz | offen | Hermes Agent als zweiter MVP-Adapter gestrichen (10.11.2026); keine Auswahl getroffen |
 | Laufzeit für Teams | Rakazo, Microsoft, Paperclip | zurückgestellt |
 
 Alles kommt aus einem Repo: Der Bauschritt erzeugt je Arbeitsumgebung ein Paket, etwa ein Plugin für Claude oder ein
-Profil für Hermes. Eine Auswahl treffen wir erst, wenn ein Test zeigt, dass ein Werkzeug eine Lücke schließt. Die laufende
+Projektpaket für Codex. Eine Auswahl treffen wir erst, wenn ein Test zeigt, dass ein Werkzeug eine Lücke schließt. Die laufende
 Produktsicht steht in der [PRD](PRD.md), §8.
 
 ## Für Agenten: Lesereihenfolge
