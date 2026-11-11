@@ -1,10 +1,130 @@
 # kobetriebssystem – Vorlage
 
+> **In Arbeit.** Wir testen gerade viel und wählen erst danach aus. Ziel ist ein Betriebssystem, das sich in vorhandene
+> Werkzeuge einfügt, statt ein neues Produkt vorauszusetzen. Mitarbeitende arbeiten mit verbreiteten Agenten wie Claude oder
+> Codex; die Firma betreibt daneben eigene Agenten, etwa einen Prüfer, mit einem schlanken, genau eingestellten Harness. Für
+> diese Firmen-Agenten testen wir Harnesses von Pi bis DeepSeek Harness. Nächster Schritt ist ein MVP
+> ([#25](https://github.com/enving/kobetriebssystem/issues/25)). Was noch offen ist, steht im Lückenregister der [PRD](PRD.md).
+
 Blanke Vorlage für ein KI-Betriebssystem im Unternehmen. Ein Agent erledigt Aufgaben; vier Bausteine sagen ihm *wie* (Skills), *was* (Kontext), *womit* (Tools) und *was erlaubt ist* (Regeln); zwei Schleifen halten alles in Bewegung (Automatisierungen starten ohne Bitte, die Lernschleife macht das System mit jeder Korrektur besser). Alles Steuernde liegt als Textdatei in Git, jede Änderung ist ein Pull Request.
 
-Diese Datei ist die **Navigation** – für Agenten und Menschen. Enthält bewusst keine Firmendaten und keine Beispiel-Skills, nur `_vorlage`-Dateien.
+Diese Datei ist die **Navigation** – für Agenten und Menschen. Enthält keine Firmendaten. Die Vorlagen bleiben leer; ausschließlich erfundene Beispiele liegen getrennt in [beispiel/](beispiel/README.md). Das Standardpaket enthält keine Beispiel-Skills.
 
-## Warum es dieses Repo gibt
+![Übersicht: Kompass der Person, Agent der Person, kobetriebssystem, Firmen-Agenten, Projekt-Repos und was noch fehlt](docs/bilder/uebersicht-2026-11-07.png)
+
+*Wie die Teile zusammenhängen, Stand 07.11.2026. Durchgezogen: vorhanden. Gestrichelt: fehlt oder kommt später, mit der Nummer
+der Lücke in der [PRD](PRD.md).*
+
+## Die Lernschleife: wie das System mit jeder Korrektur besser wird
+
+Das ist der wichtigste Baustein. Der Agent selbst lernt nichts dazu; besser werden die Dateien, die alle Agenten lesen:
+Skills, Regeln, Kontext und Prüffälle. Eine Korrektur, die nur in einem Chat passiert, ist in der nächsten Sitzung wieder
+weg. Erst wenn sie geprüft ins Repo zurückfließt, profitieren alle.
+
+```mermaid
+flowchart LR
+  A[Person korrigiert ein Ergebnis] --> B{Agent ordnet ein}
+  B -->|einmalig| C[Logbuch der Person]
+  B -->|Regel| D[Vorschlag mit Ort, Wortlaut, Prüffall]
+  D --> E{Ja der Person?}
+  E -->|nein| C
+  E -->|ja| F[Pull Request ans Repo]
+  F --> G[Prüffälle und Firmen-Prüfer]
+  G --> H{Mensch merged}
+  H --> I[neue Version für alle Agenten]
+  I --> A
+```
+
+1. **Einordnen.** Nach jeder Korrektur fragt der Agent: einmalig oder eine Regel, die wieder nötig wäre? Im Zweifel
+   einmalig ([AGENTS.md](AGENTS.md), Regel 6).
+2. **Vorschlagen.** Bei einer Regel nennt er Ort, Wortlaut und einen neuen Prüffall. Rohchats und Personendaten gehen nicht mit.
+3. **Ja und Pull Request.** Nichts ändert sich still. Ampel, Sperren und Grundregeln ändert nur ein Mensch.
+4. **Prüfen.** Die Prüffälle laufen, ein Firmen-Agent prüft den Vorschlag, ein Mensch merged.
+5. **Verteilen.** Die neue Version kommt in jede Arbeitsumgebung, als Plugin oder Profil.
+6. **Über Personen hinweg.** Ein wöchentlicher OS-Check zählt wiederkehrende Muster, ohne Inhalte zu sammeln, und schlägt
+   ab drei gleichen Fällen eine Verbesserung vor. Was viele oft nutzen, was alle Prüffälle besteht und kaum noch korrigiert
+   wird, kann zur Routine werden.
+
+Damit die Schleife durchläuft, fehlt noch einiges: der Rückweg ohne Leserecht aufs Repo
+([#28](https://github.com/enving/kobetriebssystem/issues/28)), die Zähler für den OS-Check und der Rückfluss aus dem
+persönlichen Kompass (PRD L12, L20, L21). Den ersten Durchlauf zeigt das MVP.
+
+## Agenten und Werkzeuge: was wir gerade testen
+
+| Wer | Womit | Stand |
+|---|---|---|
+| Mitarbeitende | verbreitete Agenten: Claude, Codex | MVP auf einem Windows-Testgerät ohne Adminrechte; Microsoft Copilot später |
+| Firmen-Agenten: Prüfer, OS-Check, Routinen | schlanker Harness mit genau eingestellten Rechten, abgeschottet | Pi in Sandcastle für den Prüfer im MVP; Vergleich mit pi-durable und DeepSeek Harness ([Recherche](docs/architektur/harness-firmenagenten-2026-11-07.md)) |
+| Persönliche Assistenz | offen | Hermes Agent als zweiter MVP-Adapter gestrichen (10.11.2026); keine Auswahl getroffen |
+| Laufzeit für Teams | Rakazo, Microsoft, Paperclip | zurückgestellt |
+
+Alles kommt aus einem Repo: Der Bauschritt erzeugt je Arbeitsumgebung ein Paket, etwa ein Plugin für Claude oder ein
+Projektpaket für Codex. Eine Auswahl treffen wir erst, wenn ein Test zeigt, dass ein Werkzeug eine Lücke schließt. Die laufende
+Produktsicht steht in der [PRD](PRD.md), §8.
+
+## Für Agenten: Lesereihenfolge
+1. **Beim Start nur:** `AGENTS.md` → `kontext/index.md` → `kontext/landkarte.md` → eigener Kompass über den Befehl `kompass` (Vorlage und Werkzeug in `user/`).
+2. **Danach bei Bedarf:** passenden Skill wählen (Beschreibung im Kopf der `SKILL.md`), dessen `nutzt_kontext`-Dateien lesen, Landkarte für Systeme außerhalb des Repos.
+3. **Nie** alles lesen. Je weniger am Anfang geladen wird, desto besser bleibt der Agent bei der Aufgabe.
+
+## Wie eine Aufgabe läuft
+Auslöser (Bitte im Chat, Zeitplan oder Ereignis) → Agent erkennt die Aufgabe → zieht Skill, Kontext, Regeln, Tools → Prüf-Agent prüft gegen die Kriterien des Skills → Ergebnis liegt als **Entwurf** bereit oder der Agent stellt die eine Frage, die er nicht selbst entscheiden darf → Mensch prüft, ändert, sendet selbst → jede Änderung des Menschen startet die Lernschleife.
+
+## Wegweiser: wozu was dient
+
+### Steuerung (Wurzel)
+| Datei | Zweck | Wer ändert |
+|---|---|---|
+| `AGENTS.md` | Grundregeln für jeden Agenten: Verhalten, Ampel, Lernschleife | nur Mensch, per PR |
+| `CLAUDE.md` | Wegweiser für das primäre Modell; verweist auf `AGENTS.md` (andere Modelle: gleiche Datei unter eigenem Namen) | Mensch |
+| `SICHERHEIT.md` | Technische Sperren, Datenschutz, Checkliste vor dem Rollout | Mensch |
+| `PRD.md` | Umfang, MVP und Lückenregister der Vorlage selbst | Agenten schlagen vor, Tristan entscheidet |
+| `Übergabe.md` | Stand, offene Fragen, nächste Schritte der Vorlage selbst (nur lokal) | wer an der Vorlage arbeitet |
+| `index.md` | Tabellen-Überblick über alle Ordner | bei Strukturänderung |
+
+### Skills – *wie wir arbeiten* (`.agents/skills/`)
+Ein Ordner je wiederkehrender Aufgabe: `SKILL.md` (Auslöser, Ergebnis, „Fertig heißt …“, Stolperfallen) und `evals/` (Prüffälle: Normalfall, fehlende Info, Grenzfall; Ergebnisse je Testlauf). Ein Skill beschreibt Ziel und Kriterien, nicht Schritte, und verweist auf Kontextdateien statt Preise oder Regeln zu kopieren. Neuer Skill: `_vorlage/` kopieren. Erst wenn alle Prüffälle bestanden sind, darf er als Automatisierung laufen. Jede Korrektur wird ein neuer Prüffall.
+
+### Kontext – *was wir wissen* (`kontext/`)
+Wiki für Dauerhaftes (Angebot, Prozesse, Stimme). Ein Ordner je Arbeitsgebiet mit einem Besitzer. Regeln je Datei: eine Aussage = eine Quelle, ein Prüfdatum, nur was *jetzt* gilt. Der Agent pflegt ein, Menschen sagen ihm, was gilt.
+- `index.md` – Verzeichnis (eine Zeile je Bereich/Datei), zuerst lesen.
+- `landkarte.md` – *wo Daten außerhalb des Repos liegen* und was der Agent dort nie tun darf. Laufende Arbeit (Mails, Kunden, Projekte) bleibt in den Tools und wird live mit den Rechten der Person gelesen.
+- `glossar/` – kontrolliertes Vokabular: neue Begriffe per PR, von Agenten und Menschen geschärft.
+- `_vorlage-bereich/_vorlage.md` – Dateivorlage; `log.md` – Änderungslog.
+
+### Automatisierungen – *ohne uns* (`automatisierungen/`)
+Ein Auftrag je Routine als Textdatei: Auslöser, Skill, erlaubte Quellen, Ergebnisort, „Nie“. `takt.md` ist der Taktplan. Eingeschaltet wird erst nach sauberen Testläufen und Freigabe des Verantwortlichen. Vorher den Prozess oft genug selbst mit KI durchlaufen, sonst entsteht automatisiert Ausschuss. Rückfragen kommen per Chat an die Person.
+
+### Regeln – *was erlaubt ist*
+`AGENTS.md` (Ampel, Security by Instruction) und `system/` (Security by Design). Rot gilt immer, gelb nach Rückfrage, grün selbst.
+
+### Tools – *womit*
+Keine Ordner im Repo. Tools hängen über Konnektoren an der Person; Rechte werden nur im Tool vergeben. Was der Agent dort darf/nie darf: `kontext/landkarte.md`. Alles Nach-außen-Gehende bereitet der Agent nur vor.
+
+### User (`user/`, persönliche Ebene) und Prompts (`prompts/`)
+- `user/` – Git-Submodul [kokompass](https://github.com/enving/kokompass): Methode, Vorlage und Befehl `kompass` für den Kompass einer Person (wer sie ist, Ziele, Entscheidungen, offene Aufgaben, Logbuch, Beitragsliste). Der Kompass selbst gehört der Person und liegt bei ihr, nicht in diesem Repo. Er darf unordentlich sein und mehrere Ziele zugleich haben; zurück fließt nur Verallgemeinertes per PR, an kokompass (Methode, Werkzeug) oder hierher (Firmenwissen) ([Beitragsweg](user/BEITRAGEN.md), [Architektur §12](docs/architektur/bericht-2026-11-05.md)). Holen: `git submodule update --init user`.
+- `prompts/` – gemeinsame Prompt-Bibliothek, rollenbasiert verteilt.
+
+### Plattform (`installation/`, `plugins/`, `system/`)
+- `installation/` – wie dieses Betriebssystem selbst als Plugin gebaut, per GitHub Actions geprüft und an alle Geräte verteilt und aktualisiert wird (Rollen, Managed Settings).
+- `plugins/` – externe, zusätzliche Plugins für die Agenten-App (Konnektoren u. Ä.), die das Betriebssystem ergänzen.
+- `system/` – Prüfprogramme und Sperren: `sperren.txt` (Pfad-Sperrliste), `hooks/` (Senden stoppen, Pfade/klassifizierte Dateien sperren, Beispielkonfiguration).
+
+### Doku (`docs/`)
+`anmerkungen.md` (Anmerkungen → Umsetzung), `recherche.md`, `szenarien.md` (lokal vs. zentral), `pruefszenarien.md` (Prüfszenarien je Harness), `beobachtungen.md`.
+Anleitung: [Hooks erstellen und verlässlich prüfen](docs/hooks-erstellen.md).
+
+## Wer darf was
+| | lesen | ändern |
+|---|---|---|
+| Agent | im Rahmen der Person | nur per PR-Vorschlag; Kontext nach Anweisung der Besitzer |
+| Besitzer eines Bereichs | ja | entscheidet, was gilt |
+| Ampel, Sperren, Grundregeln | alle | nur ein Mensch |
+
+## Status
+Entwurf. Umfang, MVP und offene Architekturlücken: [PRD.md](PRD.md). Aufgaben und Fragen: GitHub-Issues.
+
+## Warum es dieses Repo gibt: Betrieb, Haftung, EU AI Act
 
 ### Laufzeit ist nicht Betrieb
 
@@ -93,70 +213,6 @@ Das kostet zunächst Zeit und liefert keine sichtbaren Resultate. Es verhindert 
 Für den Einstieg genügt eine einzige Übung: eine wiederkehrende Aufgabe auswählen — und nur ihre Stationen auflisten. Nichts automatisieren, nichts optimieren. Wer die Liste einmal vor sich hat, sieht meist sofort, wo sich ein erster, risikofreier Einsatz lohnt: dort, wo die Arbeit gleichförmig ist und das Urteilsvermögen nicht beansprucht wird.
 
 Der Gewinn entsteht selten am ersten Tag. Er entsteht, wenn aus einzelnen Werkstücken allmählich ein System wird, das auch ohne ständige Anleitung läuft.
-
-## Für Agenten: Lesereihenfolge
-1. **Beim Start nur:** `AGENTS.md` → `kontext/index.md` → `kontext/landkarte.md` → eigener Kompass über den Befehl `kompass` (Vorlage und Werkzeug in `user/`).
-2. **Danach bei Bedarf:** passenden Skill wählen (Beschreibung im Kopf der `SKILL.md`), dessen `nutzt_kontext`-Dateien lesen, Landkarte für Systeme außerhalb des Repos.
-3. **Nie** alles lesen. Je weniger am Anfang geladen wird, desto besser bleibt der Agent bei der Aufgabe.
-
-## Wie eine Aufgabe läuft
-Auslöser (Bitte im Chat, Zeitplan oder Ereignis) → Agent erkennt die Aufgabe → zieht Skill, Kontext, Regeln, Tools → Prüf-Agent prüft gegen die Kriterien des Skills → Ergebnis liegt als **Entwurf** bereit oder der Agent stellt die eine Frage, die er nicht selbst entscheiden darf → Mensch prüft, ändert, sendet selbst → jede Änderung des Menschen startet die Lernschleife.
-
-## Wegweiser: wozu was dient
-
-### Steuerung (Wurzel)
-| Datei | Zweck | Wer ändert |
-|---|---|---|
-| `AGENTS.md` | Grundregeln für jeden Agenten: Verhalten, Ampel, Lernschleife | nur Mensch, per PR |
-| `CLAUDE.md` | Wegweiser für das primäre Modell; verweist auf `AGENTS.md` (andere Modelle: gleiche Datei unter eigenem Namen) | Mensch |
-| `SICHERHEIT.md` | Technische Sperren, Datenschutz, Checkliste vor dem Rollout | Mensch |
-| `Übergabe.md` | Stand, offene Fragen, nächste Schritte der Vorlage selbst | wer an der Vorlage arbeitet |
-| `index.md` | Tabellen-Überblick über alle Ordner | bei Strukturänderung |
-
-### Skills – *wie wir arbeiten* (`.agents/skills/`)
-Ein Ordner je wiederkehrender Aufgabe: `SKILL.md` (Auslöser, Ergebnis, „Fertig heißt …“, Stolperfallen) und `evals/` (Prüffälle: Normalfall, fehlende Info, Grenzfall; Ergebnisse je Testlauf). Ein Skill beschreibt Ziel und Kriterien, nicht Schritte, und verweist auf Kontextdateien statt Preise oder Regeln zu kopieren. Neuer Skill: `_vorlage/` kopieren. Erst wenn alle Prüffälle bestanden sind, darf er als Automatisierung laufen. Jede Korrektur wird ein neuer Prüffall.
-
-### Kontext – *was wir wissen* (`kontext/`)
-Wiki für Dauerhaftes (Angebot, Prozesse, Stimme). Ein Ordner je Arbeitsgebiet mit einem Besitzer. Regeln je Datei: eine Aussage = eine Quelle, ein Prüfdatum, nur was *jetzt* gilt. Der Agent pflegt ein, Menschen sagen ihm, was gilt.
-- `index.md` – Verzeichnis (eine Zeile je Bereich/Datei), zuerst lesen.
-- `landkarte.md` – *wo Daten außerhalb des Repos liegen* und was der Agent dort nie tun darf. Laufende Arbeit (Mails, Kunden, Projekte) bleibt in den Tools und wird live mit den Rechten der Person gelesen.
-- `glossar/` – kontrolliertes Vokabular: neue Begriffe per PR, von Agenten und Menschen geschärft.
-- `_vorlage-bereich/_vorlage.md` – Dateivorlage; `log.md` – Änderungslog.
-
-### Automatisierungen – *ohne uns* (`automatisierungen/`)
-Ein Auftrag je Routine als Textdatei: Auslöser, Skill, erlaubte Quellen, Ergebnisort, „Nie“. `takt.md` ist der Taktplan. Eingeschaltet wird erst nach sauberen Testläufen und Freigabe des Verantwortlichen. Vorher den Prozess oft genug selbst mit KI durchlaufen, sonst entsteht automatisiert Ausschuss. Rückfragen kommen per Chat an die Person.
-
-### Regeln – *was erlaubt ist*
-`AGENTS.md` (Ampel, Security by Instruction) und `system/` (Security by Design). Rot gilt immer, gelb nach Rückfrage, grün selbst.
-
-### Tools – *womit*
-Keine Ordner im Repo. Tools hängen über Konnektoren an der Person; Rechte werden nur im Tool vergeben. Was der Agent dort darf/nie darf: `kontext/landkarte.md`. Alles Nach-außen-Gehende bereitet der Agent nur vor.
-
-### User (`user/`, persönliche Ebene) und Prompts (`prompts/`)
-- `user/` – Git-Submodul [kokompass](https://github.com/enving/kokompass): Methode, Vorlage und Befehl `kompass` für den Kompass einer Person (wer sie ist, Ziele, Entscheidungen, offene Aufgaben, Logbuch, Beitragsliste). Der Kompass selbst gehört der Person und liegt bei ihr, nicht in diesem Repo. Er darf unordentlich sein und mehrere Ziele zugleich haben; zurück fließt nur Verallgemeinertes per PR, an kokompass (Methode, Werkzeug) oder hierher (Firmenwissen) ([Beitragsweg](user/BEITRAGEN.md), [Architektur §12](docs/architektur/bericht-2026-11-05.md)). Holen: `git submodule update --init user`.
-- `prompts/` – gemeinsame Prompt-Bibliothek, rollenbasiert verteilt.
-
-### Plattform (`installation/`, `plugins/`, `system/`)
-- `installation/` – wie dieses Betriebssystem selbst als Plugin gebaut, per GitHub Actions geprüft und an alle Geräte verteilt und aktualisiert wird (Rollen, Managed Settings).
-- `plugins/` – externe, zusätzliche Plugins für die Agenten-App (Konnektoren u. Ä.), die das Betriebssystem ergänzen.
-- `system/` – Prüfprogramme und Sperren: `sperren.txt` (Pfad-Sperrliste), `hooks/` (Senden stoppen, Pfade/klassifizierte Dateien sperren, Beispielkonfiguration).
-
-### Doku (`docs/`)
-`anmerkungen.md` (Anmerkungen → Umsetzung), `recherche.md`, `szenarien.md` (lokal vs. zentral), `beobachtungen.md`.
-Anleitung: [Hooks erstellen und verlässlich prüfen](docs/hooks-erstellen.md).
-
-## Lernschleife in einem Satz
-Der Agent selbst lernt nichts; besser werden die Dateien, die er liest. Korrektur einordnen (einmalig oder Regel) → bei Regel Vorschlag mit Ort, Wortlaut, Prüffall → Ja vom Menschen → PR. Nichts ändert sich still.
-
-## Wer darf was
-| | lesen | ändern |
-|---|---|---|
-| Agent | im Rahmen der Person | nur per PR-Vorschlag; Kontext nach Anweisung der Besitzer |
-| Besitzer eines Bereichs | ja | entscheidet, was gilt |
-| Ampel, Sperren, Grundregeln | alle | nur ein Mensch |
-
-## Status
-Entwurf. Nächste Schritte und offene Fragen: [Übergabe.md](Übergabe.md).
 
 ## Lizenz und Mitmachen
 Mozilla Public License 2.0 (`LICENSE`). Verbesserungen, die nicht firmenspezifisch sind, bitte als Pull Request zurückgeben – Details in `CONTRIBUTING.md`.

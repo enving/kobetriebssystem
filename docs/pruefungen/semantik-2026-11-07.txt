@@ -1,0 +1,79 @@
+Fail-fast-Probe: innere Assertion Exit 1, aufrufender Prozess Exit 1, nachfolgender Marker unerreichbar. Kein Push in der Probe.
+node system/tests/beispiel-build.mjs — Exit 0
+gebaut: dist/ko-basis (demo), Beispiele: false
+Paket-Skills: []
+gebaut: dist/ko-basis (demo), Beispiele: true
+Paket-Skills: ["besprechung-nachbereiten"]
+gebaut: dist/ko-basis (demo), Beispiele: false
+Paket-Skills: []
+OK: Schalter, Rückwechsel, Paketinhalt und drei Fallartefakte (keine Modellprüfung)
+
+node system/tests/plugin-start.mjs — Exit 0
+OK: Pluginstart, Quellen, Version, Fehlermeldungen und Sperrhooks
+
+node system/tests/pruefen.mjs — Exit 0
+
+== sh (Claude Code)
+OK               senden               erwartet=block ist=block
+OK               lesen-erlaubt        erwartet=ok ist=ok
+OK               lesen-gesperrt       erwartet=block ist=block
+OK               lesen-backslash      erwartet=block ist=block
+OK               glob-gesperrt        erwartet=block ist=block
+OK               bash-direkt          erwartet=block ist=block
+OK               bash-cd              erwartet=block ist=block
+OK               bash-harmlos         erwartet=ok ist=ok
+LÜCKE            umweg-wildcard       erwartet=block ist=ok
+LÜCKE            umweg-grossschrift   erwartet=block ist=ok
+LÜCKE            umweg-variable       erwartet=block ist=ok
+
+== sh (Codex)
+OK               senden               erwartet=block ist=block
+OK               lesen-erlaubt        erwartet=ok ist=ok
+OK               lesen-gesperrt       erwartet=block ist=block
+OK               lesen-backslash      erwartet=block ist=block
+OK               glob-gesperrt        erwartet=block ist=block
+OK               bash-direkt          erwartet=block ist=block
+OK               bash-cd              erwartet=block ist=block
+OK               bash-harmlos         erwartet=ok ist=ok
+LÜCKE            umweg-wildcard       erwartet=block ist=ok
+LÜCKE            umweg-grossschrift   erwartet=block ist=ok
+LÜCKE            umweg-variable       erwartet=block ist=ok
+
+== opencode
+OK               senden               erwartet=block ist=block
+OK               lesen-erlaubt        erwartet=ok ist=ok
+OK               lesen-gesperrt       erwartet=block ist=block
+OK               lesen-backslash      erwartet=block ist=block
+OK               glob-gesperrt        erwartet=block ist=block
+OK               bash-direkt          erwartet=block ist=block
+OK               bash-cd              erwartet=block ist=block
+OK               bash-harmlos         erwartet=ok ist=ok
+LÜCKE            umweg-wildcard       erwartet=block ist=ok
+LÜCKE            umweg-grossschrift   erwartet=block ist=ok
+LÜCKE            umweg-variable       erwartet=block ist=ok
+
+== pi
+OK               senden               erwartet=block ist=block
+OK               lesen-erlaubt        erwartet=ok ist=ok
+OK               lesen-gesperrt       erwartet=block ist=block
+OK               lesen-backslash      erwartet=block ist=block
+OK               glob-gesperrt        erwartet=block ist=block
+OK               bash-direkt          erwartet=block ist=block
+OK               bash-cd              erwartet=block ist=block
+OK               bash-harmlos         erwartet=ok ist=ok
+LÜCKE            umweg-wildcard       erwartet=block ist=ok
+LÜCKE            umweg-grossschrift   erwartet=block ist=ok
+LÜCKE            umweg-variable       erwartet=block ist=ok
+
+keine unerwarteten Abweichungen
+
+Nach unabhängiger Prüfung: kleine Reproduktionskorrekturen
+python3 docs/pruefungen/semantik-fail-fast.py — Exit 0
+Innere Assertion: Exit 1; aufrufender Prozess: Exit 1
+CalledProcessError beobachtet; nachfolgender Marker unerreichbar
+Keine Netz- oder Pushhandlung Bestandteil der Probe
+Runner: Syntax geprüft; Git-Quellstand aus fremdem Arbeitsverzeichnis mit explizitem Repo-cwd identisch; CLI-Version dynamisch. Kein neuer Modelllauf.
+node system/tests/beispiel-build.mjs — Exit 0
+node system/tests/plugin-start.mjs — Exit 0
+node system/tests/pruefen.mjs — Exit 0
+Privatbegriffsprüfung: 0 Treffer im gesamten neuen Diff (Wortgrenzen für Namen/Abkürzungen, Pfadmuster zusätzlich).
