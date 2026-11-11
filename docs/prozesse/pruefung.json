@@ -3,9 +3,9 @@
   "cliVersion": "0.10.0",
   "source": "*.bpmn",
   "structuralChecks": "bestanden",
-  "viewerSha256": "7a8338d304b250f4b8deadcbb0a45608ef64847bd8feb80b7ff950852146fd92",
+  "viewerSha256": "3b1251a9d0c6c2694e7f8703e133fb27e9921a5e7d5dcb2f9bc1c6ebe6623de0",
   "rendererSha256": "d135775d544223f89ff6aa0be119e6c92ce2fd7094dcabb1bd6c2adfa5f3e61c",
-  "templateSha256": "04d2b54928eb52c36bb778a452f860bf3d7f0a53bf0104fda30543b83b2934fd",
+  "templateSha256": "10bfe56b413b7dd7f3e874b4278f966f61bd4ed365167113bbc0627a38d5f716",
   "models": [
     {
       "file": "00-gesamtprozess.bpmn",
