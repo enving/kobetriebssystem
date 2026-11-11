@@ -10,6 +10,10 @@
   das gemeinsame Wiki mit Quellen und fachlichen Besitzern pflegen (P04/P05).
 - **Betrieb prüfen:** freigegebene Routinen, Unterbrechungen und reproduzierbare Tests (P06/P07).
 
+Für die Arbeit mit Text gibt es zusätzlich die [Markdown-Lesefassung](prozesse.md): nach Prozess
+und Schritt durchsuchbar, mit Zuständigkeiten, vollständigen Schrittdetails, Verzweigungen,
+Prozessaufrufen und Fehlerereignissen. Sie wird beim selben Bau aus BPMN erzeugt und nicht separat gepflegt.
+
 ## Zielbild und offene Technik
 
 Das Zielbild dieses Versuchs ist ein **gemeinsames Firmenwiki mit Regeln und Skills für alle**.
@@ -59,8 +63,9 @@ für den Änderungs-Prüfer wird hier nicht ersetzt.
 
 Die **acht `.bpmn`-Dateien sind die Quelle des Prozessmodells**, einschließlich Schrittdetails,
 Kapitelzuordnung und offener Fragen. Der Bauweg erzeugt daraus die selbständige `ansicht.html` und
-`pruefung.json`. Die Ansicht enthält alle SVGs und bietet einen Download je Diagramm. Damit stehen
-hier 13 statt 21 Dateien; acht separate SVG-Kopien entfallen. Bestehende Exporte in Präsentationen
+`pruefung.json` sowie die zusätzliche Markdown-Lesefassung `prozesse.md`. Die Ansicht enthält alle
+SVGs und bietet einen Download je Diagramm. Damit stehen hier 14 statt ursprünglich 21 Dateien;
+acht separate SVG-Kopien entfallen, eine Lesefassung kommt hinzu. Bestehende Exporte in Präsentationen
 bleiben eigenständige Snapshots und werden nicht automatisch überschrieben.
 
 BPMN-Bahnen zeigen fachliche Verantwortung, keine nachgewiesenen Container- oder Kontogrenzen.

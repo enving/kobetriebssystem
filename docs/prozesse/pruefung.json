@@ -4,7 +4,8 @@
   "source": "*.bpmn",
   "structuralChecks": "bestanden",
   "viewerSha256": "3b666d5323359d9b8a937558ff13a371d8518eed0fbab8bad6f4e3c98044c4bd",
-  "rendererSha256": "7d16e44b0713db8dc324fd193ccb10bdbea777e7c5e7e13c7e08421b0c846fc1",
+  "markdownSha256": "fbb02a1e5237ba6f67daaf4ce510b0df7b9a9032924bea294065d48ba797d21a",
+  "rendererSha256": "77c3a9d842078417e14dff55baf40fea497af691f26712c237207537849e4b2d",
   "templateSha256": "9e2c75ba6317bbb9085b37f316be0f81335ee3e18c33ac9452b65aca3731aeb8",
   "models": [
     {

@@ -103,6 +103,67 @@ def local_model(path):
             'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
 
 
+def markdown_view(models, paths):
+    """Lesefassung ohne eigene Prozessregeln; alle Inhalte stammen aus BPMN."""
+    def cell(value):
+        return str(value).replace('|', '&#124;').replace('\n', '<br>')
+
+    lines = ['# Prozesse – Markdown-Lesefassung', '',
+             'Automatisch aus den `.bpmn`-Quellen erzeugt durch `rendern.py`.',
+             'Dies ist eine Lesefassung des nicht ausführbaren Entwurfs, keine zusätzliche Regelquelle.',
+             'Änderungen gehören in BPMN; der nächste Bau aktualisiert diese Datei mit.', '',
+             '[Interaktive Ansicht](ansicht.html) · [Einordnung und Bauweg](README.md)', '',
+             'Die Abschnittsreihenfolge ist keine Ausführungsreihenfolge. Die Übergänge, Verzweigungen',
+             'und angehängten Ereignisse bestimmen den modellierten Ablauf. Offene Punkte bleiben offen.', '',
+             '## Verzeichnis', '']
+    for m in models:
+        short = m['id'].removeprefix('Process_')
+        lines.append(f'- [{m["name"]}](#{short.lower()})')
+    for m, path in zip(models, paths, strict=True):
+        root = ET.fromstring(path.read_bytes())
+        process = root.find('b:process', NS)
+        elements = {e.get('id'): e for e in root.iter() if e.get('id')}
+        short = m['id'].removeprefix('Process_')
+        lines += ['', f'## {short}', '', m['name'], '',
+                  f'Quelle: [{m["file"]}]({m["file"]}) · SHA-256: `{m["sha256"]}`', '',
+                  m['doc'], '', '### Schritte und Entscheidungen', '']
+        for node in m['nodes']:
+            e = elements[node['id']]
+            lines += [f'#### {node["id"]}', '',
+                      f'**{node["name"] or "Zusammenführung"}**', '',
+                      f'Verantwortung: {node["lane"]} · BPMN-Typ: `{node["kind"]}`', '', node['doc'], '']
+            if node['call']:
+                target = node['call'].removeprefix('Process_')
+                lines += [f'Aufgerufener Prozess: [{target}](#{target.lower()}).', '']
+            if e.get('attachedToRef'):
+                interrupts = 'nein' if e.get('cancelActivity') == 'false' else 'ja'
+                lines += [f'Angehängt an: `{e.get("attachedToRef")}` · unterbricht Aktivität: {interrupts}.', '']
+            for trigger in e:
+                kind = trigger.tag.split('}')[-1]
+                if kind.endswith('EventDefinition'):
+                    references = ', '.join(f'{k}={v}' for k, v in trigger.attrib.items())
+                    lines += [f'Ereignis: `{kind}`' + (f' · {references}' if references else '') + '.', '']
+        lines += ['### Übergänge', '', '| Kennung | Von | Nach | Bedingung / Zweig |', '|---|---|---|---|']
+        for flow in process.findall('b:sequenceFlow', NS):
+            label = flow.get('name', '—')
+            condition = flow.findtext('b:conditionExpression', '', NS)
+            if condition:
+                label += ': ' + condition
+            if elements[flow.get('sourceRef')].get('default') == flow.get('id'):
+                label += ' (Standardzweig)'
+            lines.append(f'| `{flow.get("id")}` | `{flow.get("sourceRef")}` | `{flow.get("targetRef")}` | {cell(label)} |')
+        messages = root.findall('.//b:messageFlow', NS)
+        if messages:
+            lines += ['', '### Nachrichten zwischen Beteiligten', '', '| Kennung | Von | Nach | Inhalt |', '|---|---|---|---|']
+            for flow in messages:
+                def endpoint(ref):
+                    return f'`{ref}` ({cell(elements[ref].get("name", ref))})'
+                lines.append(f'| `{flow.get("id")}` | {endpoint(flow.get("sourceRef"))} | {endpoint(flow.get("targetRef"))} | {cell(flow.get("name", ""))} |')
+        for note in root.findall('.//b:textAnnotation', NS):
+            lines += ['', f'### Modellhinweis {note.get("id")}', '', note.findtext('b:text', '', NS)]
+    return '\n'.join(lines) + '\n'
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--container', help='Vorhandener Container mit Python und bpmn-cli')
@@ -144,6 +205,7 @@ def main():
     assert template.count('/*__MODELS__*/[]') == 1, 'Datenplatzhalter fehlt'
     data = json.dumps(models, ensure_ascii=False).replace('</', '<\\/')
     html = template.replace('/*__MODELS__*/[]', data)
+    markdown = markdown_view(models, paths)
     readme = (HERE/'README.md').read_text()
     begin, end = '<!-- modelle:start -->', '<!-- modelle:ende -->'
     assert readme.count(begin) == readme.count(end) == 1, 'Modellverzeichnis fehlt'
@@ -156,9 +218,11 @@ def main():
         for p, svg in zip(paths, svgs, strict=True):
             (args.svg_dir/p.with_suffix('.svg').name).write_text(svg)
     (HERE/'ansicht.html').write_text(html)
+    (HERE/'prozesse.md').write_text(markdown)
     report = {'scope': 'Prozessmodell, kein Integrationstest', 'cliVersion': result['cliVersion'],
               'source': '*.bpmn', 'structuralChecks': 'bestanden',
               'viewerSha256': hashlib.sha256(html.encode()).hexdigest(),
+              'markdownSha256': hashlib.sha256(markdown.encode()).hexdigest(),
               'rendererSha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
               'templateSha256': hashlib.sha256(template.encode()).hexdigest(), 'models': reports}
     (HERE/'pruefung.json').write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
