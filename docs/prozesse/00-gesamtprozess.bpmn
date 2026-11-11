@@ -4,11 +4,16 @@
     <bpmn:participant id="P00_Pool" name="P00 · Von der Aufgabe zur gemeinsamen Verbesserung" processRef="Process_P00" />
   </bpmn:collaboration>
   <bpmn:process id="Process_P00" name="P00 · Von der Aufgabe zur gemeinsamen Verbesserung" isExecutable="false">
-    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
 Zweck: Überblick über den Arbeitskreislauf; die aufgerufenen P01–P07 enthalten die Details.
-Offen: PRD L25: Mandat von Codex; L6/L7: Rechte und Informationsfluss; L10: Prüfer; L5: laufende Sitzungen. Die Anbindung wird hier beschrieben, noch nicht eingerichtet.
+Offen: Tool-Anbindung A/B, Mandat und Isolation des Workers, Träger des frischen Prüflaufs. Zielbild bestätigt; Umsetzung ungetestet.
 Quellen: ../szenarien.md ; ../../AGENTS.md ; ../../installation/README.md ; https://ai-first.ai/insights/ai-first-ki-betriebssystem-2-0
-Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Auftrag bearbeiten
+Kurz: Überblick
+Zielbild: Gemeinsames Firmenwiki, Regeln und Skills für alle. Persönliche Ergänzungen getrennt; vertrauliche Daten bleiben in den Quellsystemen.
+Anbindung: A: persönliche Tools über OpenWebUI. B: nutzergebundener Vermittler für Tool-Aufrufe. Beide Wege sind zu testen; keiner ist bereits ausgewählt.
+Grundsatz: Gemeinsam ist die Arbeitsgrundlage, nicht das Tool-Konto oder der Gesprächsverlauf. Identität und Rechte werden außerhalb des Sprachmodells durchgesetzt.</bpmn:documentation>
     <bpmn:laneSet id="laneSet_p00VonDerAufgabeZurGemeinsamen">
       <bpmn:lane id="P00_Lane_m" name="Mitarbeitende">
         <bpmn:flowNodeRef>P00_Start</bpmn:flowNodeRef>

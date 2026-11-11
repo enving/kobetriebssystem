@@ -3,13 +3,13 @@
   "cliVersion": "0.10.0",
   "source": "*.bpmn",
   "structuralChecks": "bestanden",
-  "viewerSha256": "3b1251a9d0c6c2694e7f8703e133fb27e9921a5e7d5dcb2f9bc1c6ebe6623de0",
-  "rendererSha256": "d135775d544223f89ff6aa0be119e6c92ce2fd7094dcabb1bd6c2adfa5f3e61c",
-  "templateSha256": "10bfe56b413b7dd7f3e874b4278f966f61bd4ed365167113bbc0627a38d5f716",
+  "viewerSha256": "3b666d5323359d9b8a937558ff13a371d8518eed0fbab8bad6f4e3c98044c4bd",
+  "rendererSha256": "7d16e44b0713db8dc324fd193ccb10bdbea777e7c5e7e13c7e08421b0c846fc1",
+  "templateSha256": "9e2c75ba6317bbb9085b37f316be0f81335ee3e18c33ac9452b65aca3731aeb8",
   "models": [
     {
       "file": "00-gesamtprozess.bpmn",
-      "sha256": "926938eedfd6bf80cfb8ae8b8384b4f0f2bca5deebf721a76769df8918166ddf",
+      "sha256": "b3456fa2df166ea299acf61ca5ce7da5a00d3517b093d6e0ae71ed5597e1980e",
       "svgSha256": "ea8a080dc5687b45f5a5b346e9ab5fae4e0d923a5c1f109f0a67758ddd1e0ac9",
       "nodeCount": 16,
       "flowCount": 20,
@@ -252,8 +252,8 @@
     },
     {
       "file": "01-auftrag-und-tools.bpmn",
-      "sha256": "1c65a54f2ae0dcaaad330eac9b41cb42dec0da23119f010b4acab4ce0459dfe2",
-      "svgSha256": "7a8985b016a6c3a5ed9f19be052ba0155abd324898836998ce464bfeca25dfa8",
+      "sha256": "09650f1d2f436e88441072a36d8f0464e451016356cc8271ab3dbf814da5f68f",
+      "svgSha256": "592e8f556eb0053d738dcb65e1226bcb9cf2d7b9e1e61442e86cbf7d17598cc2",
       "nodeCount": 21,
       "flowCount": 21,
       "validation": {
@@ -330,7 +330,7 @@
               {
                 "id": "P01_Tools",
                 "kind": "participant",
-                "name": "Persönliche Quellsysteme · z. B. Gmail / Composio",
+                "name": "Persönliche Quellsysteme · z. B. Gmail",
                 "rows": [],
                 "columns": []
               },
@@ -400,7 +400,7 @@
                     {
                       "id": "P01_Lesen",
                       "kind": "serviceTask",
-                      "name": "Quelle direkt über Tool lesen"
+                      "name": "Quelle nutzergebunden lesen"
                     },
                     {
                       "id": "P01_Zusammen",
@@ -472,7 +472,7 @@
                     {
                       "id": "P01_Identitaet",
                       "kind": "serviceTask",
-                      "name": "Nutzer und erlaubte Kreise ermitteln"
+                      "name": "Nutzer und Auftrag sicher zuordnen"
                     },
                     {
                       "id": "P01_Paket",
@@ -537,7 +537,7 @@
     },
     {
       "file": "02-terminalauftrag.bpmn",
-      "sha256": "563a70954377e69f14dd07e70dc79459431faea466e75feac02330b0308eb5d5",
+      "sha256": "ddd30f0db3e7e9d5855cbff205ff68e0f119198388d56dcd7a804b23c189318e",
       "svgSha256": "c823180e63c72bc7a8bdd29bcf1ab552fdcbd50258474b2cc77618e20599c218",
       "nodeCount": 17,
       "flowCount": 14,
@@ -766,7 +766,7 @@
     },
     {
       "file": "03-pruefung-und-mensch.bpmn",
-      "sha256": "8fc9dbfba61a8c8d19de3134ddef59c2d577d492f3d767029fd67cafd0c5ee54",
+      "sha256": "5156db640f33e2804bc981a131307edce81af518fd8abf93a3a5e3e7b3bed4f6",
       "svgSha256": "7fb4b0e91a3d8a38bbee1b8cc6c4a2b0088378d1f8fd75485b39a03488d2c000",
       "nodeCount": 25,
       "flowCount": 27,
@@ -1113,8 +1113,8 @@
     },
     {
       "file": "04-lernen-und-verteilen.bpmn",
-      "sha256": "0d2bed87a0fdd809197d9854db57f46c9d74ce0978e81f999986b1c8b719fcb3",
-      "svgSha256": "9ba00042d7cfcd2d5f3bc59be94543e78aacc050556562ba7782f1e20daae5b2",
+      "sha256": "bc123db4e1c4713ec4acd2a63db9ed28cbc888a5e5f5973dc18f59067ea2bb62",
+      "svgSha256": "e28fe9585834ea4e80c21d521e03021373510610a7ce57e01666aa1c3ded1f0e",
       "nodeCount": 27,
       "flowCount": 27,
       "validation": {
@@ -1424,7 +1424,7 @@
                     {
                       "id": "P04_Build",
                       "kind": "scriptTask",
-                      "name": "Pakete je zulässigem Kreis bauen"
+                      "name": "Gemeinsamen Kern versionieren"
                     },
                     {
                       "id": "P04_Test",
@@ -1473,7 +1473,7 @@
     },
     {
       "file": "05-kontextpflege.bpmn",
-      "sha256": "a9e80f927a94bb1cd977c058b4fdaece9a4b57f0da5845b55d8afd426f392498",
+      "sha256": "5a25b149f1681cd42e9973d276ace7dc98cfcd53a97264fd213151b854165c3b",
       "svgSha256": "08d82d4a1a7ef51b954dd253fb8b5906ede584a4eb0370e29f92c7951e16d07a",
       "nodeCount": 19,
       "flowCount": 19,
@@ -1742,7 +1742,7 @@
     },
     {
       "file": "06-routine-und-wiederaufnahme.bpmn",
-      "sha256": "e9e7e42b6187a88d8549b453e20df9257b996ffb961f3914d0429c83ec719d09",
+      "sha256": "9c7eb3c7d3c39dfb8a7a0cd00120c2237853309df05c5bc65bb7dabf3dcf5fa1",
       "svgSha256": "317091e1917e8f296799572974789677c6b50bd8c8c729b3b875fb931650b51f",
       "nodeCount": 25,
       "flowCount": 24,
@@ -2030,7 +2030,7 @@
     },
     {
       "file": "07-testbetrieb.bpmn",
-      "sha256": "94bf1ee6a733978606ba6537ba9d321f1f68b845a1245f1867122395895af563",
+      "sha256": "21c44963fe4d85e281a157dbf1c062c92d5d94620ac2d03e515987584fd1f604",
       "svgSha256": "42c00e2fea8c85b0ec49ee84bdc64d215070f5a42e50abe1455dd1873f73e31f",
       "nodeCount": 19,
       "flowCount": 19,

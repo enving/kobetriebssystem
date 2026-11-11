@@ -4,11 +4,13 @@
     <bpmn:participant id="P02_Pool" name="P02 · Begrenzter Auftrag im Linux-Terminal" processRef="Process_P02" />
   </bpmn:collaboration>
   <bpmn:process id="Process_P02" name="P02 · Begrenzter Auftrag im Linux-Terminal" isExecutable="false">
-    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
 Zweck: Codex als beauftragten Ausführer mit technischen Grenzen und überprüfbarer Rückgabe modellieren.
-Offen: L25: fachlicher Bearbeiter oder Betriebssystem-Pflege? L6/L9: technische Nutzertrennung und Netzwerkgrenzen. Ein gemeinsam genutztes Home beweist diese Trennung nicht.
+Offen: Fachauftrag oder Betriebssystem-Pflege mit getrenntem Mandat; technische Isolation; Tool-Übergabe A/B. Ein gemeinsam genutztes Home belegt keine Nutzertrennung.
 Quellen: ../../PRD.md ; ../../SICHERHEIT.md ; ../pruefszenarien.md ; ../../beispiel/openwebui/fixtures/04-test-cases.md
-Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Auftrag bearbeiten
+Kurz: Terminalauftrag</bpmn:documentation>
     <bpmn:laneSet id="laneSet_p02BegrenzterAuftragImLinuxTerminal">
       <bpmn:lane id="P02_Lane_g" name="Adapter / Laufsteuerung">
         <bpmn:flowNodeRef>P02_Start</bpmn:flowNodeRef>
@@ -41,7 +43,7 @@ Quelle: ../szenarien.md</bpmn:documentation>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="P02_Flow_Start_Vertrag" sourceRef="P02_Start" targetRef="P02_Vertrag" />
     <bpmn:scriptTask id="P02_Vertrag" name="Mandat und Arbeitsauftrag prüfen">
-      <bpmn:documentation>Prüfen: authentifizierter Auftraggeber, Aufgabe, freigegebene Rolle, Quellstand, erlaubte Eingaben, Schreibbereich, Ergebnisziel und Laufgrenzen. Auswahl der Mandatsart bleibt offen.
+      <bpmn:documentation>Vertrauenswürdige Laufsteuerung prüft Auftraggeber, Aufgabe, Mandat, Quellversion, erlaubte Eingaben, Schreibbereich, Ausgabeziel und Laufgrenzen. Identität kommt aus der authentifizierten Übergabe, nicht aus Freitext. Fachlicher Worker und Pflege des gemeinsamen Betriebssystems haben getrennte Mandate; deren konkrete Zuteilung bleibt offen.
 Quelle: ../../PRD.md</bpmn:documentation>
       <bpmn:incoming>P02_Flow_Start_Vertrag</bpmn:incoming>
       <bpmn:outgoing>P02_Flow_Vertrag_Mandat</bpmn:outgoing>
@@ -90,8 +92,8 @@ Quelle: ../pruefszenarien.md</bpmn:documentation>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="P02_Flow_Stand_Codex" sourceRef="P02_Stand" targetRef="P02_Codex" />
     <bpmn:serviceTask id="P02_Codex" name="Codex im begrenzten Mandat ausführen">
-      <bpmn:documentation>Codex liest nur zulässige Eingaben und erstellt Artefakte im Ausgabebereich. Änderungen an gemeinsamer Steuerung bleiben Änderungsvorschläge; keine pauschale Rechteausweitung.
-Quelle: ../../SICHERHEIT.md</bpmn:documentation>
+      <bpmn:documentation>Nur im zugewiesenen Arbeitsraum arbeiten. Variante A erhält benötigte Daten aus OpenWebUI ohne Tool-Zugangsdaten. Variante B erhält einen auf Nutzer und Auftrag begrenzten Vermittlerzugang; vor jedem Abruf Rechte prüfen. Kein organisationsweiter Composio-/Admin-Schlüssel in der Shell. Weitere Tool-Abrufe nur innerhalb des gebundenen Auftrags. Beide Varianten sind ungetestet.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
       <bpmn:incoming>P02_Flow_Stand_Codex</bpmn:incoming>
       <bpmn:outgoing>P02_Flow_Codex_Sammeln</bpmn:outgoing>
     </bpmn:serviceTask>

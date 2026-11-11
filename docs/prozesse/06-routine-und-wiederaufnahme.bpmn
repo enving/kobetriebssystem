@@ -4,11 +4,13 @@
     <bpmn:participant id="P06_Pool" name="P06 · Routine, Unterbrechung und Wiederaufnahme" processRef="Process_P06" />
   </bpmn:collaboration>
   <bpmn:process id="Process_P06" name="P06 · Routine, Unterbrechung und Wiederaufnahme" isExecutable="false">
-    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
 Zweck: Einen ausdrücklich freigegebenen Hintergrundauftrag nachvollziehbar starten, anhalten und ohne unbemerkte Doppelwirkung fortsetzen.
 Offen: L1/L15/L25: Engine, Identität, Nachrichtenzustellung und technische Wiederaufnahme sind offen. Ein Diagramm garantiert weder dauerhafte Ausführung noch Exactly-once-Wirkung.
 Quellen: ../pruefszenarien.md ; ../../PRD.md ; ../../AGENTS.md
-Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Betrieb prüfen
+Kurz: Routine &amp; Neustart</bpmn:documentation>
     <bpmn:laneSet id="laneSet_p06RoutineUnterbrechungUndWiederaufnahme">
       <bpmn:lane id="P06_Lane_g" name="Laufsteuerung / dauerhafter Auftragsstatus">
         <bpmn:flowNodeRef>P06_Start</bpmn:flowNodeRef>
@@ -49,7 +51,7 @@ Quelle: ../../PRD.md</bpmn:documentation>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="P06_Flow_Start_Auftrag" sourceRef="P06_Start" targetRef="P06_Auftrag" />
     <bpmn:scriptTask id="P06_Auftrag" name="Freigabe, Identität und Grenzen prüfen">
-      <bpmn:documentation>Auftragsfassung, eigenes oder ausdrücklich zugeteiltes Konto, Quellen, Ergebnisziel, Laufgrenzen und zuständige Person prüfen.
+      <bpmn:documentation>Freigabe, Auftragssnapshot, explizites Nutzer- oder Dienstkonto, Quellen, Ziel, Laufgrenzen und zuständige Person prüfen. Ein Zeitplan hat keinen angemeldeten Chatnutzer. Rechte vor Wiederaufnahme erneut prüfen, nicht aus einem alten Profil übernehmen.
 Quelle: ../../PRD.md</bpmn:documentation>
       <bpmn:incoming>P06_Flow_Start_Auftrag</bpmn:incoming>
       <bpmn:outgoing>P06_Flow_Auftrag_Aktiv</bpmn:outgoing>

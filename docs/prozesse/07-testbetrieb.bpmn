@@ -4,11 +4,13 @@
     <bpmn:participant id="P07_Pool" name="P07 · Reproduzierbarer Test mit fiktiver Firma" processRef="Process_P07" />
   </bpmn:collaboration>
   <bpmn:process id="Process_P07" name="P07 · Reproduzierbarer Test mit fiktiver Firma" isExecutable="false">
-    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
 Zweck: Die entworfenen Abläufe mit getrennten Testpersonen, festen Eingaben und nachprüfbaren Grenzen erproben, bevor der Adapter freigegeben wird.
-Offen: Noch kein Testlauf beauftragt. Echte Konten, Isolation, Anbieter und Zustellung sind vor einem späteren Lauf zu prüfen. Providerfehler und Qualitätsfehler getrennt erfassen.
+Offen: A/B noch ungetestet. Zuerst Identität, Kontobindung und Isolation nachweisen; danach Modellläufe. Providerfehler getrennt von fachlichen Fehlern ausweisen.
 Quellen: ../../beispiel/openwebui/fixtures/04-test-cases.md ; ../pruefszenarien.md ; ../../installation/README.md ; ../../SICHERHEIT.md
-Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Betrieb prüfen
+Kurz: Testbetrieb</bpmn:documentation>
     <bpmn:laneSet id="laneSet_p07ReproduzierbarerTestMitFiktiverFirma">
       <bpmn:lane id="P07_Lane_m" name="Testverantwortliche">
         <bpmn:flowNodeRef>P07_Start</bpmn:flowNodeRef>
@@ -45,7 +47,7 @@ Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="P07_Flow_Start_Plan" sourceRef="P07_Start" targetRef="P07_Plan" />
     <bpmn:userTask id="P07_Plan" name="Fälle und Sollkriterien vorab festlegen">
-      <bpmn:documentation>Bestehende Fälle A–K und passende S1–S19 referenzieren. Die offene Codex-Rolle als Varianten prüfen, statt sie durch den Testaufbau zu entscheiden.
+      <bpmn:documentation>Zunächst modellfreie Identitäts-/Rechteproben nach E/F/H, danach wenige echte Modellläufe nach A/C/G/I/J/K. Varianten A (Tools in OpenWebUI) und B (Vermittler) getrennt erfassen. Nicht durch Testaufbau entscheiden, welcher Weg künftig gilt.
 Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
       <bpmn:incoming>P07_Flow_Start_Plan</bpmn:incoming>
       <bpmn:outgoing>P07_Flow_Plan_Manifest</bpmn:outgoing>
@@ -66,8 +68,8 @@ Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="P07_Flow_Aufbau_Grenzen" sourceRef="P07_Aufbau" targetRef="P07_Grenzen" />
     <bpmn:scriptTask id="P07_Grenzen" name="Isolation und Rechte vorab nachweisen">
-      <bpmn:documentation>A darf Bs Daten weder im Tool, Terminal, Cache, Log noch über freigegebene Ableitungen sehen. Positivkontrolle zeigt, dass eigene erlaubte Daten erreichbar sind.
-Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:documentation>Nachweis vor Mehrnutzer-/Terminaltest: getrennte Testkonten, nur synthetische Daten, keine echten Hostdaten. A liest A als Positivkontrolle; B und unautorisierte Aufrufe erreichen A nicht. Fremde Kennung im Prompt/Argument sowie widerrufene Rechte ablehnen. Tool, Arbeitsraum, Cache, Logs und Ausgaben einbeziehen. Quellcode-Lektüre ist noch kein Laufnachweis.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
       <bpmn:incoming>P07_Flow_Aufbau_Grenzen</bpmn:incoming>
       <bpmn:outgoing>P07_Flow_Grenzen_Sicher</bpmn:outgoing>
     </bpmn:scriptTask>
@@ -87,7 +89,7 @@ Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
       <bpmn:incoming>P07_Flow_Sicher_Sperre</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="P07_Normal" name="Normalfall und fehlende Quelle durchspielen">
-      <bpmn:documentation>P01–P03: Aufgabe, direkte Tools, bei freigegebenem Mandat Terminal, Quellenbelege und Review. Fehlende Zuständigkeiten oder Termine müssen offenbleiben.
+      <bpmn:documentation>Einfache Wissensfrage gegen Datei-/Coding-Auftrag vergleichen: Kern ohne Worker nutzbar, begrenzter Worker nur bei Bedarf. Persönliche Ergänzungen getrennt. Korrektes und fehlerhaftes Ergebnis mit frischem lesendem Prüfer prüfen. Tool-Konto und im Zielsystem protokollierte Ausführungsidentität prüfen.
 Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
       <bpmn:incoming>P07_Flow_Sicher_Normal</bpmn:incoming>
       <bpmn:outgoing>P07_Flow_Normal_Fehler</bpmn:outgoing>

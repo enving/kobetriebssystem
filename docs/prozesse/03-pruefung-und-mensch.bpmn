@@ -4,11 +4,13 @@
     <bpmn:participant id="P03_Pool" name="P03 · Gegenprüfung und menschliche Entscheidung" processRef="Process_P03" />
   </bpmn:collaboration>
   <bpmn:process id="Process_P03" name="P03 · Gegenprüfung und menschliche Entscheidung" isExecutable="false">
-    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
 Zweck: Ein Ergebnis gegen Kriterien und zulässige Belege prüfen, bevor die Person es als verwendbaren Entwurf erhält.
 Offen: L10/L25: Träger und Rechte des Prüflaufs. Die Hauptunterhaltung ist kein frischer Kontext; Subagenten erben je nach Laufzeit Werkzeuge und müssen begrenzt werden.
 Quellen: ../../agents/pruefer.md ; ../../AGENTS.md ; ../pruefszenarien.md ; https://docs.openwebui.com/features/chat-conversations/chat-features/subagents/
-Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Auftrag bearbeiten
+Kurz: Prüfung &amp; Mensch</bpmn:documentation>
     <bpmn:laneSet id="laneSet_p03GegenpruefungUndMenschliche">
       <bpmn:lane id="P03_Lane_g" name="Technische Prüfungen">
         <bpmn:flowNodeRef>P03_Start</bpmn:flowNodeRef>
@@ -72,15 +74,15 @@ Quelle: ../../agents/pruefer.md</bpmn:documentation>
       <bpmn:incoming>P03_Flow_Join_Offen_Offen</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="P03_Paket" name="Frisches Prüfpaket übergeben">
-      <bpmn:documentation>Nur Aufgabe, Ergebnisfassung, Fertigkriterien, zulässige Originalquellen und relevante Werkzeugresultate. Kein vollständiger Gedankengang des Bearbeiters.
+      <bpmn:documentation>Eigener frischer Prüflauf mit Aufgabe, Ergebnisfassung, Kriterien, zulässigen Quellen und Werkzeugresultaten. Keine gesamte Hauptunterhaltung. Dass der Hauptchat einen Worker beauftragt und seine Antwort liest, ist keine unabhängige Prüfung.
 Quelle: ../../agents/pruefer.md</bpmn:documentation>
       <bpmn:incoming>P03_Flow_Daten_Paket</bpmn:incoming>
       <bpmn:outgoing>P03_Flow_Paket_Review</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="P03_Flow_Paket_Review" sourceRef="P03_Paket" targetRef="P03_Review" />
     <bpmn:serviceTask id="P03_Review" name="Quellen lesen und Kriterien bewerten">
-      <bpmn:documentation>Eigener Lauf, nachgewiesen begrenzte Rechte, keine Schreib- oder Versandwerkzeuge. Gleiche Modellfamilie ist möglich; frischer Kontext garantiert keine Richtigkeit.
-Quelle: ../../agents/pruefer.md</bpmn:documentation>
+      <bpmn:documentation>Frischer Lauf mit nachgewiesen begrenzten Leserechten, ohne Schreib- oder Versandwerkzeuge. Die Pi/Sandcastle-Entscheidung aus PRD L25 für den Änderungs-Prüfer bleibt bestehen; der Träger eines zusätzlichen OpenWebUI-Ergebnisreviews ist offen. Frischer Kontext garantiert keine Richtigkeit.
+Quelle: ../../PRD.md</bpmn:documentation>
       <bpmn:incoming>P03_Flow_Paket_Review</bpmn:incoming>
       <bpmn:outgoing>P03_Flow_Review_Urteil</bpmn:outgoing>
     </bpmn:serviceTask>

@@ -1,99 +1,138 @@
 # Prozessentwurf für den OpenWebUI-Versuch
 
-**Entwurf v0.1, GPT-6.1-sol, 11.11.2026. Keine Betriebs- oder Architekturfreigabe.**
+**Entwurf v0.2, GPT-6-astra, 11.11.2026. Zielumfang bestätigt; technische Umsetzung und Betrieb nicht freigegeben.**
 
-[Interaktive Ansicht öffnen](ansicht.html). Dort lassen sich die acht Prozesse auswählen,
-vergrößern und über ihre Schritte lesen. Die BPMN-Dateien sind auch in einem BPMN-Modeler bearbeitbar.
+[Interaktive Ansicht öffnen](ansicht.html). Drei Kapitel führen durch die acht Detailmodelle:
+
+- **Auftrag bearbeiten:** gemeinsame Grundlagen laden, persönliche Tools nutzen, bei Bedarf einen
+  begrenzten Terminalauftrag ausführen und das Ergebnis unabhängig prüfen (P00–P03).
+- **Wissen verbessern:** Korrekturen passend einordnen, allgemeine Fähigkeiten vorschlagen und
+  das gemeinsame Wiki mit Quellen und fachlichen Besitzern pflegen (P04/P05).
+- **Betrieb prüfen:** freigegebene Routinen, Unterbrechungen und reproduzierbare Tests (P06/P07).
+
+## Zielbild und offene Technik
+
+Das Zielbild dieses Versuchs ist ein **gemeinsames Firmenwiki mit Regeln und Skills für alle**.
+Bewusst festgelegte persönliche Ergänzungen bleiben getrennt. Vertrauliche Daten bleiben in den
+Quellsystemen; notwendige Ergebnisse werden nur im zulässigen Empfängerkreis verarbeitet und abgelegt.
+Der Kontextartikel von AI FIRST beschreibt ebenfalls ein Wiki für das gesamte Team und Rechtevergabe
+in den angebundenen Tools. Geschützte Rollenpakete aus unserer [PRD L6](../../PRD.md#9-lückenregister)
+sind eine weitergehende Anforderung; dieses einfachere Zielbild schließt die allgemeine Lücke nicht.
+
+Gemeinsame Konfiguration bedeutet weder gemeinsamer Gesprächsverlauf noch gemeinsames Tool-Konto.
+Ein Rollenprofil beschreibt die Arbeitsweise; die technische Zugriffskontrolle muss vor dem Lesen
+oder Handeln greifen. Frontmatter, Dateinamen und Promptregeln allein erzwingen keine Lesesperre.
+
+Zwei Anbindungen bleiben **gleichberechtigte Testvarianten**, keine bereits eingerichteten Wege:
+
+| Variante | Übergabe | Noch nachzuweisen |
+|---|---|---|
+| A: Tools über OpenWebUI | Die Oberfläche nutzt das persönliche Tool-Konto. Der Worker erhält nur benötigte Daten. | Kontozuordnung, Daten- und Dateitrennung, begrenzte Übergabe |
+| B: nutzergebundener Vermittler | Ein vertrauenswürdiger Dienst verbindet den Auftrag mit dem autorisierten Konto; UI und Worker können darüber Tools aufrufen. Composio ist ein möglicher Kandidat. | Authentifizierte Identität, begrenzter Zugriff, Ablehnung fremder Kennungen und Widerruf |
+
+Das Sprachmodell darf keine Nutzerkennung als Berechtigungsnachweis wählen. Ein organisationsweiter
+Admin-Schlüssel gehört nicht in die frei verwendbare Worker-Shell. Modellzugang und Tool-Konto sind
+verschiedene Identitäten. Die tatsächliche Ausführungsidentität muss auch im Zielsystem geprüft werden.
+Eine gültige OAuth-Verbindung kann wiederverwendet werden; eine neue Aufgabe bedeutet nicht automatisch
+neue Registrierung. Ob das im Teststack durchgängig funktioniert, bleibt ungetestet.
+
+Einfache Fragen sollen mit dem gemeinsamen Kern beantwortbar sein. Ein Worker wird für benötigte
+Datei-/Coding-Arbeit oder ein gesondertes Pflegemandat beauftragt. Die konkrete Mandatsaufteilung bleibt
+L25 zugeordnet. Ein frischer Prüflauf bleibt erforderlich; die Hauptunterhaltung wird durch das
+Weiterleiten einer Worker-Antwort nicht zum unabhängigen Prüfer. Die bestehende Pi/Sandcastle-Auswahl
+für den Änderungs-Prüfer wird hier nicht ersetzt.
+
+## Modelle und eine zuständige Quelle
 
 <!-- modelle:start -->
-| Prozess | Quelle | Bild |
+| Prozess | Quelle | Ansicht |
 |---|---|---|
-| P00 · Von der Aufgabe zur gemeinsamen Verbesserung | [BPMN](00-gesamtprozess.bpmn) | [SVG](00-gesamtprozess.svg) |
-| P01 · Auftrag, Kontext und persönliche Tools | [BPMN](01-auftrag-und-tools.bpmn) | [SVG](01-auftrag-und-tools.svg) |
-| P02 · Begrenzter Auftrag im Linux-Terminal | [BPMN](02-terminalauftrag.bpmn) | [SVG](02-terminalauftrag.svg) |
-| P03 · Gegenprüfung und menschliche Entscheidung | [BPMN](03-pruefung-und-mensch.bpmn) | [SVG](03-pruefung-und-mensch.svg) |
-| P04 · Korrektur, Änderungsvorschlag und Verteilung | [BPMN](04-lernen-und-verteilen.bpmn) | [SVG](04-lernen-und-verteilen.svg) |
-| P05 · Wissen finden, anreichern und pflegen | [BPMN](05-kontextpflege.bpmn) | [SVG](05-kontextpflege.svg) |
-| P06 · Routine, Unterbrechung und Wiederaufnahme | [BPMN](06-routine-und-wiederaufnahme.bpmn) | [SVG](06-routine-und-wiederaufnahme.svg) |
-| P07 · Reproduzierbarer Test mit fiktiver Firma | [BPMN](07-testbetrieb.bpmn) | [SVG](07-testbetrieb.svg) |
+| P00 · Von der Aufgabe zur gemeinsamen Verbesserung | [BPMN](00-gesamtprozess.bpmn) | [Öffnen](ansicht.html#Process_P00) |
+| P01 · Auftrag, Kontext und persönliche Tools | [BPMN](01-auftrag-und-tools.bpmn) | [Öffnen](ansicht.html#Process_P01) |
+| P02 · Begrenzter Auftrag im Linux-Terminal | [BPMN](02-terminalauftrag.bpmn) | [Öffnen](ansicht.html#Process_P02) |
+| P03 · Gegenprüfung und menschliche Entscheidung | [BPMN](03-pruefung-und-mensch.bpmn) | [Öffnen](ansicht.html#Process_P03) |
+| P04 · Korrektur, Änderungsvorschlag und Verteilung | [BPMN](04-lernen-und-verteilen.bpmn) | [Öffnen](ansicht.html#Process_P04) |
+| P05 · Wissen finden, anreichern und pflegen | [BPMN](05-kontextpflege.bpmn) | [Öffnen](ansicht.html#Process_P05) |
+| P06 · Routine, Unterbrechung und Wiederaufnahme | [BPMN](06-routine-und-wiederaufnahme.bpmn) | [Öffnen](ansicht.html#Process_P06) |
+| P07 · Reproduzierbarer Test mit fiktiver Firma | [BPMN](07-testbetrieb.bpmn) | [Öffnen](ansicht.html#Process_P07) |
 <!-- modelle:ende -->
 
-Die **`.bpmn`-Dateien sind die Quelle des Prozessmodells**. SVGs, die HTML-Ansicht und
-`pruefung.json` sind daraus erzeugt. Namen, Schrittdetails, Aufrufe und offene Punkte der Ansicht
-werden aus BPMN gelesen; sie sind kein zweiter gepflegter Prozessbestand.
+Die **acht `.bpmn`-Dateien sind die Quelle des Prozessmodells**, einschließlich Schrittdetails,
+Kapitelzuordnung und offener Fragen. Der Bauweg erzeugt daraus die selbständige `ansicht.html` und
+`pruefung.json`. Die Ansicht enthält alle SVGs und bietet einen Download je Diagramm. Damit stehen
+hier 13 statt 21 Dateien; acht separate SVG-Kopien entfallen. Bestehende Exporte in Präsentationen
+bleiben eigenständige Snapshots und werden nicht automatisch überschrieben.
 
-Die Übersicht P00 führt in die Details P01–P07: Auftrag und persönliche Tools, Terminalauftrag,
-Gegenprüfung, Lernschleife und Verteilung, Kontextpflege, Routinen sowie reproduzierbarer Testbetrieb.
-Annahmen und noch nötige Entscheidungen stehen in der Prozessdokumentation, besonders zur
-Codex-Rolle, zur Nutzertrennung und zu den Rechten des Prüfers. Die bestehenden Lücken werden
-weiter ausschließlich in [PRD §9](../../PRD.md#9-lückenregister) geführt.
+BPMN-Bahnen zeigen fachliche Verantwortung, keine nachgewiesenen Container- oder Kontogrenzen.
+Die Tool-Verbindung in P01 zeigt den fachlichen Aufruf; ihre technische Platzierung A/B ist offen.
+Aufgerufene Aktivitäten verweisen über `calledElement` auf andere Prozessdateien. Alle Modelle tragen
+`isExecutable="false"`. Blockierte Unterprozesse dürfen den Gesamtauftrag nicht als erfolgreich
+fortsetzen; diese Rückgabestatus müsste eine spätere Laufsteuerung technisch verdrahten. Normale
+BPMN-Endereignisse allein leisten das nicht. Zuverlässige Zustellung oder doppelfreie Wirkung ist
+hier ebenso wenig nachgewiesen wie Nutzerisolation.
 
-## Quellen und Abgrenzung
+## Bearbeiten und erzeugen
 
-Das Modell konkretisiert den aktuellen Gesprächsentwurf für einen OpenWebUI-Adapter. Es ersetzt
-keine Vorgaben aus [AGENTS.md](../../AGENTS.md), [SICHERHEIT.md](../../SICHERHEIT.md),
-[Szenarien](../szenarien.md), [Prüfszenarien](../pruefszenarien.md),
-[Prüferkarte](../../agents/pruefer.md) oder [Paketverteilung](../../installation/README.md).
-Die Herkunft steht zusätzlich an jedem Prozessschritt. Es enthält nur verallgemeinerte Abläufe.
-
-Öffentliche Ausgangsquellen: [AI-FIRST-Architektur vom 01.11.](https://ai-first.ai/insights/ai-first-ki-betriebssystem-2-0),
-[Kontextpflege vom 08.11.](https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst),
-[OpenWebUI-OAuth](https://docs.openwebui.com/features/extensibility/mcp/#connecting-an-account) und
-[OpenWebUI-Subagenten](https://docs.openwebui.com/features/chat-conversations/chat-features/subagents/).
-Die dort teilweise beschriebene automatische Wiki-Übernahme wird nicht als lokale Freigaberegel eingeführt.
-
-Bahnen zeigen **fachliche Verantwortung**. Eine Bahn ist kein eigener Container und kein Nachweis
-für Zugriffsrechte. P01 zeigt die direkten persönlichen Tools als eigenen Pool; sein Nachrichtenfluss
-führt nicht durch Codex. P02 beschreibt den gesonderten Ausführungsauftrag. Aufgerufene Aktivitäten
-verweisen über `calledElement` auf die Prozesskennungen der anderen Dateien. Das sind dokumentarische
-Verknüpfungen, keine konfigurierte Workflow-Engine. Alle Prozesse tragen `isExecutable="false"`.
-
-P00 behandelt nur die erfolgreiche Rückkehr eines Unterprozesses als Fortsetzung: Ein blockierendes
-oder abbrechendes Ende in einem Detailprozess stoppt den betreffenden Auftrag und meldet seinen Status.
-Bei einer späteren ausführbaren Umsetzung sind diese Rückgabestatus technisch zu verdrahten; allein
-ein normales BPMN-Endereignis in einer aufgerufenen Datei erzwingt das nicht. Die Modelle behaupten
-weder technische Isolation noch zuverlässige Zustellung, frischen Prüferkontext oder doppelfreie Wirkung.
-Providerfehler werden als technische Blocker getrennt von fachlicher Qualität ausgewiesen.
-
-## Bearbeiten und erneut erzeugen
-
-Genutzt wurde **Miragon bpmn-cli 0.10.0** aus dem vorhandenen Teststack
-([Originalprojekt und CLI-Dokumentation](https://github.com/Miragon/bpmn-cli)).
-Die tatsächlich verwendete Version wird in `pruefung.json` festgehalten. Für die Befehle unten
-eine vorhandene CLI verwenden; lokale Hilfe: `bpmn guide`.
-
-Beispiel einer Änderung direkt an der Quelle:
+Genutzt wird die vorhandene **Miragon bpmn-cli 0.10.0**
+([Originalprojekt](https://github.com/Miragon/bpmn-cli)). Die tatsächlich verwendete Version steht im
+Prüfbericht. Beispiel:
 
 ```sh
 bpmn show docs/prozesse/02-terminalauftrag.bpmn P02_Vertrag
 bpmn set docs/prozesse/02-terminalauftrag.bpmn P02_Vertrag name="Arbeitsauftrag und Mandat prüfen"
-bpmn layout docs/prozesse/02-terminalauftrag.bpmn
 python3 docs/prozesse/rendern.py
 ```
 
-Alternativ eine bereits vorhandene CLI in einem angegebenen Container verwenden:
+Alternativ eine vorhandene CLI in einem ausdrücklich angegebenen Container verwenden:
 
 ```sh
 python3 docs/prozesse/rendern.py --container <containername>
 ```
 
-Das Skript installiert nichts und startet keine Agenten oder Dienste. Es verwendet nur temporäre
-Dateien, `bpmn validate`, `bpmn diagram` und `bpmn render`. Der Prüfbericht bindet jedes SVG und die
-Ansicht an den SHA-256 der BPMN-Quelle. Zusätzliche Prüfungen kontrollieren unter anderem erreichbare
-Enden, beschriftete Verzweigungen, dokumentierte Schritte und auflösbare Prozessaufrufe.
-Geprüft wird das Modell, nicht die Funktionsfähigkeit der entworfenen Integration.
+Für zusätzliche SVG-Dateien, etwa für eine Präsentation:
 
-## Prüfstand 11.11.2026
+```sh
+python3 docs/prozesse/rendern.py --svg-dir /tmp/ko-prozess-export
+```
 
-Alle acht Modelle bestehen die CLI-Strukturprüfung ohne Fehler oder Warnungen. Die zusätzlichen
-Graphprüfungen und 179 lokale Quellenverweise bestehen ebenfalls. Kein Element oder Label überlappt
-ein anderes oder wird von einer Kante verdeckt. Verbleibende Kantenkreuzungen stehen getrennt im
-Layoutbericht; eine Kreuzung ist keine Zusammenführung des Ablaufs.
+`--container` und `--svg-dir` sind kombinierbar. Ohne Exportoption entstehen keine separaten SVGs.
+Das Skript installiert nichts, startet keine Agenten oder Dienste und nutzt `bpmn validate`,
+`bpmn diagram` und `bpmn render`. Der Bericht bindet die eingebetteten SVGs, Vorlage und Ansicht an
+ihre SHA-256-Prüfsummen. Struktur, erreichbare Enden und Prozessaufrufe werden zusätzlich geprüft.
 
-Die Ansicht wurde mit 728 Pixeln Breite im hellen und 390 Pixeln im dunklen Erscheinungsbild geprüft:
-acht Prozesse auswählbar, alle 169 Schrittdokumentationen erreichbar, sechs Detailprozess-Aufrufe
-auflösbar, Zoom und Navigation funktionsfähig, kein horizontaler Seitenüberlauf. Die Begleittexte
-verwenden mindestens 14 Pixel; das BPMN-Bild ist gesondert zoombar.
+## Was der Teststack noch beantworten muss
 
-Die Prüfung war eine eigene Modell- und Darstellungsprüfung. Kein echter Mehrnutzerlauf, keine
-Modellantwort, keine Connector-Anmeldung und kein Deployment wurden damit getestet.
+Die konkreten Gegenproben stehen in den bestehenden [OpenWebUI-Prüffällen](../../beispiel/openwebui/fixtures/04-test-cases.md):
+Identität und Rechte (E/F/H), sinnvolle Delegation (A/H), frischer Prüfer (C), Lernen ohne private Daten
+(G/K), Wiederaufnahme und Versionen (I/J). Zuerst modellfreie Proben, danach wenige echte Modellläufe.
+Eine gelesene Codefunktion ist kein erfolgreicher Ende-zu-Ende-Test. Providerfehler werden getrennt
+von fachlicher Qualität ausgewiesen. Die bestehenden [Prüfszenarien](../pruefszenarien.md) und das
+[PRD-Lückenregister](../../PRD.md#9-lückenregister) bleiben zuständig; es entsteht kein zweites Register.
+
+## Quellen und Geltung
+
+Der Entwurf ersetzt keine Vorgaben aus [AGENTS.md](../../AGENTS.md),
+[SICHERHEIT.md](../../SICHERHEIT.md), [Szenarien](../szenarien.md),
+[Prüferkarte](../../agents/pruefer.md) oder [Paketverteilung](../../installation/README.md).
+Die Herkunft steht an den Prozessschritten. Keine automatische Personenbeobachtung; persönliche
+Festlegungen und firmenweites Lernen bleiben gemäß PRD Entscheidung 10 und Prüfszenario S17 getrennt.
+
+Öffentliche Quellen: [AI-FIRST-Architektur](https://ai-first.ai/insights/ai-first-ki-betriebssystem-2-0),
+[Kontextpflege](https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst),
+[OpenWebUI-OAuth](https://docs.openwebui.com/features/extensibility/mcp/#connecting-an-account),
+[OpenWebUI-Subagenten](https://docs.openwebui.com/features/chat-conversations/chat-features/subagents/) und
+[Composio-Nutzerzuordnung](https://docs.composio.dev/docs/consumer-agents).
+Die im Artikel beschriebene automatische Wiki-Übernahme führt keine neue lokale Freigaberegel ein.
+
+## Prüfstand v0.2
+
+Die aktuelle Struktur- und Layoutprüfung wird in `pruefung.json` erzeugt.
+Geprüft am 11.11.2026: acht Modelle, 169 Knoten und 171 Sequenzflüsse; null CLI-Fehler und
+Warnungen, keine verdeckten Elemente oder Labels. Alle 179 lokalen Quellenverweise sind auflösbar.
+Die Ansicht wurde bei 728 Pixeln hell und 390 Pixeln dunkel geprüft: drei Kapitel, acht Modelle,
+169 Schrittdetails, sechs Prozessaufrufe, Zoom und SVG-Download funktionieren ohne Seitenüberlauf.
+Der optionale CLI-Export erzeugt acht SVGs mit den Prüfsummen aus dem Bericht und keine SVG-Kopien
+im Quellordner. Python-/JavaScript-Syntax, `git diff --check` und Geheimnisscan bestehen.
+
+Die Dokumentationsprüfung ist kein Integrationstest: keine echten Modellantworten, kein OAuth-Login,
+keine Mehrnutzer-Abnahme und kein Deployment. Der Teststack wurde durch diese Überarbeitung nicht verändert.

@@ -4,11 +4,13 @@
     <bpmn:participant id="P05_Pool" name="P05 · Wissen finden, anreichern und pflegen" processRef="Process_P05" />
   </bpmn:collaboration>
   <bpmn:process id="Process_P05" name="P05 · Wissen finden, anreichern und pflegen" isExecutable="false">
-    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
 Zweck: Dauerhaftes Wissen mit Herkunft und Besitzer pflegen, ohne persönliche Vorgänge in einen größeren Kreis zu verschieben.
 Offen: L1/L7/L12: Identität, Informationsfluss und Logbuch der Routine. Automatische Übernahme unstrittiger Artikel-Ergänzungen wird hier nicht als neue lokale Freigaberegel übernommen.
 Quellen: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst ; ../szenarien.md ; ../../PRD.md ; ../../AGENTS.md
-Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Wissen verbessern
+Kurz: Kontextpflege</bpmn:documentation>
     <bpmn:laneSet id="laneSet_p05WissenFindenAnreichernUndPflegen">
       <bpmn:lane id="P05_Lane_g" name="Freigegebener Pflegeauftrag / technische Prüfung">
         <bpmn:flowNodeRef>P05_Pflege</bpmn:flowNodeRef>
@@ -43,7 +45,7 @@ Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:do
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="P05_Flow_Hinweis_Ernte" sourceRef="P05_Hinweis" targetRef="P05_Ernte" />
     <bpmn:serviceTask id="P05_Ernte" name="Zulässige neue Quellen lesen">
-      <bpmn:documentation>Nur Quellen lesen, die der ausdrücklich freigegebene Auftrag erlaubt. Ursprung, Zeitpunkt und zulässigen Empfängerkreis mitführen.
+      <bpmn:documentation>Ein freigegebener Pflegeauftrag liest nur zulässige Quellen mit ausdrücklich zugewiesenem Konto. Ein zeitgesteuerter Lauf übernimmt nicht die Identität des zuletzt aktiven Chatnutzers. Herkunft und Sichtbarkeit jeder Aussage mitführen.
 Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
       <bpmn:incoming>P05_Flow_Hinweis_Ernte</bpmn:incoming>
       <bpmn:outgoing>P05_Flow_Ernte_Merge</bpmn:outgoing>
@@ -56,7 +58,7 @@ Quelle: ../../PRD.md</bpmn:documentation>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="P05_Flow_Pflege_Scan" sourceRef="P05_Pflege" targetRef="P05_Scan" />
     <bpmn:scriptTask id="P05_Scan" name="Verweise, Metadaten und Fälligkeit prüfen">
-      <bpmn:documentation>Index, Quellen, Besitzer, Prüfdatum, kaputte Verweise und verwaiste Einträge gegen den geltenden Stand prüfen. Werte und Regeln bleiben an ihren zuständigen Quellen.
+      <bpmn:documentation>Index, Quellen, Besitzer, Prüfdatum, Verweise und verwaiste Einträge prüfen. Bereichsbesitz bedeutet fachliche Verantwortung; Frontmatter und Ordnerstruktur sind keine technischen Leserechte. Das gemeinsame Wiki wird hier für alle gepflegt.
 Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
       <bpmn:incoming>P05_Flow_Pflege_Scan</bpmn:incoming>
       <bpmn:outgoing>P05_Flow_Scan_Inhalt</bpmn:outgoing>
@@ -92,7 +94,7 @@ Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:do
       <bpmn:incoming>P05_Flow_Nutzen_Vorgang</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:exclusiveGateway id="P05_Kreis" name="Zielkreis von Quelle gedeckt?">
-      <bpmn:documentation>Ein Ergebnis oder eine Zusammenfassung darf nicht breiter sichtbar sein als die zugrunde liegende Quelle. Im Zweifel keine gemeinsame Aufnahme.
+      <bpmn:documentation>Ins gemeinsame Wiki nur Wissen aufnehmen, das für das ganze Team geeignet und freigegeben ist. Private Mailzusammenfassungen bleiben außerhalb, auch wenn sie nützlich sind. Geschützte Informationen verbleiben im Quellsystem; abgeleitete Artefakte bleiben im zulässigen Empfängerkreis.
 Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
       <bpmn:incoming>P05_Flow_Nutzen_Kreis</bpmn:incoming>
       <bpmn:outgoing>P05_Flow_Kreis_Privat</bpmn:outgoing>

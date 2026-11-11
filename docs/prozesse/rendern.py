@@ -53,6 +53,10 @@ def local_model(path):
     process = root.find('b:process', NS)
     assert process is not None, f'{path.name}: Prozess fehlt'
     assert process.get('isExecutable') == 'false', f'{path.name}: ausführbar'
+    documentation = process.findtext('b:documentation', '', NS)
+    for field in ('Kapitel', 'Kurz', 'Zweck', 'Offen'):
+        assert any(line.startswith(field+': ') and line[len(field)+2:].strip()
+                   for line in documentation.splitlines()), f'{path.name}: {field} fehlt'
     nodes = {e.get('id'): e for e in process if e.tag.split('}')[-1] in FLOW_NODES}
     flows = list(process.findall('b:sequenceFlow', NS))
     outgoing = {id: [] for id in nodes}
@@ -94,7 +98,7 @@ def local_model(path):
         entries.append({'id': id, 'name': e.get('name', ''), 'kind': kind, 'doc': doc,
                         'lane': lane_by_node[id], 'call': call, 'next': outgoing[id]})
     return {'file': path.name, 'id': process.get('id'), 'name': process.get('name'),
-            'doc': process.findtext('b:documentation', '', NS), 'nodes': entries,
+            'doc': documentation, 'nodes': entries,
             'calls': calls, 'nodeCount': len(nodes), 'flowCount': len(flows),
             'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
 
@@ -102,6 +106,7 @@ def local_model(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--container', help='Vorhandener Container mit Python und bpmn-cli')
+    parser.add_argument('--svg-dir', type=Path, help='Optional: SVGs zusätzlich in diesen Ordner exportieren')
     args = parser.parse_args()
     paths = sorted(HERE.glob('*.bpmn'))
     assert paths, 'Keine BPMN-Quellen'
@@ -142,11 +147,14 @@ def main():
     readme = (HERE/'README.md').read_text()
     begin, end = '<!-- modelle:start -->', '<!-- modelle:ende -->'
     assert readme.count(begin) == readme.count(end) == 1, 'Modellverzeichnis fehlt'
-    links = ['| Prozess | Quelle | Bild |', '|---|---|---|']
+    links = ['| Prozess | Quelle | Ansicht |', '|---|---|---|']
     for m in models:
-        links.append(f'| {m["name"]} | [BPMN]({m["file"]}) | [SVG]({Path(m["file"]).with_suffix(".svg")}) |')
+        links.append(f'| {m["name"]} | [BPMN]({m["file"]}) | [Öffnen](ansicht.html#{m["id"]}) |')
     readme = readme.split(begin)[0]+begin+'\n'+'\n'.join(links)+'\n'+end+readme.split(end)[1]
-    for p, svg in zip(paths, svgs, strict=True): p.with_suffix('.svg').write_text(svg)
+    if args.svg_dir:
+        args.svg_dir.mkdir(parents=True, exist_ok=True)
+        for p, svg in zip(paths, svgs, strict=True):
+            (args.svg_dir/p.with_suffix('.svg').name).write_text(svg)
     (HERE/'ansicht.html').write_text(html)
     report = {'scope': 'Prozessmodell, kein Integrationstest', 'cliVersion': result['cliVersion'],
               'source': '*.bpmn', 'structuralChecks': 'bestanden',
@@ -156,7 +164,9 @@ def main():
     (HERE/'pruefung.json').write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
     (HERE/'README.md').write_text(readme)
     print(f'{len(models)} Modelle: 0 CLI-Fehler, 0 CLI-Warnungen; Struktur und Aufrufe geprüft.')
-    print(f'{sum(m["nodeCount"] for m in models)} Knoten, {sum(m["flowCount"] for m in models)} Sequenzflüsse; Ansicht und SVGs erzeugt.')
+    print(f'{sum(m["nodeCount"] for m in models)} Knoten, {sum(m["flowCount"] for m in models)} Sequenzflüsse; Ansicht mit eingebetteten SVGs erzeugt.')
+    if args.svg_dir:
+        print(f'{len(svgs)} SVGs zusätzlich exportiert: {args.svg_dir}')
 
 
 if __name__ == '__main__':

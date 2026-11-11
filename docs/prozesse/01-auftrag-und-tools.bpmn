@@ -2,16 +2,18 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_p01AuftragKontextUndPersoenlicheTools" targetNamespace="http://bpmn.io/schema/bpmn">
   <bpmn:collaboration id="collaboration_p01AuftragKontextUndPersoenlicheTools">
     <bpmn:participant id="P01_Pool" name="P01 · Auftrag, Kontext und persönliche Tools" processRef="Process_P01" />
-    <bpmn:participant id="P01_Tools" name="Persönliche Quellsysteme · z. B. Gmail / Composio" />
+    <bpmn:participant id="P01_Tools" name="Persönliche Quellsysteme · z. B. Gmail" />
     <bpmn:messageFlow id="P01_Message_Aufruf" name="Aufruf als angemeldete Person" sourceRef="P01_Lesen" targetRef="P01_Tools" />
     <bpmn:messageFlow id="P01_Message_Belege" name="zulässige Daten + Herkunft" sourceRef="P01_Tools" targetRef="P01_Belege" />
   </bpmn:collaboration>
   <bpmn:process id="Process_P01" name="P01 · Auftrag, Kontext und persönliche Tools" isExecutable="false">
-    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
 Zweck: Den Auftrag einer eindeutig angemeldeten Person mit passenden Quellen und einem festen Quellstand vorbereiten.
-Offen: PRD L3/L4: persönlicher Kontext; L6/L7/L24: Rechte und fehlende Quellen. OAuth- und Nutzerzuordnung sind in der Testinstanz noch nachzuweisen.
+Offen: Anbindung A (OpenWebUI) oder B (Vermittler), nachgewiesene Nutzer-/Kontozuordnung. Gemeinsames Wiki ist Zielbild; PRD L6 bleibt als weitergehende Frage bestehen.
 Quellen: ../../AGENTS.md ; ../szenarien.md ; https://docs.openwebui.com/features/extensibility/mcp/#connecting-an-account ; https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst ; ../../beispiel/openwebui/fixtures/04-test-cases.md
-Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Auftrag bearbeiten
+Kurz: Auftrag &amp; Tools</bpmn:documentation>
     <bpmn:laneSet id="laneSet_p01AuftragKontextUndPersoenlicheTools">
       <bpmn:lane id="P01_Lane_m" name="Mitarbeitende">
         <bpmn:flowNodeRef>P01_Rueckfrage</bpmn:flowNodeRef>
@@ -47,15 +49,15 @@ Quelle: ../../AGENTS.md</bpmn:documentation>
       <bpmn:outgoing>P01_Flow_Start_Identitaet</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="P01_Flow_Start_Identitaet" sourceRef="P01_Start" targetRef="P01_Identitaet" />
-    <bpmn:serviceTask id="P01_Identitaet" name="Nutzer und erlaubte Kreise ermitteln">
-      <bpmn:documentation>Die authentifizierte Sitzung bestimmt die Person. Eine vom Modell genannte Nutzerkennung genügt nicht als Berechtigungsnachweis.
+    <bpmn:serviceTask id="P01_Identitaet" name="Nutzer und Auftrag sicher zuordnen">
+      <bpmn:documentation>Die serverseitig authentifizierte Sitzung bestimmt die Person und bindet den Auftrag. Nutzer-ID aus Prompt oder Toolargument ist kein Nachweis. Rollenprofile steuern die Arbeitsweise; Tool-Rechte werden gesondert technisch geprüft. Keine Kontoauswahl durch das Modell.
 Quelle: ../../SICHERHEIT.md</bpmn:documentation>
       <bpmn:incoming>P01_Flow_Start_Identitaet</bpmn:incoming>
       <bpmn:outgoing>P01_Flow_Identitaet_Paket</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="P01_Flow_Identitaet_Paket" sourceRef="P01_Identitaet" targetRef="P01_Paket" />
     <bpmn:serviceTask id="P01_Paket" name="Freigegebenen Paketstand binden">
-      <bpmn:documentation>Regeln, Index, Landkarte, passende Skills und persönliche Anweisungen laden. Version und Quell-Commit an den Auftrag binden; fehlende Pflichtquellen sichtbar machen.
+      <bpmn:documentation>Für alle derselbe freigegebene Firmenkern: Wiki, Regeln und gemeinsame Skills. Bewusst festgelegte persönliche Ergänzungen bleiben getrennt. Quellversion an den Auftrag binden; fehlende Pflichtquellen melden. Rollenbezogene Auswahl nach Relevanz ist keine Lesesperre. Gefilterte Wiki-Pakete aus PRD L6 sind eine spätere Erweiterung, kein Bestandteil dieses Zielbilds.
 Quelle: ../../installation/README.md</bpmn:documentation>
       <bpmn:incoming>P01_Flow_Identitaet_Paket</bpmn:incoming>
       <bpmn:outgoing>P01_Flow_Paket_Gueltig</bpmn:outgoing>
@@ -99,7 +101,7 @@ Quelle: ../../AGENTS.md</bpmn:documentation>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="P01_Flow_Rueckfrage_Aufgabe" sourceRef="P01_Rueckfrage" targetRef="P01_Join_Aufgabe" />
     <bpmn:serviceTask id="P01_Index" name="Index und Quellenverweise lesen">
-      <bpmn:documentation>Gemeinsame gültige Grundlagen zuerst, persönliche oder fachliche Ergänzungen nur bei Bedarf. Keine vollständigen privaten Chats in gemeinsamen Kontext kopieren.
+      <bpmn:documentation>Das gemeinsame Wiki ist im Zielbild für das ganze Team lesbar. Index und Verweise erschließen dauerhaftes Arbeitswissen; persönliche Ergänzungen werden nur im jeweiligen Auftrag genutzt. Vertrauliche Live-Daten bleiben in den Quellsystemen und werden nicht als Wiki-Dateien mit Frontmatter-Sperre verteilt.
 Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
       <bpmn:incoming>P01_Flow_Klar_Index</bpmn:incoming>
       <bpmn:outgoing>P01_Flow_Index_ToolNoetig</bpmn:outgoing>
@@ -115,14 +117,14 @@ Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:do
     <bpmn:sequenceFlow id="P01_Flow_ToolNoetig_Konto" name="ja" sourceRef="P01_ToolNoetig" targetRef="P01_Konto" />
     <bpmn:sequenceFlow id="P01_Flow_ToolNoetig_Zusammen" name="nein" sourceRef="P01_ToolNoetig" targetRef="P01_Zusammen" />
     <bpmn:serviceTask id="P01_Konto" name="Eigenes Tool-Konto und Umfang prüfen">
-      <bpmn:documentation>Bei OAuth wird die Verbindung der angemeldeten Person verwendet. Eine globale Verbindung zum Postfach einer anderen Person ist kein Ersatz.
+      <bpmn:documentation>Vor dem Aufruf die authentifizierte Person ihrem autorisierten Tool-Konto zuordnen. Eine bestehende gültige OAuth-Verbindung kann wiederverwendet werden; bei fehlender oder widerrufener Verbindung muss die Person neu autorisieren. Der Modellzugang ist nicht das Tool-Konto. Ausführung mit delegiertem Nutzerzugriff oder ausdrücklich zulässigem Dienstkonto im Test unterscheiden.
 Quelle: https://docs.openwebui.com/features/extensibility/mcp/#connecting-an-account</bpmn:documentation>
       <bpmn:incoming>P01_Flow_ToolNoetig_Konto</bpmn:incoming>
       <bpmn:outgoing>P01_Flow_Konto_Zugriff</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="P01_Flow_Konto_Zugriff" sourceRef="P01_Konto" targetRef="P01_Zugriff" />
     <bpmn:exclusiveGateway id="P01_Zugriff" name="Zugriff erlaubt?">
-      <bpmn:documentation>Der Connector und das Quellsystem müssen die Rechte durchsetzen. Tool-Auswahl im Prompt allein beweist keine Isolation.
+      <bpmn:documentation>Connector beziehungsweise Vermittler und Quellsystem setzen Rechte durch. Nicht nur Tool-Auswahl verstecken: direkte unzulässige Aufrufe, fremde Konto-ID und widerrufene Rechte müssen scheitern. Eine allgemeine Anmeldekennung oder ein Rollenname reicht nicht.
 Quelle: ../../SICHERHEIT.md</bpmn:documentation>
       <bpmn:incoming>P01_Flow_Konto_Zugriff</bpmn:incoming>
       <bpmn:outgoing>P01_Flow_Zugriff_Fehlt</bpmn:outgoing>
@@ -135,9 +137,9 @@ Quelle: ../../SICHERHEIT.md</bpmn:documentation>
 Quelle: ../../AGENTS.md</bpmn:documentation>
       <bpmn:incoming>P01_Flow_Zugriff_Fehlt</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="P01_Lesen" name="Quelle direkt über Tool lesen">
-      <bpmn:documentation>Gmail oder ein anderer Dienst wird über OpenWebUI aufgerufen. Nur benötigte Daten lesen; keine Tool-Zugangsdaten an Codex weiterreichen.
-Quelle: ../szenarien.md</bpmn:documentation>
+    <bpmn:serviceTask id="P01_Lesen" name="Quelle nutzergebunden lesen">
+      <bpmn:documentation>Offene Anschlussvarianten: A — OpenWebUI ruft das persönliche Tool auf. B — ein vertrauenswürdiger Vermittler bindet den Tool-Aufruf an den authentifizierten Nutzer und dessen Konto. Der fachliche Datenfluss ist gleich; noch keine Variante ausgewählt oder abgenommen. Composio ist ein möglicher Vermittler, keine Wissensquelle. Nur erforderliche Daten lesen, keine Zugangsdaten an das Modell weitergeben.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
       <bpmn:incoming>P01_Flow_Zugriff_Lesen</bpmn:incoming>
       <bpmn:outgoing>P01_Flow_Lesen_Belege</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -169,8 +171,8 @@ Quelle: ../szenarien.md</bpmn:documentation>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="P01_Flow_Zusammen_PaketAuftrag" sourceRef="P01_Zusammen" targetRef="P01_PaketAuftrag" />
     <bpmn:serviceTask id="P01_PaketAuftrag" name="Ergebnis oder Arbeitsauftrag vorbereiten">
-      <bpmn:documentation>Einfache Fragen selbst mit Quellen beantworten. Für Terminalarbeit nur nötige freigegebene Eingaben, Fertigkriterien, Dateibereich und Ergebnisziel übergeben.
-Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:documentation>Einfache Fragen mit dem gemeinsamen Kern und zulässigen Quellen beantworten. Terminal nur für benötigte Datei-/Coding-Arbeit oder einen gesondert erlaubten Pflegeauftrag beauftragen. Notwendige Eingaben, Kriterien, Version und Ausgabeziel übergeben. Ein ständiger Aufruf des Firmenagenten ersetzt das Laden der gemeinsamen Pflichtquellen nicht.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
       <bpmn:incoming>P01_Flow_Zusammen_PaketAuftrag</bpmn:incoming>
       <bpmn:outgoing>P01_Flow_PaketAuftrag_Ende</bpmn:outgoing>
     </bpmn:serviceTask>

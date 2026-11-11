@@ -4,11 +4,13 @@
     <bpmn:participant id="P04_Pool" name="P04 · Korrektur, Änderungsvorschlag und Verteilung" processRef="Process_P04" />
   </bpmn:collaboration>
   <bpmn:process id="Process_P04" name="P04 · Korrektur, Änderungsvorschlag und Verteilung" isExecutable="false">
-    <bpmn:documentation>Entwurf v0.1 | GPT-6.1-sol | 11.11.2026
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
 Zweck: Passende Korrekturen in die zuständige Quelle zurückführen und eine geprüfte Fassung für berechtigte Sitzungen bereitstellen.
-Offen: L8: Rückweg ohne Repo-Leserecht; L6: Pakete je Kreis; L5: Wechsel bestehender Sitzungen. Diagramm beschreibt Prüfpunkte und löst die technischen Lücken nicht.
+Offen: Technischer Beitragsweg und Wechsel laufender Sitzungen. Ein gemeinsamer Kern ersetzt im allgemeinen System nicht die offenen Fragen L6/L8.
 Quellen: ../../AGENTS.md ; ../../installation/README.md ; ../pruefszenarien.md ; ../../PRD.md
-Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.</bpmn:documentation>
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Wissen verbessern
+Kurz: Lernen &amp; Verteilung</bpmn:documentation>
     <bpmn:laneSet id="laneSet_p04KorrekturAenderungsvorschlag">
       <bpmn:lane id="P04_Lane_a" name="Arbeitsagent / Vorschlag">
         <bpmn:flowNodeRef>P04_Start</bpmn:flowNodeRef>
@@ -60,8 +62,8 @@ Quelle: ../szenarien.md</bpmn:documentation>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="P04_Flow_Ursache_Bereich" sourceRef="P04_Ursache" targetRef="P04_Bereich" />
     <bpmn:exclusiveGateway id="P04_Bereich" name="Welcher Geltungsbereich?">
-      <bpmn:documentation>Im Zweifel einmalig. Persönlich, Projekt/Rolle und firmenweit sind unterschiedliche Zielkreise.
-Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:documentation>Im Zweifel einmalig. Persönliche, rollenbezogene und gemeinsame Geltung unterscheiden. Eine Rollen-Anleitung beschreibt Arbeitsweise, nicht automatisch Geheimhaltung. Automatisches Lernen über einzelne Personen ist nach PRD Entscheidung 10/S17 ausgeschlossen.
+Quelle: ../../PRD.md</bpmn:documentation>
       <bpmn:incoming>P04_Flow_Ursache_Bereich</bpmn:incoming>
       <bpmn:outgoing>P04_Flow_Bereich_Einmalig</bpmn:outgoing>
       <bpmn:outgoing>P04_Flow_Bereich_Persoenlich</bpmn:outgoing>
@@ -88,8 +90,8 @@ Quelle: ../../PRD.md</bpmn:documentation>
       <bpmn:incoming>P04_Flow_Persoenlich_EndePrivat</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:serviceTask id="P04_Vorschlag" name="Änderung + Prüffall + Herkunft entwerfen">
-      <bpmn:documentation>Ort, Wortlaut und Prüffall für die zuständige Quelle beschreiben. Projekt-/Rollenänderungen behalten ihren begrenzten Empfängerkreis.
-Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:documentation>Bewährte Rollen-Anleitung als allgemeine Fähigkeit vorschlagen: Zweck, Kriterien und verallgemeinerter Prüffall. Keine privaten Rohbeispiele oder Personenprofile übernehmen. Bestehende Quelle und fachlichen Besitzer benennen. Eine nützliche persönliche Korrektur wird nicht automatisch firmenweit.
+Quelle: ../../PRD.md</bpmn:documentation>
       <bpmn:incoming>P04_Flow_Bereich_Vorschlag</bpmn:incoming>
       <bpmn:outgoing>P04_Flow_Vorschlag_Sichtbarkeit</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -137,7 +139,7 @@ Quelle: ../../AGENTS.md</bpmn:documentation>
       <bpmn:incoming>P04_Flow_Ja_Nein</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:exclusiveGateway id="P04_Rueckweg" name="Zulässiger Beitragsweg vorhanden?">
-      <bpmn:documentation>Mitarbeitende mit gefiltertem Paket erhalten nicht automatisch Leserechte am vollständigen Quell-Repo. Der technische Rückweg ist L8.
+      <bpmn:documentation>Auch bei gemeinsam lesbarem Wiki bleiben Schreib- und Mergebefugnisse getrennt. Nur einen vorhandenen zulässigen Beitragsweg nutzen. PRD L8 bleibt für Konstellationen ohne Repo-Leserecht offen; das gemeinsame Zielbild löst diese allgemeine Lücke nicht.
 Quelle: ../../PRD.md</bpmn:documentation>
       <bpmn:incoming>P04_Flow_Ja_Rueckweg</bpmn:incoming>
       <bpmn:outgoing>P04_Flow_Rueckweg_Wartet</bpmn:outgoing>
@@ -185,8 +187,8 @@ Quelle: ../../AGENTS.md</bpmn:documentation>
       <bpmn:outgoing>P04_Flow_Merge_Build</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="P04_Flow_Merge_Build" sourceRef="P04_Merge" targetRef="P04_Build" />
-    <bpmn:scriptTask id="P04_Build" name="Pakete je zulässigem Kreis bauen">
-      <bpmn:documentation>Gleicher Quellstand, erkennbare Version. OpenWebUI und Codex beziehen ihre Grundlage aus denselben zuständigen Quellen; Adapter erfinden keinen zweiten Regelbestand.
+    <bpmn:scriptTask id="P04_Build" name="Gemeinsamen Kern versionieren">
+      <bpmn:documentation>Für dieses Zielbild einen gemeinsamen Kern aus freigegebenem Wiki, Regeln und Skills bauen. Persönliche Ergänzungen getrennt halten; vertrauliche Daten bleiben in Quellsystemen. OpenWebUI und Worker beziehen dieselben zuständigen Quellen mit erkennbarer Version. Rollenpakete aus PRD L6 sind keine Voraussetzung dieses Versuchs.
 Quelle: ../../installation/README.md</bpmn:documentation>
       <bpmn:incoming>P04_Flow_Merge_Build</bpmn:incoming>
       <bpmn:outgoing>P04_Flow_Build_Test</bpmn:outgoing>

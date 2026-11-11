@@ -3,8 +3,9 @@
 **Einordnung, GPT-6.1-sol, 06.11.2026:** Zurück zum Bedarf aus Felix Schlenthers AI-FIRST-Artikeln und Tristans Einwand gegen isolierte Wissensinseln. Diese Seite beschreibt eine zu prüfende Anforderungshypothese, keine neue Betriebsregel und keine Auswahl einer Laufzeit. Zuständige Verhaltensregeln bleiben [AGENTS.md](../AGENTS.md), technische Grenzen [SICHERHEIT.md](../SICHERHEIT.md), Verteilung [installation/README.md](../installation/README.md), kritische Architekturfragen [recherche §4](recherche.md#architektur).
 
 Die [BPMN-Prozessansicht](prozesse/README.md) konkretisiert den OpenWebUI-Versuch als versionierten
-Entwurf mit getrennten Abläufen für Auftrag, Terminal, Prüfung, Lernschleife, Kontextpflege und Tests.
-Sie ist keine Freigabe der dort noch offenen Architekturentscheidungen.
+Entwurf in drei Kapiteln: Auftrag bearbeiten, Wissen verbessern und Betrieb prüfen.
+Zielbild ist ein gemeinsamer Firmenkern mit getrennten persönlichen Ergänzungen; die technische
+Tool-Anbindung bleibt eine Testvariante. Die Ansicht ist keine Betriebsfreigabe.
 
 # An Tristan
 

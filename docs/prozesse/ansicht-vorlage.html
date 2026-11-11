@@ -7,9 +7,9 @@
 <style>
 :root{font-family:var(--font-sans,system-ui,sans-serif);color:var(--foreground,#182330);--ink:var(--foreground,#182330)}
 *{box-sizing:border-box}body{margin:0}button,select{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible{outline:3px solid var(--ring,#3475a5);outline-offset:3px}
-.meta{color:var(--muted-foreground,#617085);font-size:14px;margin:0 0 12px;letter-spacing:.03em}.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:0 0 18px}
+.meta{color:var(--muted-foreground,#617085);font-size:14px;margin:0 0 12px;letter-spacing:.03em}.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px}.tabs button[hidden]{display:none}
 .tabs button{padding:10px 8px;min-height:48px;border:1px solid var(--border,#d6dfe8);border-radius:var(--radius,8px);background:var(--secondary,#f1f5f9);color:var(--foreground,#182330);text-align:left;font-size:14px;line-height:1.4}
-.tabs button[aria-selected=true]{border-color:var(--primary,#25689b);background:var(--accent,#e4f0fa);color:var(--accent-foreground,#163f5e);font-weight:650}
+.tabs button[aria-pressed=true]{border-color:var(--primary,#25689b);background:var(--accent,#e4f0fa);color:var(--accent-foreground,#163f5e);font-weight:650}
 .tabs b{display:block;font-size:14px;opacity:.7}h2{font-size:21px;line-height:1.25;margin:0 0 8px}p{font-size:14px;line-height:1.55;margin:0 0 12px}
 .open{font-size:14px;background:var(--warning-surface,var(--secondary,#f3f5f8));padding:12px 14px;border-radius:var(--radius,8px);line-height:1.55;margin-bottom:14px}
 .toolbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px}.toolbar button,.call{border:1px solid var(--border,#ccd7e0);border-radius:var(--radius,7px);padding:7px 11px;background:var(--card,#fff);color:var(--foreground,#182330);font-size:14px}
@@ -20,17 +20,22 @@
 .details{border:1px solid var(--border,#ccd7e0);border-radius:var(--radius,8px);background:var(--card,#fff);padding:16px;margin:0 0 12px}.details h3{font-size:16px;margin:0 0 8px}.details p{font-size:14px;white-space:pre-line;overflow-wrap:anywhere}.lane{font-size:14px;color:var(--muted-foreground,#617085)}
 .steps summary{cursor:pointer;font-size:14px;font-weight:600;padding:10px 0}.steps ol{padding-left:0;list-style:none;margin:0;display:grid;gap:6px;grid-template-columns:1fr 1fr}.steps button{display:block;width:100%;text-align:left;border:1px solid var(--border,#d6dfe8);background:var(--secondary,#f1f5f9);color:var(--foreground,#182330);border-radius:var(--radius,8px);padding:10px 12px;font-size:14px;line-height:1.4}.steps button small{display:block;color:var(--muted-foreground,#617085);font-size:14px;margin-bottom:3px}.steps button[aria-pressed=true]{border-color:var(--primary,#25689b)}
 .source{font-size:14px;color:var(--muted-foreground,#617085);overflow-wrap:anywhere;margin:14px 0 0}a{color:var(--primary,#2878b2)}
-.reading{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 16px}.reading:empty{display:none}.reading button{text-align:left;padding:14px;border:1px solid var(--border,#ccd7e0);border-radius:var(--radius,8px);background:var(--card,#fff);color:var(--foreground,#182330);font-size:14px;line-height:1.5}.reading b{display:block;font-size:15px;margin-bottom:6px}.reading span{display:block;color:var(--muted-foreground,#617085)}
-@media(max-width:500px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.steps ol,.reading{grid-template-columns:1fr}h2{font-size:19px}}
+.intro{margin:0 0 22px;max-width:72ch}.intro h1{font-size:26px;line-height:1.2;margin:0 0 12px}.intro summary{cursor:pointer;font-size:14px;margin-bottom:8px}.chapters{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 12px;border-bottom:1px solid var(--border,#ccd7e0)}.chapters button{font-size:16px;text-align:left;border:0;border-bottom:2px solid transparent;background:none;color:var(--foreground,#182330);padding:12px 10px;min-height:48px}.chapters button[aria-pressed=true]{border-bottom-color:var(--primary,#25689b);font-weight:650}button:hover{background:var(--secondary,#f1f5f9)}.downloads{display:flex;flex-wrap:wrap;gap:8px}.downloads button{font:inherit;padding:8px;border:1px solid var(--border,#ccd7e0);border-radius:var(--radius,8px);background:var(--card,#fff);color:var(--foreground,#182330)}
+@media(max-width:500px){.chapters{display:grid}.chapters button{padding-left:0}.steps ol{grid-template-columns:1fr}h2{font-size:19px}}
 </style>
 </head>
 <body>
-<p class="meta">KoBetriebssystem · Entwurf v0.1 · 11.11.2026 · GPT-6.1-sol · keine Betriebsfreigabe</p>
+<section class="intro">
+<h1>Gemeinsam arbeiten, Zugriffe getrennt halten</h1>
+<p id="target"></p>
+<details><summary>Identität und offene Tool-Anbindung</summary><p id="principle"></p><p id="variants"></p></details>
+</section>
+<nav class="chapters" id="chapters" aria-label="Kapitel auswählen"></nav>
 <nav class="tabs" id="tabs" aria-label="Prozess auswählen"></nav>
 <h2 id="title"></h2>
 <p id="purpose"></p>
 <div class="open" id="open"></div>
-<div class="reading" id="reading" aria-label="Aufgerufene Teilprozesse"></div>
+
 <div class="toolbar" aria-label="Diagramm vergrößern">
  <button id="minus" aria-label="Verkleinern">−</button><output id="zoom" aria-live="polite"></output><button id="plus" aria-label="Vergrößern">+</button>
  <button id="fit">Ganzes Diagramm</button><button id="read">Lesen · 100 %</button><button id="tall">Mehr Höhe</button>
@@ -40,10 +45,11 @@
 <div class="legend" id="legend"></div>
 <section class="details" id="detail" aria-live="polite"><h3>Schritt auswählen</h3><p>Die Dokumentation zeigt Herkunft, Übergabe und offene Voraussetzungen.</p></section>
 <details class="steps"><summary>Alle Schritte und Entscheidungen öffnen</summary><ol id="steps" aria-label="Elemente des Prozesses; keine lineare Schrittfolge"></ol></details>
-<p class="source" id="source"></p>
+<details><summary>Quelldatei und Export</summary><p class="source" id="source"></p><div class="downloads"><button id="download">Dieses Diagramm als SVG speichern</button></div></details>
+<p class="meta" id="edition"></p>
 <script>
 const MODELS=/*__MODELS__*/[];
-const SHORT=['Gesamtablauf','Auftrag & Tools','Terminalauftrag','Prüfung & Mensch','Lernen & Verteilung','Kontextpflege','Routine & Neustart','Testbetrieb'];
+
 const $=id=>document.getElementById(id);
 let current=null,zoom=1,svg=null,width=1,height=1;
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -52,12 +58,9 @@ function changeZoom(value){zoom=Math.min(2.5,Math.max(.08,value));if(svg){svg.se
 function fit(){changeZoom(Math.min(1,($('viewport').clientWidth-34)/width))}
 function choose(id,updateHash=true){
  current=MODELS.find(m=>m.id===id)||MODELS[0];if(!current)return;
- for(const b of $('tabs').children)b.setAttribute('aria-selected',String(b.dataset.id===current.id));
- $('title').textContent=current.name;$('purpose').textContent=field(current.doc,'Zweck');$('open').textContent='Offen zur Besprechung: '+field(current.doc,'Offen');
- $('reading').innerHTML='';
- if(current.id==='Process_P00')for(const n of current.nodes.filter(n=>n.call)){
-  const b=document.createElement('button');b.innerHTML='<b>'+esc(n.name)+'</b><span>'+esc(n.doc.split('\n')[0])+'</span>';b.onclick=()=>choose(n.call);$('reading').append(b);
- }
+ for(const b of $('tabs').children){b.hidden=b.dataset.chapter!==field(current.doc,'Kapitel');b.setAttribute('aria-pressed',String(b.dataset.id===current.id))}
+ for(const b of $('chapters').children)b.setAttribute('aria-pressed',String(b.dataset.chapter===field(current.doc,'Kapitel')));
+ $('title').textContent=current.name;$('purpose').textContent=field(current.doc,'Zweck');$('open').textContent='Noch zu klären / zu testen: '+field(current.doc,'Offen');
  $('diagram').innerHTML=current.svg;svg=$('diagram').querySelector('svg');
  const vb=svg.viewBox.baseVal;width=vb.width||parseFloat(svg.getAttribute('width'));height=vb.height||parseFloat(svg.getAttribute('height'));
  // Weiße Zeichenfläche gehört zum exportierten BPMN-Bild, nicht zum Seitenhintergrund.
@@ -88,7 +91,13 @@ function detail(id,focus){
  if(n.call){const b=document.createElement('button');b.className='call';b.textContent='Detailprozess öffnen → '+(MODELS.find(x=>x.id===n.call)?.name||n.call);b.onclick=()=>choose(n.call);$('detail').append(b)}
  if(focus&&shape){changeZoom(Math.max(zoom,.85));const box=shape.getBoundingClientRect(),v=$('viewport'),r=v.getBoundingClientRect();v.scrollLeft+=box.x-r.x-v.clientWidth/2+box.width/2;v.scrollTop+=box.y-r.y-v.clientHeight/2+box.height/2}
 }
-MODELS.forEach((m,i)=>{const b=document.createElement('button');b.dataset.id=m.id;b.setAttribute('aria-selected','false');b.innerHTML='<b>'+esc(m.id.replace('Process_',''))+'</b>'+esc(SHORT[i]||m.name);b.onclick=()=>choose(m.id);$('tabs').append(b)});
+const chapterNames=[...new Set(MODELS.map(m=>field(m.doc,'Kapitel')))];
+for(const chapter of chapterNames){const b=document.createElement('button');b.dataset.chapter=chapter;b.textContent=chapter;b.onclick=()=>choose(MODELS.find(m=>field(m.doc,'Kapitel')===chapter).id);$('chapters').append(b)}
+MODELS.forEach(m=>{const b=document.createElement('button');b.dataset.id=m.id;b.dataset.chapter=field(m.doc,'Kapitel');b.setAttribute('aria-pressed','false');b.textContent=field(m.doc,'Kurz')||m.name;b.onclick=()=>choose(m.id);$('tabs').append(b)});
+const overview=MODELS.find(m=>m.id==='Process_P00');
+$('target').textContent=field(overview.doc,'Zielbild');$('principle').textContent=field(overview.doc,'Grundsatz');$('variants').textContent=field(overview.doc,'Anbindung');
+$('edition').textContent=overview.doc.split('\n')[0]+' · Zielbild bestätigt, keine Betriebsfreigabe';
+$('download').onclick=()=>{const url=URL.createObjectURL(new Blob([current.svg],{type:'image/svg+xml'}));const a=document.createElement('a');a.href=url;a.download=current.file.replace(/\.bpmn$/,'.svg');a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
 $('plus').onclick=()=>changeZoom(zoom*1.25);$('minus').onclick=()=>changeZoom(zoom/1.25);$('fit').onclick=fit;$('read').onclick=()=>changeZoom(1);$('tall').onclick=()=>{const on=$('viewport').classList.toggle('full');$('tall').textContent=on?'Weniger Höhe':'Mehr Höhe'};
 $('viewport').addEventListener('wheel',e=>{if(e.ctrlKey||e.metaKey){e.preventDefault();changeZoom(zoom*(e.deltaY<0?1.1:1/1.1))}},{passive:false});
 window.addEventListener('hashchange',()=>choose(location.hash.slice(1),false));
