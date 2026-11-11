@@ -246,7 +246,7 @@ gelesen am 06.11.2026, teils als Zusammenfassung.
    **Person B** war mit Hermes vorgesehen (Nr. 9, gestrichen am 10.11.2026). [OFFEN: Adapter und Gerät für B. Gebaut ist
    ein Codex-Paket, und auf dem Laptop ist Codex vorhanden (Entschieden Nr. 7); eine Zuordnung ist nicht entschieden.] Den
    zweiten Weg aus L1, einen zentralen Bot mit eigenem Konto statt der Rechte einer Person, prüft kein Schritt mehr im
-   MVP, solange Slack entfällt.
+   MVP, solange Slack nicht zum MVP gehört (zweiter Schritt, §6.7).
    Stand Laptop am 06.11. abends (per SSH geprüft): erreichbar, Nutzer in der Konsole angemeldet, die Claude-App
    (4.4212) läuft. Die Kommandozeile von Claude Code liegt nur gebündelt in der App, ist nicht im Pfad, und im Profil liegt
    keine Anmeldedatei; Tristan meint die Anmeldung in der App. Für Läufe per SSH braucht es deshalb einmal
@@ -297,7 +297,8 @@ Das MVP ist bestanden, wenn:
   [Laufzeitvergleich](docs/architektur/laufzeitvergleich-2026-11-05.md#ein-nützlicher-prüffall-und-sechs-abnahmetore) im
   lokalen Maßstab halten;
 - die Grundregeln nachweislich wirken: Im Grenzfall wird nichts gesendet, und die Notiz gilt als Daten (L2);
-- beide Adapter denselben Stand melden und eine Verbesserung aus dem Claude-Weg bei B wirkt [OFFEN: Adapter von B; früher Hermes in Slack];
+- beide Adapter denselben Stand melden und eine Verbesserung aus dem Claude-Weg bei B wirkt [OFFEN: Adapter von B]
+  (Slack gehört nicht zur Abnahme, sondern zum zweiten Schritt: Tristan, 10.11.2026, siehe §6.7);
 - jede Abkürzung im Register als „umgangen“ steht.
 
 Gemessen werden die Zahl der Korrekturen je Entwurf, ob der Skill ohne Namen gewählt wurde, und die Zeit bis zum ersten
@@ -310,7 +311,8 @@ wird angehalten. Ins Register kommt, welche Lücke das erzwingt. Genau diese Ste
 
 ### 6.7 Nicht im MVP
 
-- Läufe im Hintergrund und Slack (L1, L15)
+- Läufe im Hintergrund (L1, L15)
+- Slack, auch die Wirkung einer Verbesserung dort: zweiter Schritt, nicht Teil der Abnahme (Tristan, 10.11.2026: „Zum 2. schritt. Gehört jez nich dazu“)
 - Claude-App und Mitarbeitende ohne Terminal (L4)
 - Pakete je Rolle (L6)
 - echte Konnektoren und Firmendaten (L7, L9, L24)
