@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_p03GegenpruefungUndMenschliche" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="collaboration_p03GegenpruefungUndMenschliche">
+    <bpmn:participant id="P03_Pool" name="P03 · Gegenprüfung und menschliche Entscheidung" processRef="Process_P03" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P03" name="P03 · Gegenprüfung und menschliche Entscheidung" isExecutable="false">
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
+Zweck: Ein Ergebnis gegen Kriterien und zulässige Belege prüfen, bevor die Person es als verwendbaren Entwurf erhält.
+Offen: L10/L25: Träger und Rechte des Prüflaufs. Die Hauptunterhaltung ist kein frischer Kontext; Subagenten erben je nach Laufzeit Werkzeuge und müssen begrenzt werden.
+Quellen: ../../agents/pruefer.md ; ../../AGENTS.md ; ../pruefszenarien.md ; https://docs.openwebui.com/features/chat-conversations/chat-features/subagents/
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Auftrag bearbeiten
+Kurz: Prüfung &amp; Mensch</bpmn:documentation>
+    <bpmn:laneSet id="laneSet_p03GegenpruefungUndMenschliche">
+      <bpmn:lane id="P03_Lane_g" name="Technische Prüfungen">
+        <bpmn:flowNodeRef>P03_Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Technik</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Daten</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Offen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Paket</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Blockiert</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Join_Technik</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Join_Offen</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P03_Lane_r" name="Frischer Prüflauf / begrenzte Leserechte">
+        <bpmn:flowNodeRef>P03_Review</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Reviewfehler</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Urteil</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Mangel</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P03_Lane_m" name="Mitarbeitende">
+        <bpmn:flowNodeRef>P03_Mensch</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Entscheid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Ablehnen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Extern</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Selbst</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Angenommen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Join_Angenommen</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P03_Lane_a" name="Bearbeitender Agent">
+        <bpmn:flowNodeRef>P03_Reparieren</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Budget</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Vorlegen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Lernkandidat</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_EndeKorrektur</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P03_Ablage</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="P03_Start" name="Ergebnis + Kriterien + Quellen vorliegend">
+      <bpmn:documentation>Gilt für Ergebnisse aus direkten Tools und aus P02. Bewertet wird eine bestimmte Ergebnisfassung.
+Quelle: ../../agents/pruefer.md</bpmn:documentation>
+      <bpmn:outgoing>P03_Flow_Start_Technik</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="P03_Flow_Start_Technik" sourceRef="P03_Start" targetRef="P03_Join_Technik" />
+    <bpmn:scriptTask id="P03_Technik" name="Messbare Eigenschaften prüfen">
+      <bpmn:documentation>Pflichtfelder, gültige Verweise, Dateigrenzen, Ausgabestatus und Unverändertheit geschützter Dateien prüfen. Ein Skripturteil ersetzt keine fachliche Bewertung.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Join_Technik_Technik</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Technik_Daten</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P03_Flow_Technik_Daten" sourceRef="P03_Technik" targetRef="P03_Daten" />
+    <bpmn:exclusiveGateway id="P03_Daten" name="Prüfgrundlage vollständig und zulässig?">
+      <bpmn:documentation>Der Prüfer darf Ergebnis und Belege bekommen. Fehlende oder gesperrte Quellen dürfen nicht durch mehr Rechte oder Vermutungen ersetzt werden.
+Quelle: ../../agents/pruefer.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Technik_Daten</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Daten_Offen</bpmn:outgoing>
+      <bpmn:outgoing>P03_Flow_Daten_Paket</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P03_Flow_Daten_Offen" name="nein" sourceRef="P03_Daten" targetRef="P03_Join_Offen" />
+    <bpmn:sequenceFlow id="P03_Flow_Daten_Paket" name="ja" sourceRef="P03_Daten" targetRef="P03_Paket" />
+    <bpmn:endEvent id="P03_Offen" name="OFFEN: Prüfgrundlage fehlt">
+      <bpmn:documentation>Die fehlende Grundlage nennen. Ein Providerfehler ist ebenfalls kein bestandenes Review.
+Quelle: ../../agents/pruefer.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Join_Offen_Offen</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P03_Paket" name="Frisches Prüfpaket übergeben">
+      <bpmn:documentation>Eigener frischer Prüflauf mit Aufgabe, Ergebnisfassung, Kriterien, zulässigen Quellen und Werkzeugresultaten. Keine gesamte Hauptunterhaltung. Dass der Hauptchat einen Worker beauftragt und seine Antwort liest, ist keine unabhängige Prüfung.
+Quelle: ../../agents/pruefer.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Daten_Paket</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Paket_Review</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P03_Flow_Paket_Review" sourceRef="P03_Paket" targetRef="P03_Review" />
+    <bpmn:serviceTask id="P03_Review" name="Quellen lesen und Kriterien bewerten">
+      <bpmn:documentation>Frischer Lauf mit nachgewiesen begrenzten Leserechten, ohne Schreib- oder Versandwerkzeuge. Die Pi/Sandcastle-Entscheidung aus PRD L25 für den Änderungs-Prüfer bleibt bestehen; der Träger eines zusätzlichen OpenWebUI-Ergebnisreviews ist offen. Frischer Kontext garantiert keine Richtigkeit.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Paket_Review</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Review_Urteil</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P03_Flow_Review_Urteil" sourceRef="P03_Review" targetRef="P03_Urteil" />
+    <bpmn:boundaryEvent id="P03_Reviewfehler" name="Prüfer nicht erreichbar" attachedToRef="P03_Review">
+      <bpmn:documentation>Fehlgeschlagener Review ist kein bestandenes oder abgelehntes fachliches Ergebnis. Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:outgoing>P03_Flow_Reviewfehler_Blockiert</bpmn:outgoing>
+      <bpmn:errorEventDefinition errorRef="error_prueferfehler" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="P03_Flow_Reviewfehler_Blockiert" sourceRef="P03_Reviewfehler" targetRef="P03_Blockiert" />
+    <bpmn:endEvent id="P03_Blockiert" name="BLOCKIERT: Prüflauf fehlt">
+      <bpmn:documentation>An P00 melden, dass noch kein auswertbares Prüfurteil vorliegt.
+Quelle: ../../agents/pruefer.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Reviewfehler_Blockiert</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P03_Urteil" name="Prüfurteil?">
+      <bpmn:documentation>BESTANDEN je Kriterium ergibt FREIGEBEN; jede Verletzung ergibt ABLEHNEN; fehlende Grundlage ergibt OFFEN. Das ist ein Qualitätsurteil.
+Quelle: ../../agents/pruefer.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Review_Urteil</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Urteil_Offen</bpmn:outgoing>
+      <bpmn:outgoing>P03_Flow_Urteil_Mangel</bpmn:outgoing>
+      <bpmn:outgoing>P03_Flow_Urteil_Vorlegen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P03_Flow_Urteil_Offen" name="OFFEN" sourceRef="P03_Urteil" targetRef="P03_Join_Offen" />
+    <bpmn:sequenceFlow id="P03_Flow_Urteil_Mangel" name="ABLEHNEN" sourceRef="P03_Urteil" targetRef="P03_Mangel" />
+    <bpmn:sequenceFlow id="P03_Flow_Urteil_Vorlegen" name="FREIGEBEN" sourceRef="P03_Urteil" targetRef="P03_Vorlegen" />
+    <bpmn:serviceTask id="P03_Mangel" name="Belegte Mängel zurückgeben">
+      <bpmn:documentation>Fundstelle und notwendige Korrektur nennen. Prüfer ändert keine Quelldatei.
+Quelle: ../../agents/pruefer.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Urteil_Mangel</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Mangel_Reparieren</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P03_Flow_Mangel_Reparieren" sourceRef="P03_Mangel" targetRef="P03_Reparieren" />
+    <bpmn:serviceTask id="P03_Reparieren" name="Ergebnis im bestehenden Mandat korrigieren">
+      <bpmn:documentation>Korrektur bleibt innerhalb von Rechten und Laufbudget. Bei ausgeschöpfter Grenze als Blocker vorlegen; kein endloses Reparieren.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Mangel_Reparieren</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Reparieren_Budget</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P03_Flow_Reparieren_Budget" sourceRef="P03_Reparieren" targetRef="P03_Budget" />
+    <bpmn:exclusiveGateway id="P03_Budget" name="Korrektur im Mandat möglich?">
+      <bpmn:documentation>Eine neue Quelle, zusätzliche Rechte oder verbrauchtes Budget kann eine neue Entscheidung erfordern.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Reparieren_Budget</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Budget_Technik</bpmn:outgoing>
+      <bpmn:outgoing>P03_Flow_Budget_Offen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P03_Flow_Budget_Technik" name="ja" sourceRef="P03_Budget" targetRef="P03_Join_Technik" />
+    <bpmn:sequenceFlow id="P03_Flow_Budget_Offen" name="nein" sourceRef="P03_Budget" targetRef="P03_Join_Offen" />
+    <bpmn:serviceTask id="P03_Vorlegen" name="Entwurf mit Belegen und Prüfurteil vorlegen">
+      <bpmn:documentation>OFFEN und ABLEHNEN sichtbar lassen. Nur ein bestandenes Ergebnis als fertig geprüft vorlegen.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Urteil_Vorlegen</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Vorlegen_Mensch</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P03_Flow_Vorlegen_Mensch" sourceRef="P03_Vorlegen" targetRef="P03_Mensch" />
+    <bpmn:userTask id="P03_Mensch" name="Ergebnis prüfen und entscheiden">
+      <bpmn:documentation>Die Person sieht konkrete Ergebnisfassung und wesentliche Quellen; ihre Entscheidung bezieht sich genau auf diesen Stand.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Vorlegen_Mensch</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Mensch_Entscheid</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="P03_Flow_Mensch_Entscheid" sourceRef="P03_Mensch" targetRef="P03_Entscheid" />
+    <bpmn:exclusiveGateway id="P03_Entscheid" name="Entscheidung?">
+      <bpmn:documentation>Annehmen, eine Korrektur verlangen oder abbrechen. Eine Bestätigung der Prüfung ist keine pauschale Erlaubnis für Außenwirkungen.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Mensch_Entscheid</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Entscheid_Lernkandidat</bpmn:outgoing>
+      <bpmn:outgoing>P03_Flow_Entscheid_Ablehnen</bpmn:outgoing>
+      <bpmn:outgoing>P03_Flow_Entscheid_Ablage</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P03_Flow_Entscheid_Lernkandidat" name="korrigieren" sourceRef="P03_Entscheid" targetRef="P03_Lernkandidat" />
+    <bpmn:sequenceFlow id="P03_Flow_Entscheid_Ablehnen" name="abbrechen" sourceRef="P03_Entscheid" targetRef="P03_Ablehnen" />
+    <bpmn:sequenceFlow id="P03_Flow_Entscheid_Ablage" name="annehmen" sourceRef="P03_Entscheid" targetRef="P03_Ablage" />
+    <bpmn:serviceTask id="P03_Lernkandidat" name="Korrektur und Ergebnisfassung erfassen">
+      <bpmn:documentation>Korrektur mit der betroffenen Ergebnisfassung an P00 zurückgeben. P00 ruft P04 genau einmal auf; hier keine zweite gemeinsame Änderung anlegen.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Entscheid_Lernkandidat</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Lernkandidat_EndeKorrektur</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P03_Flow_Lernkandidat_EndeKorrektur" sourceRef="P03_Lernkandidat" targetRef="P03_EndeKorrektur" />
+    <bpmn:endEvent id="P03_EndeKorrektur" name="Korrektur übergeben">
+      <bpmn:documentation>Status KORREKTUR an P00; Ergebnisfassung ist noch nicht angenommen. Folgeauftrag bleibt ausdrücklich begrenzt.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Lernkandidat_EndeKorrektur</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="P03_Ablehnen" name="Abgebrochen">
+      <bpmn:documentation>Status ABBRUCH; nichts senden oder veröffentlichen.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Entscheid_Ablehnen</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P03_Ablage" name="Angenommenen Entwurf zulässig ablegen">
+      <bpmn:documentation>Nur am für diesen Auftrag freigegebenen Ziel, höchstens im Quellkreis der verarbeiteten Daten. Zustimmung zu einem Entwurf erweitert keine Zugriffsrechte.
+Quelle: ../../SICHERHEIT.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Entscheid_Ablage</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Ablage_Extern</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P03_Flow_Ablage_Extern" sourceRef="P03_Ablage" targetRef="P03_Extern" />
+    <bpmn:exclusiveGateway id="P03_Extern" name="Außenhandlung gewünscht?">
+      <bpmn:documentation>Senden, Veröffentlichen und Bezahlen bleiben nach AGENTS außerhalb der Agentenbefugnis.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Ablage_Extern</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Extern_Selbst</bpmn:outgoing>
+      <bpmn:outgoing>P03_Flow_Extern_Angenommen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P03_Flow_Extern_Selbst" name="ja" sourceRef="P03_Extern" targetRef="P03_Selbst" />
+    <bpmn:sequenceFlow id="P03_Flow_Extern_Angenommen" name="nein" sourceRef="P03_Extern" targetRef="P03_Join_Angenommen" />
+    <bpmn:userTask id="P03_Selbst" name="Außenhandlung selbst ausführen">
+      <bpmn:documentation>Wenn gewünscht, führt der Mensch sie selbst im jeweiligen System aus. Der Agent erhält daraus keine allgemeine Versandfreigabe.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Extern_Selbst</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Selbst_Angenommen</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="P03_Flow_Selbst_Angenommen" sourceRef="P03_Selbst" targetRef="P03_Join_Angenommen" />
+    <bpmn:endEvent id="P03_Angenommen" name="Angenommen, Status nachvollziehbar">
+      <bpmn:documentation>Status ANGENOMMEN an P00. Log und Artefakte bleiben im zulässigen Kreis.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Join_Angenommen_Angenommen</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P03_Join_Technik">
+      <bpmn:documentation>Alternative Eingänge ausdrücklich zusammenführen; keine Synchronisation paralleler Ausführungen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Start_Technik</bpmn:incoming>
+      <bpmn:incoming>P03_Flow_Budget_Technik</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Join_Technik_Technik</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P03_Flow_Join_Technik_Technik" sourceRef="P03_Join_Technik" targetRef="P03_Technik" />
+    <bpmn:exclusiveGateway id="P03_Join_Offen">
+      <bpmn:documentation>Alternative Eingänge ausdrücklich zusammenführen; keine Synchronisation paralleler Ausführungen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Daten_Offen</bpmn:incoming>
+      <bpmn:incoming>P03_Flow_Urteil_Offen</bpmn:incoming>
+      <bpmn:incoming>P03_Flow_Budget_Offen</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Join_Offen_Offen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P03_Flow_Join_Offen_Offen" sourceRef="P03_Join_Offen" targetRef="P03_Offen" />
+    <bpmn:exclusiveGateway id="P03_Join_Angenommen">
+      <bpmn:documentation>Alternative Eingänge ausdrücklich zusammenführen; keine Synchronisation paralleler Ausführungen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P03_Flow_Extern_Angenommen</bpmn:incoming>
+      <bpmn:incoming>P03_Flow_Selbst_Angenommen</bpmn:incoming>
+      <bpmn:outgoing>P03_Flow_Join_Angenommen_Angenommen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P03_Flow_Join_Angenommen_Angenommen" sourceRef="P03_Join_Angenommen" targetRef="P03_Angenommen" />
+  </bpmn:process>
+  <bpmn:error id="error_prueferfehler" name="Prueferfehler" errorCode="REVIEW_FAILED" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_collaboration_p03GegenpruefungUndMenschliche">
+    <bpmndi:BPMNPlane id="BPMNPlane_collaboration_p03GegenpruefungUndMenschliche" bpmnElement="collaboration_p03GegenpruefungUndMenschliche">
+      <bpmndi:BPMNShape id="BPMNShape_P03_Pool" bpmnElement="P03_Pool" isHorizontal="true">
+        <dc:Bounds x="80" y="80" width="2149" height="1332" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Lane_g" bpmnElement="P03_Lane_g" isHorizontal="true">
+        <dc:Bounds x="110" y="80" width="2119" height="346" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Lane_r" bpmnElement="P03_Lane_r" isHorizontal="true">
+        <dc:Bounds x="110" y="426" width="2119" height="318" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Lane_m" bpmnElement="P03_Lane_m" isHorizontal="true">
+        <dc:Bounds x="110" y="744" width="2119" height="236" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Lane_a" bpmnElement="P03_Lane_a" isHorizontal="true">
+        <dc:Bounds x="110" y="980" width="2119" height="432" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Start" bpmnElement="P03_Start">
+        <dc:Bounds x="170" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="144" y="174" width="89" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Technik" bpmnElement="P03_Technik" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="376" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Daten" bpmnElement="P03_Daten" isMarkerVisible="true">
+        <dc:Bounds x="536" y="125" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="510" y="181" width="103" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Offen" bpmnElement="P03_Offen">
+        <dc:Bounds x="1749" y="353" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1716" y="395" width="103" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Paket" bpmnElement="P03_Paket" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="646" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Review" bpmnElement="P03_Review" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="806" y="475" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Reviewfehler" bpmnElement="P03_Reviewfehler">
+        <dc:Bounds x="863" y="537" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="903" y="649" width="82" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Blockiert" bpmnElement="P03_Blockiert">
+        <dc:Bounds x="973" y="250" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="950" y="292" width="82" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Urteil" bpmnElement="P03_Urteil" isMarkerVisible="true">
+        <dc:Bounds x="966" y="490" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="947" y="470" width="89" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Mangel" bpmnElement="P03_Mangel" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="1107" y="634" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Reparieren" bpmnElement="P03_Reparieren" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="1267" y="1150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Budget" bpmnElement="P03_Budget" isMarkerVisible="true">
+        <dc:Bounds x="1427" y="1165" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1415" y="1117" width="75" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Vorlegen" bpmnElement="P03_Vorlegen" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="1107" y="1010" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Mensch" bpmnElement="P03_Mensch" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="1267" y="774" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Entscheid" bpmnElement="P03_Entscheid" isMarkerVisible="true">
+        <dc:Bounds x="1427" y="789" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1483" y="807" width="103" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Lernkandidat" bpmnElement="P03_Lernkandidat" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="1582" y="1290" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_EndeKorrektur" bpmnElement="P03_EndeKorrektur">
+        <dc:Bounds x="1749" y="1312" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1730" y="1354" width="75" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Ablehnen" bpmnElement="P03_Ablehnen">
+        <dc:Bounds x="1614" y="914" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1588" y="956" width="89" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Ablage" bpmnElement="P03_Ablage" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="1582" y="1010" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Extern" bpmnElement="P03_Extern" isMarkerVisible="true">
+        <dc:Bounds x="1742" y="789" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1716" y="691" width="103" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Selbst" bpmnElement="P03_Selbst" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="1852" y="774" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Angenommen" bpmnElement="P03_Angenommen">
+        <dc:Bounds x="2122" y="796" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2082" y="838" width="117" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Join_Technik" bpmnElement="P03_Join_Technik" isMarkerVisible="true">
+        <dc:Bounds x="266" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Join_Offen" bpmnElement="P03_Join_Offen" isMarkerVisible="true">
+        <dc:Bounds x="1607" y="346" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P03_Join_Angenommen" bpmnElement="P03_Join_Angenommen" isMarkerVisible="true">
+        <dc:Bounds x="2012" y="789" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Start_Technik" bpmnElement="P03_Flow_Start_Technik">
+        <di:waypoint x="206" y="150" />
+        <di:waypoint x="266" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Technik_Daten" bpmnElement="P03_Flow_Technik_Daten">
+        <di:waypoint x="476" y="150" />
+        <di:waypoint x="536" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Daten_Offen" bpmnElement="P03_Flow_Daten_Offen">
+        <di:waypoint x="561" y="125" />
+        <di:waypoint x="561" y="95" />
+        <di:waypoint x="1632" y="95" />
+        <di:waypoint x="1632" y="346" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1077" y="99" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Daten_Paket" bpmnElement="P03_Flow_Daten_Paket">
+        <di:waypoint x="586" y="150" />
+        <di:waypoint x="646" y="150" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="594" y="132" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Paket_Review" bpmnElement="P03_Flow_Paket_Review">
+        <di:waypoint x="696" y="190" />
+        <di:waypoint x="696" y="515" />
+        <di:waypoint x="806" y="515" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Review_Urteil" bpmnElement="P03_Flow_Review_Urteil">
+        <di:waypoint x="856" y="555" />
+        <di:waypoint x="856" y="619" />
+        <di:waypoint x="951" y="619" />
+        <di:waypoint x="951" y="515" />
+        <di:waypoint x="966" y="515" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Reviewfehler_Blockiert" bpmnElement="P03_Flow_Reviewfehler_Blockiert">
+        <di:waypoint x="881" y="573" />
+        <di:waypoint x="881" y="614" />
+        <di:waypoint x="943" y="614" />
+        <di:waypoint x="943" y="268" />
+        <di:waypoint x="973" y="268" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Urteil_Offen" bpmnElement="P03_Flow_Urteil_Offen">
+        <di:waypoint x="1016" y="515" />
+        <di:waypoint x="1632" y="515" />
+        <di:waypoint x="1632" y="396" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1024" y="497" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Urteil_Mangel" bpmnElement="P03_Flow_Urteil_Mangel">
+        <di:waypoint x="991" y="540" />
+        <di:waypoint x="991" y="674" />
+        <di:waypoint x="1107" y="674" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="999" y="656" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Urteil_Vorlegen" bpmnElement="P03_Flow_Urteil_Vorlegen">
+        <di:waypoint x="991" y="540" />
+        <di:waypoint x="991" y="1050" />
+        <di:waypoint x="1107" y="1050" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="999" y="1032" width="75" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Mangel_Reparieren" bpmnElement="P03_Flow_Mangel_Reparieren">
+        <di:waypoint x="1207" y="674" />
+        <di:waypoint x="1237" y="674" />
+        <di:waypoint x="1237" y="1190" />
+        <di:waypoint x="1267" y="1190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Reparieren_Budget" bpmnElement="P03_Flow_Reparieren_Budget">
+        <di:waypoint x="1367" y="1190" />
+        <di:waypoint x="1427" y="1190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Budget_Technik" bpmnElement="P03_Flow_Budget_Technik">
+        <di:waypoint x="1452" y="1215" />
+        <di:waypoint x="1452" y="1360" />
+        <di:waypoint x="291" y="1360" />
+        <di:waypoint x="291" y="175" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1418" y="1342" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Budget_Offen" bpmnElement="P03_Flow_Budget_Offen">
+        <di:waypoint x="1477" y="1190" />
+        <di:waypoint x="1687" y="1190" />
+        <di:waypoint x="1687" y="411" />
+        <di:waypoint x="1632" y="411" />
+        <di:waypoint x="1632" y="396" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1562" y="1172" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Vorlegen_Mensch" bpmnElement="P03_Flow_Vorlegen_Mensch">
+        <di:waypoint x="1207" y="1050" />
+        <di:waypoint x="1317" y="1050" />
+        <di:waypoint x="1317" y="854" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Mensch_Entscheid" bpmnElement="P03_Flow_Mensch_Entscheid">
+        <di:waypoint x="1367" y="814" />
+        <di:waypoint x="1427" y="814" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Entscheid_Lernkandidat" bpmnElement="P03_Flow_Entscheid_Lernkandidat">
+        <di:waypoint x="1452" y="789" />
+        <di:waypoint x="1452" y="774" />
+        <di:waypoint x="1727" y="774" />
+        <di:waypoint x="1727" y="1230" />
+        <di:waypoint x="1632" y="1230" />
+        <di:waypoint x="1632" y="1290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1545" y="756" width="89" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Entscheid_Ablehnen" bpmnElement="P03_Flow_Entscheid_Ablehnen">
+        <di:waypoint x="1452" y="839" />
+        <di:waypoint x="1452" y="932" />
+        <di:waypoint x="1614" y="932" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1371" y="851" width="75" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Entscheid_Ablage" bpmnElement="P03_Flow_Entscheid_Ablage">
+        <di:waypoint x="1452" y="839" />
+        <di:waypoint x="1452" y="1050" />
+        <di:waypoint x="1582" y="1050" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1378" y="874" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Lernkandidat_EndeKorrektur" bpmnElement="P03_Flow_Lernkandidat_EndeKorrektur">
+        <di:waypoint x="1682" y="1330" />
+        <di:waypoint x="1749" y="1330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Ablage_Extern" bpmnElement="P03_Flow_Ablage_Extern">
+        <di:waypoint x="1632" y="1010" />
+        <di:waypoint x="1632" y="980" />
+        <di:waypoint x="1696" y="980" />
+        <di:waypoint x="1696" y="814" />
+        <di:waypoint x="1742" y="814" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Extern_Selbst" bpmnElement="P03_Flow_Extern_Selbst">
+        <di:waypoint x="1767" y="839" />
+        <di:waypoint x="1767" y="869" />
+        <di:waypoint x="1902" y="869" />
+        <di:waypoint x="1902" y="854" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1775" y="851" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Extern_Angenommen" bpmnElement="P03_Flow_Extern_Angenommen">
+        <di:waypoint x="1767" y="789" />
+        <di:waypoint x="1767" y="759" />
+        <di:waypoint x="2037" y="759" />
+        <di:waypoint x="2037" y="789" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1775" y="763" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Selbst_Angenommen" bpmnElement="P03_Flow_Selbst_Angenommen">
+        <di:waypoint x="1952" y="814" />
+        <di:waypoint x="2012" y="814" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Join_Technik_Technik" bpmnElement="P03_Flow_Join_Technik_Technik">
+        <di:waypoint x="316" y="150" />
+        <di:waypoint x="376" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Join_Offen_Offen" bpmnElement="P03_Flow_Join_Offen_Offen">
+        <di:waypoint x="1657" y="371" />
+        <di:waypoint x="1749" y="371" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P03_Flow_Join_Angenommen_Angenommen" bpmnElement="P03_Flow_Join_Angenommen_Angenommen">
+        <di:waypoint x="2062" y="814" />
+        <di:waypoint x="2122" y="814" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

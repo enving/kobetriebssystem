@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_p00VonDerAufgabeZurGemeinsamen" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="collaboration_p00VonDerAufgabeZurGemeinsamen">
+    <bpmn:participant id="P00_Pool" name="P00 · Von der Aufgabe zur gemeinsamen Verbesserung" processRef="Process_P00" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P00" name="P00 · Von der Aufgabe zur gemeinsamen Verbesserung" isExecutable="false">
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
+Zweck: Überblick über den Arbeitskreislauf; die aufgerufenen P01–P07 enthalten die Details.
+Offen: Tool-Anbindung A/B, Mandat und Isolation des Workers, Träger des frischen Prüflaufs. Zielbild bestätigt; Umsetzung ungetestet.
+Quellen: ../szenarien.md ; ../../AGENTS.md ; ../../installation/README.md ; https://ai-first.ai/insights/ai-first-ki-betriebssystem-2-0
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Auftrag bearbeiten
+Kurz: Überblick
+Zielbild: Gemeinsames Firmenwiki, Regeln und Skills für alle. Persönliche Ergänzungen getrennt; vertrauliche Daten bleiben in den Quellsystemen.
+Anbindung: A: persönliche Tools über OpenWebUI. B: nutzergebundener Vermittler für Tool-Aufrufe. Beide Wege sind zu testen; keiner ist bereits ausgewählt.
+Grundsatz: Gemeinsam ist die Arbeitsgrundlage, nicht das Tool-Konto oder der Gesprächsverlauf. Identität und Rechte werden außerhalb des Sprachmodells durchgesetzt.</bpmn:documentation>
+    <bpmn:laneSet id="laneSet_p00VonDerAufgabeZurGemeinsamen">
+      <bpmn:lane id="P00_Lane_m" name="Mitarbeitende">
+        <bpmn:flowNodeRef>P00_Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_EndeOffen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_Ende</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_Join_EndeOffen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_Join_Ende</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P00_Lane_a" name="OpenWebUI / persönlicher Arbeitsagent">
+        <bpmn:flowNodeRef>P00_Auftrag</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_TerminalNoetig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_Vorbereitet</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_Terminal</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_Ergebnis</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_Ausgefuehrt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_Pruefen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_Status</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_Fortsetzen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P00_Join_Auftrag</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P00_Lane_g" name="Firmenbetrieb / zuständige Quelle">
+        <bpmn:flowNodeRef>P00_Korrektur</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="P00_Start" name="Aufgabe liegt vor">
+      <bpmn:documentation>Eine Person fragt im Chat. Freigegebene Routinen sind ein zweiter Einstieg nach P06.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:outgoing>P00_Flow_Start_Auftrag</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="P00_Flow_Start_Auftrag" sourceRef="P00_Start" targetRef="P00_Join_Auftrag" />
+    <bpmn:callActivity id="P00_Auftrag" name="P01 · Auftrag, Kontext und persönliche Tools" calledElement="Process_P01">
+      <bpmn:documentation>Identität und Paketstand binden, benötigte Quellen auswählen, nur im zulässigen Konto lesen. Abbruchfälle bleiben in P01.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Join_Auftrag_Auftrag</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Auftrag_Vorbereitet</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="P00_Flow_Auftrag_Vorbereitet" sourceRef="P00_Auftrag" targetRef="P00_Vorbereitet" />
+    <bpmn:exclusiveGateway id="P00_TerminalNoetig" name="Terminal-Arbeit nötig?">
+      <bpmn:documentation>Ein direkter Tool-Aufruf oder eine belegte Antwort braucht nicht automatisch einen Terminalauftrag.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Vorbereitet_TerminalNoetig</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_TerminalNoetig_Terminal</bpmn:outgoing>
+      <bpmn:outgoing>P00_Flow_TerminalNoetig_Ergebnis</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P00_Flow_TerminalNoetig_Terminal" name="ja" sourceRef="P00_TerminalNoetig" targetRef="P00_Terminal" />
+    <bpmn:sequenceFlow id="P00_Flow_TerminalNoetig_Ergebnis" name="nein" sourceRef="P00_TerminalNoetig" targetRef="P00_Ergebnis" />
+    <bpmn:exclusiveGateway id="P00_Vorbereitet" name="Vorbereitung erfolgreich?">
+      <bpmn:documentation>Ein blockierendes Ende von P01 darf nicht als vollständiger Arbeitsauftrag an Codex oder den Prüfer weiterlaufen.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Auftrag_Vorbereitet</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Vorbereitet_TerminalNoetig</bpmn:outgoing>
+      <bpmn:outgoing>P00_Flow_Vorbereitet_EndeOffen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P00_Flow_Vorbereitet_TerminalNoetig" name="ja" sourceRef="P00_Vorbereitet" targetRef="P00_TerminalNoetig" />
+    <bpmn:sequenceFlow id="P00_Flow_Vorbereitet_EndeOffen" name="nein / blockiert" sourceRef="P00_Vorbereitet" targetRef="P00_Join_EndeOffen" />
+    <bpmn:callActivity id="P00_Terminal" name="P02 · Begrenzten Terminalauftrag bearbeiten" calledElement="Process_P02">
+      <bpmn:documentation>Nur mit freigegebenem Mandat und belegter Isolation. Ein blockierter Aufruf liefert einen Status, keinen erfundenen Erfolg.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_TerminalNoetig_Terminal</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Terminal_Ausgefuehrt</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="P00_Flow_Terminal_Ausgefuehrt" sourceRef="P00_Terminal" targetRef="P00_Ausgefuehrt" />
+    <bpmn:exclusiveGateway id="P00_Ergebnis">
+      <bpmn:documentation>Zusammenführung der Alternativen: Ergebnis ohne Terminal oder Ergebnis eines Terminalauftrags.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_TerminalNoetig_Ergebnis</bpmn:incoming>
+      <bpmn:incoming>P00_Flow_Ausgefuehrt_Ergebnis</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Ergebnis_Pruefen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P00_Flow_Ergebnis_Pruefen" sourceRef="P00_Ergebnis" targetRef="P00_Pruefen" />
+    <bpmn:exclusiveGateway id="P00_Ausgefuehrt" name="Terminal-Ergebnis vorhanden?">
+      <bpmn:documentation>BLOCKIERT oder ABBRUCH aus P02 beendet diesen Durchlauf. Nur ein auswertbares Ergebnis geht zur Gegenprüfung.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Terminal_Ausgefuehrt</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Ausgefuehrt_Ergebnis</bpmn:outgoing>
+      <bpmn:outgoing>P00_Flow_Ausgefuehrt_EndeOffen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P00_Flow_Ausgefuehrt_Ergebnis" name="ja" sourceRef="P00_Ausgefuehrt" targetRef="P00_Ergebnis" />
+    <bpmn:sequenceFlow id="P00_Flow_Ausgefuehrt_EndeOffen" name="nein / abgebrochen" sourceRef="P00_Ausgefuehrt" targetRef="P00_Join_EndeOffen" />
+    <bpmn:callActivity id="P00_Pruefen" name="P03 · Ergebnis prüfen und vorlegen" calledElement="Process_P03">
+      <bpmn:documentation>Gegenprüfung mit zulässigen Quellen und menschliche Entscheidung; Rückgabe enthält ANGENOMMEN, KORREKTUR, OFFEN oder ABBRUCH.
+Quelle: ../../agents/pruefer.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Ergebnis_Pruefen</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Pruefen_Status</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="P00_Flow_Pruefen_Status" sourceRef="P00_Pruefen" targetRef="P00_Status" />
+    <bpmn:exclusiveGateway id="P00_Status" name="Wie endet der Auftrag?">
+      <bpmn:documentation>Der Prüflauf ist keine automatische Versandfreigabe. Offene und abgebrochene Aufträge bleiben als solche sichtbar.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Pruefen_Status</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Status_EndeOffen</bpmn:outgoing>
+      <bpmn:outgoing>P00_Flow_Status_Korrektur</bpmn:outgoing>
+      <bpmn:outgoing>P00_Flow_Status_Ende</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P00_Flow_Status_EndeOffen" name="OFFEN / BLOCKIERT / ABBRUCH" sourceRef="P00_Status" targetRef="P00_Join_EndeOffen" />
+    <bpmn:sequenceFlow id="P00_Flow_Status_Korrektur" name="Korrektur bestätigt" sourceRef="P00_Status" targetRef="P00_Korrektur" />
+    <bpmn:sequenceFlow id="P00_Flow_Status_Ende" name="angenommen" sourceRef="P00_Status" targetRef="P00_Join_Ende" />
+    <bpmn:endEvent id="P00_EndeOffen" name="Offen oder abgebrochen">
+      <bpmn:documentation>Kein fachlich fertiges Ergebnis behaupten; konkreten Blocker und bisherigen Stand nennen.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Join_EndeOffen_EndeOffen</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="P00_Korrektur" name="P04 · Korrektur passend einordnen" calledElement="Process_P04">
+      <bpmn:documentation>Nur bei einer bestätigten Korrektur. Persönliches bleibt persönlich; gemeinsame Änderungen gehen über Vorschlag, Prüfung und zulässige Freigabe.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Status_Korrektur</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Korrektur_Fortsetzen</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="P00_Flow_Korrektur_Fortsetzen" sourceRef="P00_Korrektur" targetRef="P00_Fortsetzen" />
+    <bpmn:endEvent id="P00_Ende" name="Ergebnis und Stand nachvollziehbar">
+      <bpmn:documentation>Die Person hat das Ergebnis angenommen oder ihre Korrektur wurde eingeordnet. Gemeinsamer Paketstand ändert sich ausschließlich im Freigabeprozess.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Join_Ende_Ende</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P00_Fortsetzen" name="Weiterbearbeitung im Mandat?">
+      <bpmn:documentation>Eine Korrektur kann eine begrenzte Überarbeitung auslösen. Quellen, Rechte und verbleibende Laufgrenzen erneut prüfen. Andernfalls ist nur die Korrektur eingeordnet.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Korrektur_Fortsetzen</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Fortsetzen_Auftrag</bpmn:outgoing>
+      <bpmn:outgoing>P00_Flow_Fortsetzen_Ende</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P00_Flow_Fortsetzen_Auftrag" name="ja" sourceRef="P00_Fortsetzen" targetRef="P00_Join_Auftrag" />
+    <bpmn:sequenceFlow id="P00_Flow_Fortsetzen_Ende" name="nein" sourceRef="P00_Fortsetzen" targetRef="P00_Join_Ende" />
+    <bpmn:exclusiveGateway id="P00_Join_Auftrag">
+      <bpmn:documentation>Alternative Eingänge ausdrücklich zusammenführen; keine Synchronisation paralleler Ausführungen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Start_Auftrag</bpmn:incoming>
+      <bpmn:incoming>P00_Flow_Fortsetzen_Auftrag</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Join_Auftrag_Auftrag</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P00_Flow_Join_Auftrag_Auftrag" sourceRef="P00_Join_Auftrag" targetRef="P00_Auftrag" />
+    <bpmn:exclusiveGateway id="P00_Join_EndeOffen">
+      <bpmn:documentation>Alternative Eingänge ausdrücklich zusammenführen; keine Synchronisation paralleler Ausführungen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Vorbereitet_EndeOffen</bpmn:incoming>
+      <bpmn:incoming>P00_Flow_Ausgefuehrt_EndeOffen</bpmn:incoming>
+      <bpmn:incoming>P00_Flow_Status_EndeOffen</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Join_EndeOffen_EndeOffen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P00_Flow_Join_EndeOffen_EndeOffen" sourceRef="P00_Join_EndeOffen" targetRef="P00_EndeOffen" />
+    <bpmn:exclusiveGateway id="P00_Join_Ende">
+      <bpmn:documentation>Alternative Eingänge ausdrücklich zusammenführen; keine Synchronisation paralleler Ausführungen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P00_Flow_Status_Ende</bpmn:incoming>
+      <bpmn:incoming>P00_Flow_Fortsetzen_Ende</bpmn:incoming>
+      <bpmn:outgoing>P00_Flow_Join_Ende_Ende</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P00_Flow_Join_Ende_Ende" sourceRef="P00_Join_Ende" targetRef="P00_Ende" />
+    <bpmn:textAnnotation id="P00_Querschnitt">
+      <bpmn:text>P05 Kontextpflege · P06 Routinen · P07 Testbetrieb
+Eigene Detailprozesse, keine eingeschalteten Dienste.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="P00_Flow_Korrektur_Querschnitt" sourceRef="P00_Korrektur" targetRef="P00_Querschnitt" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_collaboration_p00VonDerAufgabeZurGemeinsamen">
+    <bpmndi:BPMNPlane id="BPMNPlane_collaboration_p00VonDerAufgabeZurGemeinsamen" bpmnElement="collaboration_p00VonDerAufgabeZurGemeinsamen">
+      <bpmndi:BPMNShape id="BPMNShape_P00_Pool" bpmnElement="P00_Pool" isHorizontal="true">
+        <dc:Bounds x="80" y="80" width="1951" height="515" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Lane_m" bpmnElement="P00_Lane_m" isHorizontal="true">
+        <dc:Bounds x="110" y="80" width="1921" height="220" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Lane_a" bpmnElement="P00_Lane_a" isHorizontal="true">
+        <dc:Bounds x="110" y="300" width="1921" height="155" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Lane_g" bpmnElement="P00_Lane_g" isHorizontal="true">
+        <dc:Bounds x="110" y="455" width="1921" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Start" bpmnElement="P00_Start">
+        <dc:Bounds x="170" y="117" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="151" y="83" width="75" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Auftrag" bpmnElement="P00_Auftrag" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="376" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_TerminalNoetig" bpmnElement="P00_TerminalNoetig" isMarkerVisible="true">
+        <dc:Bounds x="647" y="345" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="614" y="311" width="117" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Vorbereitet" bpmnElement="P00_Vorbereitet" isMarkerVisible="true">
+        <dc:Bounds x="536" y="345" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="513" y="401" width="96" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Terminal" bpmnElement="P00_Terminal" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="757" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Ergebnis" bpmnElement="P00_Ergebnis" isMarkerVisible="true">
+        <dc:Bounds x="1027" y="345" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Ausgefuehrt" bpmnElement="P00_Ausgefuehrt" isMarkerVisible="true">
+        <dc:Bounds x="917" y="345" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="877" y="465" width="131" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Pruefen" bpmnElement="P00_Pruefen" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="1137" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Status" bpmnElement="P00_Status" isMarkerVisible="true">
+        <dc:Bounds x="1297" y="345" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1353" y="307" width="75" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_EndeOffen" bpmnElement="P00_EndeOffen">
+        <dc:Bounds x="1628" y="227" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1602" y="193" width="89" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Korrektur" bpmnElement="P00_Korrektur" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1461" y="485" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Ende" bpmnElement="P00_Ende">
+        <dc:Bounds x="1841" y="117" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1801" y="159" width="117" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Fortsetzen" bpmnElement="P00_Fortsetzen" isMarkerVisible="true">
+        <dc:Bounds x="1621" y="345" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1581" y="311" width="131" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Join_Auftrag" bpmnElement="P00_Join_Auftrag" isMarkerVisible="true">
+        <dc:Bounds x="266" y="345" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Join_EndeOffen" bpmnElement="P00_Join_EndeOffen" isMarkerVisible="true">
+        <dc:Bounds x="1486" y="220" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Join_Ende" bpmnElement="P00_Join_Ende" isMarkerVisible="true">
+        <dc:Bounds x="1731" y="110" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Start_Auftrag" bpmnElement="P00_Flow_Start_Auftrag">
+        <di:waypoint x="188" y="153" />
+        <di:waypoint x="188" y="370" />
+        <di:waypoint x="266" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Auftrag_Vorbereitet" bpmnElement="P00_Flow_Auftrag_Vorbereitet">
+        <di:waypoint x="476" y="370" />
+        <di:waypoint x="536" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_TerminalNoetig_Terminal" bpmnElement="P00_Flow_TerminalNoetig_Terminal">
+        <di:waypoint x="697" y="370" />
+        <di:waypoint x="757" y="370" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="705" y="352" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_TerminalNoetig_Ergebnis" bpmnElement="P00_Flow_TerminalNoetig_Ergebnis">
+        <di:waypoint x="672" y="395" />
+        <di:waypoint x="672" y="410" />
+        <di:waypoint x="727" y="410" />
+        <di:waypoint x="727" y="425" />
+        <di:waypoint x="1052" y="425" />
+        <di:waypoint x="1052" y="395" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1058" y="403" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Vorbereitet_TerminalNoetig" bpmnElement="P00_Flow_Vorbereitet_TerminalNoetig">
+        <di:waypoint x="586" y="370" />
+        <di:waypoint x="647" y="370" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="594" y="352" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Vorbereitet_EndeOffen" bpmnElement="P00_Flow_Vorbereitet_EndeOffen">
+        <di:waypoint x="561" y="345" />
+        <di:waypoint x="561" y="205" />
+        <di:waypoint x="1511" y="205" />
+        <di:waypoint x="1511" y="220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="569" y="173" width="75" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Terminal_Ausgefuehrt" bpmnElement="P00_Flow_Terminal_Ausgefuehrt">
+        <di:waypoint x="857" y="370" />
+        <di:waypoint x="917" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Ergebnis_Pruefen" bpmnElement="P00_Flow_Ergebnis_Pruefen">
+        <di:waypoint x="1077" y="370" />
+        <di:waypoint x="1137" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Ausgefuehrt_Ergebnis" bpmnElement="P00_Flow_Ausgefuehrt_Ergebnis">
+        <di:waypoint x="967" y="370" />
+        <di:waypoint x="1027" y="370" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="975" y="352" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Ausgefuehrt_EndeOffen" bpmnElement="P00_Flow_Ausgefuehrt_EndeOffen">
+        <di:waypoint x="942" y="345" />
+        <di:waypoint x="942" y="245" />
+        <di:waypoint x="1486" y="245" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="950" y="213" width="89" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Pruefen_Status" bpmnElement="P00_Flow_Pruefen_Status">
+        <di:waypoint x="1237" y="370" />
+        <di:waypoint x="1297" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Status_EndeOffen" bpmnElement="P00_Flow_Status_EndeOffen">
+        <di:waypoint x="1347" y="370" />
+        <di:waypoint x="1511" y="370" />
+        <di:waypoint x="1511" y="270" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1385" y="374" width="89" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Status_Korrektur" bpmnElement="P00_Flow_Status_Korrektur">
+        <di:waypoint x="1322" y="395" />
+        <di:waypoint x="1322" y="525" />
+        <di:waypoint x="1461" y="525" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1330" y="493" width="75" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Status_Ende" bpmnElement="P00_Flow_Status_Ende">
+        <di:waypoint x="1322" y="395" />
+        <di:waypoint x="1322" y="425" />
+        <di:waypoint x="1551" y="425" />
+        <di:waypoint x="1551" y="278" />
+        <di:waypoint x="1756" y="278" />
+        <di:waypoint x="1756" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1762" y="212" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Korrektur_Fortsetzen" bpmnElement="P00_Flow_Korrektur_Fortsetzen">
+        <di:waypoint x="1561" y="525" />
+        <di:waypoint x="1646" y="525" />
+        <di:waypoint x="1646" y="395" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Fortsetzen_Auftrag" bpmnElement="P00_Flow_Fortsetzen_Auftrag">
+        <di:waypoint x="1621" y="383" />
+        <di:waypoint x="1591" y="383" />
+        <di:waypoint x="1591" y="440" />
+        <di:waypoint x="291" y="440" />
+        <di:waypoint x="291" y="395" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1557" y="422" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Fortsetzen_Ende" bpmnElement="P00_Flow_Fortsetzen_Ende">
+        <di:waypoint x="1671" y="370" />
+        <di:waypoint x="1756" y="370" />
+        <di:waypoint x="1756" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1679" y="352" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Join_Auftrag_Auftrag" bpmnElement="P00_Flow_Join_Auftrag_Auftrag">
+        <di:waypoint x="316" y="370" />
+        <di:waypoint x="376" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Join_EndeOffen_EndeOffen" bpmnElement="P00_Flow_Join_EndeOffen_EndeOffen">
+        <di:waypoint x="1536" y="245" />
+        <di:waypoint x="1628" y="245" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Join_Ende_Ende" bpmnElement="P00_Flow_Join_Ende_Ende">
+        <di:waypoint x="1781" y="135" />
+        <di:waypoint x="1841" y="135" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_P00_Querschnitt" bpmnElement="P00_Querschnitt">
+        <dc:Bounds x="1701" y="415" width="300" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_P00_Flow_Korrektur_Querschnitt" bpmnElement="P00_Flow_Korrektur_Querschnitt">
+        <di:waypoint x="1541" y="565" />
+        <di:waypoint x="1541" y="575" />
+        <di:waypoint x="1851" y="575" />
+        <di:waypoint x="1851" y="469" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

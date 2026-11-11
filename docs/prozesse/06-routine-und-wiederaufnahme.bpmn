@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_p06RoutineUnterbrechungUndWiederaufnahme" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="collaboration_p06RoutineUnterbrechungUndWiederaufnahme">
+    <bpmn:participant id="P06_Pool" name="P06 · Routine, Unterbrechung und Wiederaufnahme" processRef="Process_P06" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P06" name="P06 · Routine, Unterbrechung und Wiederaufnahme" isExecutable="false">
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
+Zweck: Einen ausdrücklich freigegebenen Hintergrundauftrag nachvollziehbar starten, anhalten und ohne unbemerkte Doppelwirkung fortsetzen.
+Offen: L1/L15/L25: Engine, Identität, Nachrichtenzustellung und technische Wiederaufnahme sind offen. Ein Diagramm garantiert weder dauerhafte Ausführung noch Exactly-once-Wirkung.
+Quellen: ../pruefszenarien.md ; ../../PRD.md ; ../../AGENTS.md
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Betrieb prüfen
+Kurz: Routine &amp; Neustart</bpmn:documentation>
+    <bpmn:laneSet id="laneSet_p06RoutineUnterbrechungUndWiederaufnahme">
+      <bpmn:lane id="P06_Lane_g" name="Laufsteuerung / dauerhafter Auftragsstatus">
+        <bpmn:flowNodeRef>P06_Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Auftrag</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Aktiv</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Inaktiv</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Schluessel</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Doppelt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Alt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Checkpoint</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Blockiert</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_EndeBlock</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Melden</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Antwort</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Stop</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Beenden</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Gueltig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Neu</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Vereinen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Wirkung</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Fertig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Ende</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Join_Beenden</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P06_Lane_a" name="Beauftragter Agent">
+        <bpmn:flowNodeRef>P06_Arbeiten</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Fehler</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P06_Rueckfrage</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P06_Lane_m" name="Zuständige Person">
+        <bpmn:flowNodeRef>P06_Ja</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="P06_Start" name="Auslöser oder Fortsetzung eingegangen">
+      <bpmn:documentation>Manueller Auftrag, freigegebenes Ereignis oder Zeitplan. Ein Auslöser allein erteilt keine zusätzlichen Rechte.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:outgoing>P06_Flow_Start_Auftrag</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="P06_Flow_Start_Auftrag" sourceRef="P06_Start" targetRef="P06_Auftrag" />
+    <bpmn:scriptTask id="P06_Auftrag" name="Freigabe, Identität und Grenzen prüfen">
+      <bpmn:documentation>Freigabe, Auftragssnapshot, explizites Nutzer- oder Dienstkonto, Quellen, Ziel, Laufgrenzen und zuständige Person prüfen. Ein Zeitplan hat keinen angemeldeten Chatnutzer. Rechte vor Wiederaufnahme erneut prüfen, nicht aus einem alten Profil übernehmen.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Start_Auftrag</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Auftrag_Aktiv</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P06_Flow_Auftrag_Aktiv" sourceRef="P06_Auftrag" targetRef="P06_Aktiv" />
+    <bpmn:exclusiveGateway id="P06_Aktiv" name="Auftrag gültig und freigegeben?">
+      <bpmn:documentation>Abgelaufene oder deaktivierte Aufträge werden nicht durch eine alte Nachricht wieder aktiviert.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Auftrag_Aktiv</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Aktiv_Inaktiv</bpmn:outgoing>
+      <bpmn:outgoing>P06_Flow_Aktiv_Schluessel</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P06_Flow_Aktiv_Inaktiv" name="nein" sourceRef="P06_Aktiv" targetRef="P06_Inaktiv" />
+    <bpmn:sequenceFlow id="P06_Flow_Aktiv_Schluessel" name="ja" sourceRef="P06_Aktiv" targetRef="P06_Schluessel" />
+    <bpmn:endEvent id="P06_Inaktiv" name="Nicht gestartet">
+      <bpmn:documentation>Status und fehlende Voraussetzung sichtbar machen; keine neue Routine einschalten.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Aktiv_Inaktiv</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:scriptTask id="P06_Schluessel" name="Kennung und bisherigen Zustand ermitteln">
+      <bpmn:documentation>Ereigniskennung und Auftragssnapshot verwenden; bestehende Läufe und mögliche bereits erfolgte Wirkungen abgleichen.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Aktiv_Schluessel</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Schluessel_Doppelt</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P06_Flow_Schluessel_Doppelt" sourceRef="P06_Schluessel" targetRef="P06_Doppelt" />
+    <bpmn:exclusiveGateway id="P06_Doppelt" name="Schon erledigt oder noch laufend?">
+      <bpmn:documentation>Eine doppelte Nachricht ist kein neuer unabhängiger Auftrag.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Schluessel_Doppelt</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Doppelt_Alt</bpmn:outgoing>
+      <bpmn:outgoing>P06_Flow_Doppelt_Checkpoint</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P06_Flow_Doppelt_Alt" name="ja" sourceRef="P06_Doppelt" targetRef="P06_Alt" />
+    <bpmn:sequenceFlow id="P06_Flow_Doppelt_Checkpoint" name="nein" sourceRef="P06_Doppelt" targetRef="P06_Checkpoint" />
+    <bpmn:endEvent id="P06_Alt" name="Bisherigen Status zurückgeben">
+      <bpmn:documentation>Ergebnis oder laufenden Auftrag referenzieren, keinen zweiten Lauf anlegen.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Doppelt_Alt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:scriptTask id="P06_Checkpoint" name="Prüfpunkt und nächste Aktion sichern">
+      <bpmn:documentation>Status vor riskanten Schritten sichern. Bei unklarer früherer Wirkung zuerst mit dem Zielsystem abgleichen.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Doppelt_Checkpoint</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Checkpoint_Arbeiten</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P06_Flow_Checkpoint_Arbeiten" sourceRef="P06_Checkpoint" targetRef="P06_Arbeiten" />
+    <bpmn:serviceTask id="P06_Arbeiten" name="Freigegebenen Teilauftrag ausführen">
+      <bpmn:documentation>Fachlicher Ablauf nach P01–P03 oder Pflege nach P05. Das geschlossene Browserfenster darf die Zustellung nicht ersetzen.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Checkpoint_Arbeiten</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Arbeiten_Rueckfrage</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P06_Flow_Arbeiten_Rueckfrage" sourceRef="P06_Arbeiten" targetRef="P06_Rueckfrage" />
+    <bpmn:boundaryEvent id="P06_Fehler" name="Provider / Prozess unterbrochen" attachedToRef="P06_Arbeiten">
+      <bpmn:documentation>Providerfehler oder Prozessabbruch. Zustand und mögliche Wirkung prüfen. Quelle: ../pruefszenarien.md#s12-routine-mit-rueckfrage</bpmn:documentation>
+      <bpmn:outgoing>P06_Flow_Fehler_Blockiert</bpmn:outgoing>
+      <bpmn:errorEventDefinition errorRef="error_routineUnterbrochen" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="P06_Flow_Fehler_Blockiert" sourceRef="P06_Fehler" targetRef="P06_Blockiert" />
+    <bpmn:scriptTask id="P06_Blockiert" name="Blocker und sicheren Prüfpunkt melden">
+      <bpmn:documentation>Fehlerart und Wiederaufnahmebedingung festhalten. Das Ergebnis gilt nicht als fachlich fehlgeschlagen oder bestanden, solange kein auswertbares Ergebnis vorliegt.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Fehler_Blockiert</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Blockiert_EndeBlock</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P06_Flow_Blockiert_EndeBlock" sourceRef="P06_Blockiert" targetRef="P06_EndeBlock" />
+    <bpmn:endEvent id="P06_EndeBlock" name="BLOCKIERT, Fortsetzung ausstehend">
+      <bpmn:documentation>Ein späterer ausdrücklich zulässiger Fortsetzungsversuch startet über den Eingang und prüft den Zustand erneut.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Blockiert_EndeBlock</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P06_Rueckfrage" name="Entscheidung nötig?">
+      <bpmn:documentation>Eine unklare Pflichtangabe, Freigabe oder geänderte Quelle kann eine menschliche Entscheidung brauchen.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Arbeiten_Rueckfrage</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Rueckfrage_Melden</bpmn:outgoing>
+      <bpmn:outgoing>P06_Flow_Rueckfrage_Vereinen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P06_Flow_Rueckfrage_Melden" name="ja" sourceRef="P06_Rueckfrage" targetRef="P06_Melden" />
+    <bpmn:sequenceFlow id="P06_Flow_Rueckfrage_Vereinen" name="nein" sourceRef="P06_Rueckfrage" targetRef="P06_Vereinen" />
+    <bpmn:serviceTask id="P06_Melden" name="Konkrete Fassung zur Entscheidung zustellen">
+      <bpmn:documentation>Zuständiger Person, Ergebnisfassung und Quellenstand zuordnen. Kanal und Zustellung bleiben Implementierungsfragen, keine neue Slack-Pflicht.
+Quelle: ../../PRD.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Rueckfrage_Melden</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Melden_Antwort</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P06_Flow_Melden_Antwort" sourceRef="P06_Melden" targetRef="P06_Antwort" />
+    <bpmn:receiveTask id="P06_Antwort" name="Auf gebundene Entscheidung warten">
+      <bpmn:documentation>Wartestatus dauerhaft speichern. Eine verlorene oder alte Antwort ist keine Freigabe.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Melden_Antwort</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Antwort_Gueltig</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="P06_Flow_Antwort_Gueltig" sourceRef="P06_Antwort" targetRef="P06_Gueltig" />
+    <bpmn:boundaryEvent id="P06_Stop" name="Stop / Widerruf" attachedToRef="P06_Antwort">
+      <bpmn:documentation>Stop beendet den wartenden Lauf, ohne ihn automatisch zu wiederholen. Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:outgoing>P06_Flow_Stop_Beenden</bpmn:outgoing>
+      <bpmn:signalEventDefinition signalRef="signal_auftragStoppen" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="P06_Flow_Stop_Beenden" sourceRef="P06_Stop" targetRef="P06_Join_Beenden" />
+    <bpmn:endEvent id="P06_Beenden" name="ABGEBROCHEN, Stand erhalten">
+      <bpmn:documentation>Verbleibende Prozesse und bereits erfolgte Wirkungen prüfen; bei Unsicherheit als offen melden.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Join_Beenden_Beenden</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P06_Gueltig" name="Person, Fassung und Rechte noch gültig?">
+      <bpmn:documentation>Antwort mit Auftragskennung, Ergebnisfassung und aktuellem Quellen-/Rechtestand abgleichen. Eine alte Zustimmung darf keine neue Fassung freigeben.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Antwort_Gueltig</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Gueltig_Neu</bpmn:outgoing>
+      <bpmn:outgoing>P06_Flow_Gueltig_Ja</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P06_Flow_Gueltig_Neu" name="nein" sourceRef="P06_Gueltig" targetRef="P06_Neu" />
+    <bpmn:sequenceFlow id="P06_Flow_Gueltig_Ja" name="ja" sourceRef="P06_Gueltig" targetRef="P06_Ja" />
+    <bpmn:endEvent id="P06_Neu" name="Neue Entscheidung erforderlich">
+      <bpmn:documentation>Veraltete Antwort zurückweisen; die zuständige Person bekommt die aktuelle Fassung in einem zulässigen Folgeauftrag.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Gueltig_Neu</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P06_Ja" name="Zugestimmt?">
+      <bpmn:documentation>Ablehnung beendet diesen Lauf. Eine Zustimmung bleibt auf den konkret freigegebenen Schritt begrenzt.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Gueltig_Ja</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Ja_Beenden</bpmn:outgoing>
+      <bpmn:outgoing>P06_Flow_Ja_Vereinen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P06_Flow_Ja_Beenden" name="nein" sourceRef="P06_Ja" targetRef="P06_Join_Beenden" />
+    <bpmn:sequenceFlow id="P06_Flow_Ja_Vereinen" name="ja" sourceRef="P06_Ja" targetRef="P06_Vereinen" />
+    <bpmn:exclusiveGateway id="P06_Vereinen">
+      <bpmn:documentation>Weiter nur mit ausreichender bestehender Freigabe oder gültiger neuer Entscheidung.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Rueckfrage_Vereinen</bpmn:incoming>
+      <bpmn:incoming>P06_Flow_Ja_Vereinen</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Vereinen_Wirkung</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P06_Flow_Vereinen_Wirkung" sourceRef="P06_Vereinen" targetRef="P06_Wirkung" />
+    <bpmn:scriptTask id="P06_Wirkung" name="Erlaubte Wirkung mit Zustand abgleichen">
+      <bpmn:documentation>Vor Schreiben im Zielsystem auf bereits vorhandene Wirkung prüfen; bei unklarem früherem Commit abgleichen statt blind wiederholen. Außenhandlungen bleiben beim Menschen nach P03.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Vereinen_Wirkung</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Wirkung_Fertig</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="P06_Flow_Wirkung_Fertig" sourceRef="P06_Wirkung" targetRef="P06_Fertig" />
+    <bpmn:serviceTask id="P06_Fertig" name="Ergebnis und tatsächliche Wirkung melden">
+      <bpmn:documentation>Auch ein Lauf ohne Änderungen meldet den Status. Inhaltliche Nacharbeit und Betriebskosten bleiben messbar.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Wirkung_Fertig</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Fertig_Ende</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P06_Flow_Fertig_Ende" sourceRef="P06_Fertig" targetRef="P06_Ende" />
+    <bpmn:endEvent id="P06_Ende" name="Abgeschlossen und nachvollziehbar">
+      <bpmn:documentation>Auftrag, Version, Ergebnis, Wirkungsbeleg und Logstatus sind verbunden; Daten bleiben im zulässigen Kreis.
+Quelle: ../pruefszenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Fertig_Ende</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P06_Join_Beenden">
+      <bpmn:documentation>Alternative Eingänge ausdrücklich zusammenführen; keine Synchronisation paralleler Ausführungen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P06_Flow_Stop_Beenden</bpmn:incoming>
+      <bpmn:incoming>P06_Flow_Ja_Beenden</bpmn:incoming>
+      <bpmn:outgoing>P06_Flow_Join_Beenden_Beenden</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P06_Flow_Join_Beenden_Beenden" sourceRef="P06_Join_Beenden" targetRef="P06_Beenden" />
+  </bpmn:process>
+  <bpmn:error id="error_routineUnterbrochen" name="Routine unterbrochen" errorCode="ROUTINE_INTERRUPTED" />
+  <bpmn:signal id="signal_auftragStoppen" name="Auftrag stoppen" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_collaboration_p06RoutineUnterbrechungUnd">
+    <bpmndi:BPMNPlane id="BPMNPlane_collaboration_p06RoutineUnterbrechungUnd" bpmnElement="collaboration_p06RoutineUnterbrechungUndWiederaufnahme">
+      <bpmndi:BPMNShape id="BPMNShape_P06_Pool" bpmnElement="P06_Pool" isHorizontal="true">
+        <dc:Bounds x="80" y="80" width="2439" height="641" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Lane_g" bpmnElement="P06_Lane_g" isHorizontal="true">
+        <dc:Bounds x="110" y="80" width="2409" height="318" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Lane_a" bpmnElement="P06_Lane_a" isHorizontal="true">
+        <dc:Bounds x="110" y="398" width="2409" height="203" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Lane_m" bpmnElement="P06_Lane_m" isHorizontal="true">
+        <dc:Bounds x="110" y="601" width="2409" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Start" bpmnElement="P06_Start">
+        <dc:Bounds x="170" y="151" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="144" y="193" width="89" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Auftrag" bpmnElement="P06_Auftrag" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="266" y="129" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Aktiv" bpmnElement="P06_Aktiv" isMarkerVisible="true">
+        <dc:Bounds x="426" y="144" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="403" y="96" width="96" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Inaktiv" bpmnElement="P06_Inaktiv">
+        <dc:Bounds x="568" y="310" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="549" y="352" width="75" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Schluessel" bpmnElement="P06_Schluessel" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="536" y="129" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Doppelt" bpmnElement="P06_Doppelt" isMarkerVisible="true">
+        <dc:Bounds x="696" y="144" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="684" y="82" width="75" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Alt" bpmnElement="P06_Alt">
+        <dc:Bounds x="838" y="310" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="812" y="352" width="89" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Checkpoint" bpmnElement="P06_Checkpoint" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="806" y="129" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Arbeiten" bpmnElement="P06_Arbeiten" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="966" y="447" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Fehler" bpmnElement="P06_Fehler">
+        <dc:Bounds x="1023" y="509" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1063" y="529" width="96" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Blockiert" bpmnElement="P06_Blockiert" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1236" y="288" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_EndeBlock" bpmnElement="P06_EndeBlock">
+        <dc:Bounds x="1428" y="310" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1402" y="352" width="89" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Rueckfrage" bpmnElement="P06_Rueckfrage" isMarkerVisible="true">
+        <dc:Bounds x="1126" y="462" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1161" y="518" width="96" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Melden" bpmnElement="P06_Melden" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1236" y="129" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Antwort" bpmnElement="P06_Antwort" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1396" y="129" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Stop" bpmnElement="P06_Stop">
+        <dc:Bounds x="1453" y="191" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1493" y="211" width="68" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Beenden" bpmnElement="P06_Beenden">
+        <dc:Bounds x="1886" y="310" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1856" y="352" width="96" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Gueltig" bpmnElement="P06_Gueltig" isMarkerVisible="true">
+        <dc:Bounds x="1556" y="144" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1587" y="260" width="89" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Neu" bpmnElement="P06_Neu">
+        <dc:Bounds x="1673" y="151" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1643" y="193" width="96" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Ja" bpmnElement="P06_Ja" isMarkerVisible="true">
+        <dc:Bounds x="1666" y="631" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1647" y="611" width="89" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Vereinen" bpmnElement="P06_Vereinen" isMarkerVisible="true">
+        <dc:Bounds x="1982" y="144" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Wirkung" bpmnElement="P06_Wirkung" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="2092" y="129" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Fertig" bpmnElement="P06_Fertig" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="2252" y="129" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Ende" bpmnElement="P06_Ende">
+        <dc:Bounds x="2412" y="151" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2372" y="193" width="117" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P06_Join_Beenden" bpmnElement="P06_Join_Beenden" isMarkerVisible="true">
+        <dc:Bounds x="1776" y="303" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Start_Auftrag" bpmnElement="P06_Flow_Start_Auftrag">
+        <di:waypoint x="206" y="169" />
+        <di:waypoint x="266" y="169" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Auftrag_Aktiv" bpmnElement="P06_Flow_Auftrag_Aktiv">
+        <di:waypoint x="366" y="169" />
+        <di:waypoint x="426" y="169" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Aktiv_Inaktiv" bpmnElement="P06_Flow_Aktiv_Inaktiv">
+        <di:waypoint x="451" y="194" />
+        <di:waypoint x="451" y="328" />
+        <di:waypoint x="568" y="328" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="459" y="310" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Aktiv_Schluessel" bpmnElement="P06_Flow_Aktiv_Schluessel">
+        <di:waypoint x="476" y="169" />
+        <di:waypoint x="536" y="169" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="484" y="151" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Schluessel_Doppelt" bpmnElement="P06_Flow_Schluessel_Doppelt">
+        <di:waypoint x="636" y="169" />
+        <di:waypoint x="696" y="169" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Doppelt_Alt" bpmnElement="P06_Flow_Doppelt_Alt">
+        <di:waypoint x="721" y="194" />
+        <di:waypoint x="721" y="328" />
+        <di:waypoint x="838" y="328" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="729" y="310" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Doppelt_Checkpoint" bpmnElement="P06_Flow_Doppelt_Checkpoint">
+        <di:waypoint x="746" y="169" />
+        <di:waypoint x="806" y="169" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="754" y="151" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Checkpoint_Arbeiten" bpmnElement="P06_Flow_Checkpoint_Arbeiten">
+        <di:waypoint x="906" y="169" />
+        <di:waypoint x="936" y="169" />
+        <di:waypoint x="936" y="487" />
+        <di:waypoint x="966" y="487" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Arbeiten_Rueckfrage" bpmnElement="P06_Flow_Arbeiten_Rueckfrage">
+        <di:waypoint x="1066" y="487" />
+        <di:waypoint x="1126" y="487" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Fehler_Blockiert" bpmnElement="P06_Flow_Fehler_Blockiert">
+        <di:waypoint x="1041" y="545" />
+        <di:waypoint x="1041" y="586" />
+        <di:waypoint x="1286" y="586" />
+        <di:waypoint x="1286" y="368" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Blockiert_EndeBlock" bpmnElement="P06_Flow_Blockiert_EndeBlock">
+        <di:waypoint x="1336" y="328" />
+        <di:waypoint x="1428" y="328" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Rueckfrage_Melden" bpmnElement="P06_Flow_Rueckfrage_Melden">
+        <di:waypoint x="1151" y="462" />
+        <di:waypoint x="1151" y="169" />
+        <di:waypoint x="1236" y="169" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1159" y="151" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Rueckfrage_Vereinen" bpmnElement="P06_Flow_Rueckfrage_Vereinen">
+        <di:waypoint x="1151" y="462" />
+        <di:waypoint x="1151" y="114" />
+        <di:waypoint x="2007" y="114" />
+        <di:waypoint x="2007" y="144" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1159" y="96" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Melden_Antwort" bpmnElement="P06_Flow_Melden_Antwort">
+        <di:waypoint x="1336" y="169" />
+        <di:waypoint x="1396" y="169" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Antwort_Gueltig" bpmnElement="P06_Flow_Antwort_Gueltig">
+        <di:waypoint x="1496" y="169" />
+        <di:waypoint x="1556" y="169" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Stop_Beenden" bpmnElement="P06_Flow_Stop_Beenden">
+        <di:waypoint x="1471" y="227" />
+        <di:waypoint x="1471" y="328" />
+        <di:waypoint x="1776" y="328" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Gueltig_Neu" bpmnElement="P06_Flow_Gueltig_Neu">
+        <di:waypoint x="1606" y="169" />
+        <di:waypoint x="1673" y="169" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1614" y="151" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Gueltig_Ja" bpmnElement="P06_Flow_Gueltig_Ja">
+        <di:waypoint x="1581" y="194" />
+        <di:waypoint x="1581" y="656" />
+        <di:waypoint x="1666" y="656" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1589" y="638" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Ja_Beenden" bpmnElement="P06_Flow_Ja_Beenden">
+        <di:waypoint x="1716" y="656" />
+        <di:waypoint x="1801" y="656" />
+        <di:waypoint x="1801" y="353" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1724" y="638" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Ja_Vereinen" bpmnElement="P06_Flow_Ja_Vereinen">
+        <di:waypoint x="1716" y="656" />
+        <di:waypoint x="2007" y="656" />
+        <di:waypoint x="2007" y="194" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1718" y="660" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Vereinen_Wirkung" bpmnElement="P06_Flow_Vereinen_Wirkung">
+        <di:waypoint x="2032" y="169" />
+        <di:waypoint x="2092" y="169" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Wirkung_Fertig" bpmnElement="P06_Flow_Wirkung_Fertig">
+        <di:waypoint x="2192" y="169" />
+        <di:waypoint x="2252" y="169" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Fertig_Ende" bpmnElement="P06_Flow_Fertig_Ende">
+        <di:waypoint x="2352" y="169" />
+        <di:waypoint x="2412" y="169" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P06_Flow_Join_Beenden_Beenden" bpmnElement="P06_Flow_Join_Beenden_Beenden">
+        <di:waypoint x="1826" y="328" />
+        <di:waypoint x="1886" y="328" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_p01AuftragKontextUndPersoenlicheTools" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="collaboration_p01AuftragKontextUndPersoenlicheTools">
+    <bpmn:participant id="P01_Pool" name="P01 · Auftrag, Kontext und persönliche Tools" processRef="Process_P01" />
+    <bpmn:participant id="P01_Tools" name="Persönliche Quellsysteme · z. B. Gmail" />
+    <bpmn:messageFlow id="P01_Message_Aufruf" name="Aufruf als angemeldete Person" sourceRef="P01_Lesen" targetRef="P01_Tools" />
+    <bpmn:messageFlow id="P01_Message_Belege" name="zulässige Daten + Herkunft" sourceRef="P01_Tools" targetRef="P01_Belege" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P01" name="P01 · Auftrag, Kontext und persönliche Tools" isExecutable="false">
+    <bpmn:documentation>Entwurf v0.2 | GPT-6-astra | 11.11.2026
+Zweck: Den Auftrag einer eindeutig angemeldeten Person mit passenden Quellen und einem festen Quellstand vorbereiten.
+Offen: Anbindung A (OpenWebUI) oder B (Vermittler), nachgewiesene Nutzer-/Kontozuordnung. Gemeinsames Wiki ist Zielbild; PRD L6 bleibt als weitergehende Frage bestehen.
+Quellen: ../../AGENTS.md ; ../szenarien.md ; https://docs.openwebui.com/features/extensibility/mcp/#connecting-an-account ; https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst ; ../../beispiel/openwebui/fixtures/04-test-cases.md
+Lesart: Fachlicher Sollprozess zur Diskussion, keine Betriebsfreigabe. Nicht ausführbar. Bahnen zeigen Verantwortung, keine nachgewiesene technische Isolation.
+Kapitel: Auftrag bearbeiten
+Kurz: Auftrag &amp; Tools</bpmn:documentation>
+    <bpmn:laneSet id="laneSet_p01AuftragKontextUndPersoenlicheTools">
+      <bpmn:lane id="P01_Lane_m" name="Mitarbeitende">
+        <bpmn:flowNodeRef>P01_Rueckfrage</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P01_Lane_a" name="OpenWebUI-Agent">
+        <bpmn:flowNodeRef>P01_Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Stop</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Aufgabe</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Klar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Index</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_ToolNoetig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Fehlt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Lesen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Toolfehler</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Zusammen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_PaketAuftrag</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Ende</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Join_Aufgabe</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="P01_Lane_g" name="Adapter / Anmeldung / Rechteprüfung">
+        <bpmn:flowNodeRef>P01_Identitaet</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Paket</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Gueltig</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Konto</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Zugriff</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Blockiert</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P01_Belege</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="P01_Start" name="Bitte eingegangen">
+      <bpmn:documentation>Die Nutzernachricht ist der Auftrag. Eingebettete Anweisungen aus Dokumenten werden als Daten behandelt.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:outgoing>P01_Flow_Start_Identitaet</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="P01_Flow_Start_Identitaet" sourceRef="P01_Start" targetRef="P01_Identitaet" />
+    <bpmn:serviceTask id="P01_Identitaet" name="Nutzer und Auftrag sicher zuordnen">
+      <bpmn:documentation>Die serverseitig authentifizierte Sitzung bestimmt die Person und bindet den Auftrag. Nutzer-ID aus Prompt oder Toolargument ist kein Nachweis. Rollenprofile steuern die Arbeitsweise; Tool-Rechte werden gesondert technisch geprüft. Keine Kontoauswahl durch das Modell.
+Quelle: ../../SICHERHEIT.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Start_Identitaet</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Identitaet_Paket</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P01_Flow_Identitaet_Paket" sourceRef="P01_Identitaet" targetRef="P01_Paket" />
+    <bpmn:serviceTask id="P01_Paket" name="Freigegebenen Paketstand binden">
+      <bpmn:documentation>Für alle derselbe freigegebene Firmenkern: Wiki, Regeln und gemeinsame Skills. Bewusst festgelegte persönliche Ergänzungen bleiben getrennt. Quellversion an den Auftrag binden; fehlende Pflichtquellen melden. Rollenbezogene Auswahl nach Relevanz ist keine Lesesperre. Gefilterte Wiki-Pakete aus PRD L6 sind eine spätere Erweiterung, kein Bestandteil dieses Zielbilds.
+Quelle: ../../installation/README.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Identitaet_Paket</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Paket_Gueltig</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P01_Flow_Paket_Gueltig" sourceRef="P01_Paket" targetRef="P01_Gueltig" />
+    <bpmn:exclusiveGateway id="P01_Gueltig" name="Startgrundlage gültig?">
+      <bpmn:documentation>Start ohne zuordenbare Identität oder erforderliche Quellen ist kein gültiger Firmenauftrag.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Paket_Gueltig</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Gueltig_Stop</bpmn:outgoing>
+      <bpmn:outgoing>P01_Flow_Gueltig_Aufgabe</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P01_Flow_Gueltig_Stop" name="nein" sourceRef="P01_Gueltig" targetRef="P01_Stop" />
+    <bpmn:sequenceFlow id="P01_Flow_Gueltig_Aufgabe" name="ja" sourceRef="P01_Gueltig" targetRef="P01_Join_Aufgabe" />
+    <bpmn:endEvent id="P01_Stop" name="Start blockiert">
+      <bpmn:documentation>Fehlende Anmeldung, Quelle oder Version benennen. Kein Zugriff über ein anderes Konto.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Gueltig_Stop</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P01_Aufgabe" name="Ziel und Fertigkriterien klären">
+      <bpmn:documentation>Passenden Skill nach Beschreibung wählen. Erwartetes Ergebnis, erlaubten Zielkreis und nötige Quellen erkennen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Join_Aufgabe_Aufgabe</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Aufgabe_Klar</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P01_Flow_Aufgabe_Klar" sourceRef="P01_Aufgabe" targetRef="P01_Klar" />
+    <bpmn:exclusiveGateway id="P01_Klar" name="Auftrag hinreichend klar?">
+      <bpmn:documentation>Fachliche Lücken und unklare Freigaben werden nicht durch Annahmen ersetzt.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Aufgabe_Klar</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Klar_Rueckfrage</bpmn:outgoing>
+      <bpmn:outgoing>P01_Flow_Klar_Index</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P01_Flow_Klar_Rueckfrage" name="nein" sourceRef="P01_Klar" targetRef="P01_Rueckfrage" />
+    <bpmn:sequenceFlow id="P01_Flow_Klar_Index" name="ja" sourceRef="P01_Klar" targetRef="P01_Index" />
+    <bpmn:userTask id="P01_Rueckfrage" name="Gezielte Rückfrage beantworten">
+      <bpmn:documentation>Die Person klärt die eine entscheidende offene Angabe oder bricht ab. Der neue Auftrag bleibt an ihre Sitzung gebunden.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Klar_Rueckfrage</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Rueckfrage_Aufgabe</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="P01_Flow_Rueckfrage_Aufgabe" sourceRef="P01_Rueckfrage" targetRef="P01_Join_Aufgabe" />
+    <bpmn:serviceTask id="P01_Index" name="Index und Quellenverweise lesen">
+      <bpmn:documentation>Das gemeinsame Wiki ist im Zielbild für das ganze Team lesbar. Index und Verweise erschließen dauerhaftes Arbeitswissen; persönliche Ergänzungen werden nur im jeweiligen Auftrag genutzt. Vertrauliche Live-Daten bleiben in den Quellsystemen und werden nicht als Wiki-Dateien mit Frontmatter-Sperre verteilt.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Klar_Index</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Index_ToolNoetig</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P01_Flow_Index_ToolNoetig" sourceRef="P01_Index" targetRef="P01_ToolNoetig" />
+    <bpmn:exclusiveGateway id="P01_ToolNoetig" name="Live-Quelle nötig?">
+      <bpmn:documentation>Mails und laufende Vorgänge bleiben im Quellsystem. Statisches Firmenwissen bleibt in der zuständigen Quelle.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Index_ToolNoetig</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_ToolNoetig_Konto</bpmn:outgoing>
+      <bpmn:outgoing>P01_Flow_ToolNoetig_Zusammen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P01_Flow_ToolNoetig_Konto" name="ja" sourceRef="P01_ToolNoetig" targetRef="P01_Konto" />
+    <bpmn:sequenceFlow id="P01_Flow_ToolNoetig_Zusammen" name="nein" sourceRef="P01_ToolNoetig" targetRef="P01_Zusammen" />
+    <bpmn:serviceTask id="P01_Konto" name="Eigenes Tool-Konto und Umfang prüfen">
+      <bpmn:documentation>Vor dem Aufruf die authentifizierte Person ihrem autorisierten Tool-Konto zuordnen. Eine bestehende gültige OAuth-Verbindung kann wiederverwendet werden; bei fehlender oder widerrufener Verbindung muss die Person neu autorisieren. Der Modellzugang ist nicht das Tool-Konto. Ausführung mit delegiertem Nutzerzugriff oder ausdrücklich zulässigem Dienstkonto im Test unterscheiden.
+Quelle: https://docs.openwebui.com/features/extensibility/mcp/#connecting-an-account</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_ToolNoetig_Konto</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Konto_Zugriff</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P01_Flow_Konto_Zugriff" sourceRef="P01_Konto" targetRef="P01_Zugriff" />
+    <bpmn:exclusiveGateway id="P01_Zugriff" name="Zugriff erlaubt?">
+      <bpmn:documentation>Connector beziehungsweise Vermittler und Quellsystem setzen Rechte durch. Nicht nur Tool-Auswahl verstecken: direkte unzulässige Aufrufe, fremde Konto-ID und widerrufene Rechte müssen scheitern. Eine allgemeine Anmeldekennung oder ein Rollenname reicht nicht.
+Quelle: ../../SICHERHEIT.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Konto_Zugriff</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Zugriff_Fehlt</bpmn:outgoing>
+      <bpmn:outgoing>P01_Flow_Zugriff_Lesen</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P01_Flow_Zugriff_Fehlt" name="nein" sourceRef="P01_Zugriff" targetRef="P01_Fehlt" />
+    <bpmn:sequenceFlow id="P01_Flow_Zugriff_Lesen" name="ja" sourceRef="P01_Zugriff" targetRef="P01_Lesen" />
+    <bpmn:endEvent id="P01_Fehlt" name="Zugriff fehlt: offen melden">
+      <bpmn:documentation>Benennen, welche Quelle nicht gelesen werden konnte, ohne deren gesperrten Inhalt offenzulegen.
+Quelle: ../../AGENTS.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Zugriff_Fehlt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P01_Lesen" name="Quelle nutzergebunden lesen">
+      <bpmn:documentation>Offene Anschlussvarianten: A — OpenWebUI ruft das persönliche Tool auf. B — ein vertrauenswürdiger Vermittler bindet den Tool-Aufruf an den authentifizierten Nutzer und dessen Konto. Der fachliche Datenfluss ist gleich; noch keine Variante ausgewählt oder abgenommen. Composio ist ein möglicher Vermittler, keine Wissensquelle. Nur erforderliche Daten lesen, keine Zugangsdaten an das Modell weitergeben.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Zugriff_Lesen</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Lesen_Belege</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P01_Flow_Lesen_Belege" sourceRef="P01_Lesen" targetRef="P01_Belege" />
+    <bpmn:boundaryEvent id="P01_Toolfehler" name="Tool-Aufruf gescheitert" attachedToRef="P01_Lesen">
+      <bpmn:documentation>Toolfehler als technischen Blocker zurückgeben, nicht als fehlende Information erfinden. Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:outgoing>P01_Flow_Toolfehler_Blockiert</bpmn:outgoing>
+      <bpmn:errorEventDefinition errorRef="error_toolAufrufGescheitert" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="P01_Flow_Toolfehler_Blockiert" sourceRef="P01_Toolfehler" targetRef="P01_Blockiert" />
+    <bpmn:endEvent id="P01_Blockiert" name="Toolfehler: blockiert">
+      <bpmn:documentation>Technischen Blocker an P00 zurückgeben. Keine andere persönliche Verbindung als Umweg verwenden.
+Quelle: ../../SICHERHEIT.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Toolfehler_Blockiert</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="P01_Belege" name="Belege und Sichtbarkeit festhalten">
+      <bpmn:documentation>Quelle, abgerufener Stand und zulässiger Empfängerkreis begleiten das Ergebnis. Ein abgeleitetes Ergebnis wird nicht automatisch firmenöffentlich.
+Quelle: https://ai-first.ai/insights/wie-unser-kontext-layer-mitwaechst</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Lesen_Belege</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Belege_Zusammen</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P01_Flow_Belege_Zusammen" sourceRef="P01_Belege" targetRef="P01_Zusammen" />
+    <bpmn:exclusiveGateway id="P01_Zusammen">
+      <bpmn:documentation>Quellen aus Wiki und optionalem Live-Aufruf werden für genau diesen Auftrag zusammengestellt.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_ToolNoetig_Zusammen</bpmn:incoming>
+      <bpmn:incoming>P01_Flow_Belege_Zusammen</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Zusammen_PaketAuftrag</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P01_Flow_Zusammen_PaketAuftrag" sourceRef="P01_Zusammen" targetRef="P01_PaketAuftrag" />
+    <bpmn:serviceTask id="P01_PaketAuftrag" name="Ergebnis oder Arbeitsauftrag vorbereiten">
+      <bpmn:documentation>Einfache Fragen mit dem gemeinsamen Kern und zulässigen Quellen beantworten. Terminal nur für benötigte Datei-/Coding-Arbeit oder einen gesondert erlaubten Pflegeauftrag beauftragen. Notwendige Eingaben, Kriterien, Version und Ausgabeziel übergeben. Ein ständiger Aufruf des Firmenagenten ersetzt das Laden der gemeinsamen Pflichtquellen nicht.
+Quelle: ../../beispiel/openwebui/fixtures/04-test-cases.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Zusammen_PaketAuftrag</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_PaketAuftrag_Ende</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="P01_Flow_PaketAuftrag_Ende" sourceRef="P01_PaketAuftrag" targetRef="P01_Ende" />
+    <bpmn:endEvent id="P01_Ende" name="Auftrag und zulässige Quellen bereit">
+      <bpmn:documentation>Rückgabe an P00 mit Version und Herkunft; noch keine Aussage über Ergebnisqualität oder Freigabe.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_PaketAuftrag_Ende</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="P01_Join_Aufgabe">
+      <bpmn:documentation>Alternative Eingänge ausdrücklich zusammenführen; keine Synchronisation paralleler Ausführungen.
+Quelle: ../szenarien.md</bpmn:documentation>
+      <bpmn:incoming>P01_Flow_Gueltig_Aufgabe</bpmn:incoming>
+      <bpmn:incoming>P01_Flow_Rueckfrage_Aufgabe</bpmn:incoming>
+      <bpmn:outgoing>P01_Flow_Join_Aufgabe_Aufgabe</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="P01_Flow_Join_Aufgabe_Aufgabe" sourceRef="P01_Join_Aufgabe" targetRef="P01_Aufgabe" />
+  </bpmn:process>
+  <bpmn:error id="error_toolAufrufGescheitert" name="Tool-Aufruf gescheitert" errorCode="TOOL_FAILED" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_collaboration_p01AuftragKontextUndPersoenliche">
+    <bpmndi:BPMNPlane id="BPMNPlane_collaboration_p01AuftragKontextUndPersoenlicheTools" bpmnElement="collaboration_p01AuftragKontextUndPersoenlicheTools">
+      <bpmndi:BPMNShape id="BPMNShape_P01_Pool" bpmnElement="P01_Pool" isHorizontal="true">
+        <dc:Bounds x="80" y="220" width="2315" height="780" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Lane_m" bpmnElement="P01_Lane_m" isHorizontal="true">
+        <dc:Bounds x="110" y="220" width="2285" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Lane_a" bpmnElement="P01_Lane_a" isHorizontal="true">
+        <dc:Bounds x="110" y="360" width="2285" height="370" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Lane_g" bpmnElement="P01_Lane_g" isHorizontal="true">
+        <dc:Bounds x="110" y="730" width="2285" height="270" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Start" bpmnElement="P01_Start">
+        <dc:Bounds x="170" y="431" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="144" y="397" width="89" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Identitaet" bpmnElement="P01_Identitaet" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="266" y="760" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Paket" bpmnElement="P01_Paket" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="426" y="760" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Gueltig" bpmnElement="P01_Gueltig" isMarkerVisible="true">
+        <dc:Bounds x="586" y="775" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="556" y="741" width="110" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Stop" bpmnElement="P01_Stop">
+        <dc:Bounds x="696" y="568" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="677" y="534" width="75" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Aufgabe" bpmnElement="P01_Aufgabe" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="902" y="409" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Klar" bpmnElement="P01_Klar" isMarkerVisible="true">
+        <dc:Bounds x="1062" y="424" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1043" y="480" width="89" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Rueckfrage" bpmnElement="P01_Rueckfrage" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="1172" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Index" bpmnElement="P01_Index" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="1172" y="409" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_ToolNoetig" bpmnElement="P01_ToolNoetig" isMarkerVisible="true">
+        <dc:Bounds x="1332" y="424" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1388" y="435" width="89" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Konto" bpmnElement="P01_Konto" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1442" y="760" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Zugriff" bpmnElement="P01_Zugriff" isMarkerVisible="true">
+        <dc:Bounds x="1602" y="775" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1593" y="741" width="68" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Fehlt" bpmnElement="P01_Fehlt">
+        <dc:Bounds x="1744" y="664" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1805" y="706" width="61" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Lesen" bpmnElement="P01_Lesen" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="1712" y="409" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Toolfehler" bpmnElement="P01_Toolfehler">
+        <dc:Bounds x="1769" y="471" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1809" y="491" width="89" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Blockiert" bpmnElement="P01_Blockiert">
+        <dc:Bounds x="1904" y="900" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1878" y="942" width="89" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Belege" bpmnElement="P01_Belege" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="1872" y="760" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Zusammen" bpmnElement="P01_Zusammen" isMarkerVisible="true">
+        <dc:Bounds x="2032" y="424" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_PaketAuftrag" bpmnElement="P01_PaketAuftrag" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="2142" y="409" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Ende" bpmnElement="P01_Ende">
+        <dc:Bounds x="2302" y="431" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2276" y="473" width="89" height="56" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Join_Aufgabe" bpmnElement="P01_Join_Aufgabe" isMarkerVisible="true">
+        <dc:Bounds x="792" y="424" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Start_Identitaet" bpmnElement="P01_Flow_Start_Identitaet">
+        <di:waypoint x="188" y="467" />
+        <di:waypoint x="188" y="800" />
+        <di:waypoint x="266" y="800" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Identitaet_Paket" bpmnElement="P01_Flow_Identitaet_Paket">
+        <di:waypoint x="366" y="800" />
+        <di:waypoint x="426" y="800" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Paket_Gueltig" bpmnElement="P01_Flow_Paket_Gueltig">
+        <di:waypoint x="526" y="800" />
+        <di:waypoint x="586" y="800" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Gueltig_Stop" bpmnElement="P01_Flow_Gueltig_Stop">
+        <di:waypoint x="636" y="800" />
+        <di:waypoint x="714" y="800" />
+        <di:waypoint x="714" y="604" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="644" y="782" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Gueltig_Aufgabe" bpmnElement="P01_Flow_Gueltig_Aufgabe">
+        <di:waypoint x="636" y="800" />
+        <di:waypoint x="817" y="800" />
+        <di:waypoint x="817" y="474" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="714" y="782" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Aufgabe_Klar" bpmnElement="P01_Flow_Aufgabe_Klar">
+        <di:waypoint x="1002" y="449" />
+        <di:waypoint x="1062" y="449" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Klar_Rueckfrage" bpmnElement="P01_Flow_Klar_Rueckfrage">
+        <di:waypoint x="1112" y="449" />
+        <di:waypoint x="1157" y="449" />
+        <di:waypoint x="1157" y="370" />
+        <di:waypoint x="1222" y="370" />
+        <di:waypoint x="1222" y="330" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1114" y="453" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Klar_Index" bpmnElement="P01_Flow_Klar_Index">
+        <di:waypoint x="1112" y="449" />
+        <di:waypoint x="1172" y="449" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1120" y="431" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Rueckfrage_Aufgabe" bpmnElement="P01_Flow_Rueckfrage_Aufgabe">
+        <di:waypoint x="1172" y="290" />
+        <di:waypoint x="817" y="290" />
+        <di:waypoint x="817" y="424" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Index_ToolNoetig" bpmnElement="P01_Flow_Index_ToolNoetig">
+        <di:waypoint x="1272" y="449" />
+        <di:waypoint x="1332" y="449" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_ToolNoetig_Konto" bpmnElement="P01_Flow_ToolNoetig_Konto">
+        <di:waypoint x="1357" y="474" />
+        <di:waypoint x="1357" y="800" />
+        <di:waypoint x="1442" y="800" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1365" y="782" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_ToolNoetig_Zusammen" bpmnElement="P01_Flow_ToolNoetig_Zusammen">
+        <di:waypoint x="1357" y="424" />
+        <di:waypoint x="1357" y="375" />
+        <di:waypoint x="2057" y="375" />
+        <di:waypoint x="2057" y="424" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1687" y="379" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Konto_Zugriff" bpmnElement="P01_Flow_Konto_Zugriff">
+        <di:waypoint x="1542" y="800" />
+        <di:waypoint x="1602" y="800" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Zugriff_Fehlt" bpmnElement="P01_Flow_Zugriff_Fehlt">
+        <di:waypoint x="1652" y="800" />
+        <di:waypoint x="1762" y="800" />
+        <di:waypoint x="1762" y="700" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1660" y="782" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Zugriff_Lesen" bpmnElement="P01_Flow_Zugriff_Lesen">
+        <di:waypoint x="1652" y="800" />
+        <di:waypoint x="1720" y="800" />
+        <di:waypoint x="1720" y="489" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1673" y="804" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Lesen_Belege" bpmnElement="P01_Flow_Lesen_Belege">
+        <di:waypoint x="1787" y="409" />
+        <di:waypoint x="1787" y="394" />
+        <di:waypoint x="1922" y="394" />
+        <di:waypoint x="1922" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Toolfehler_Blockiert" bpmnElement="P01_Flow_Toolfehler_Blockiert">
+        <di:waypoint x="1787" y="507" />
+        <di:waypoint x="1787" y="918" />
+        <di:waypoint x="1904" y="918" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Belege_Zusammen" bpmnElement="P01_Flow_Belege_Zusammen">
+        <di:waypoint x="1972" y="800" />
+        <di:waypoint x="2057" y="800" />
+        <di:waypoint x="2057" y="474" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Zusammen_PaketAuftrag" bpmnElement="P01_Flow_Zusammen_PaketAuftrag">
+        <di:waypoint x="2082" y="449" />
+        <di:waypoint x="2142" y="449" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_PaketAuftrag_Ende" bpmnElement="P01_Flow_PaketAuftrag_Ende">
+        <di:waypoint x="2242" y="449" />
+        <di:waypoint x="2302" y="449" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Flow_Join_Aufgabe_Aufgabe" bpmnElement="P01_Flow_Join_Aufgabe_Aufgabe">
+        <di:waypoint x="842" y="449" />
+        <di:waypoint x="902" y="449" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_P01_Tools" bpmnElement="P01_Tools" isHorizontal="true">
+        <dc:Bounds x="80" y="80" width="2315" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Message_Aufruf" bpmnElement="P01_Message_Aufruf">
+        <di:waypoint x="1762" y="409" />
+        <di:waypoint x="1762" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1768" y="159" width="90" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_P01_Message_Belege" bpmnElement="P01_Message_Belege">
+        <di:waypoint x="2395" y="110" />
+        <di:waypoint x="2410" y="110" />
+        <di:waypoint x="2410" y="855" />
+        <di:waypoint x="1922" y="855" />
+        <di:waypoint x="1922" y="840" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2129" y="809" width="75" height="42" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
