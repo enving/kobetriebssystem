@@ -3,7 +3,7 @@
   "permissions": {
     "deny": [
       "Read(//Volumes/Laufwerk-Personal/**)",
-      "Read(./persoenlich/**/privat/**)"
+      "Read(./user/**/privat/**)"
     ],
     "disableBypassPermissionsMode": "disable"
   },
