@@ -13,19 +13,29 @@ Der Firmenagent soll Werkzeuge nutzen (Ablage, ERP, CRM) und daraus lernen. Zwei
 - Offen ist, ob die Harnesses (Codex, Claude Code, Pi) das über Jahre sicher halten können.
 - Arbeitet der Agent nur mit dem Konto der Person im Chat, fehlt ihm für eigenständige Arbeit Kontext, und er lernt nicht alles.
 
-## Vorschlag: vier Regeln, die nicht am Modell hängen
+## Vorschlag (Fassung 13.11.2026): Abteil, Schleuse, Wasserstand
 
-1. **Rechte hängen am Schlüssel.** Im Auftrag einer Person läuft der Agent mit ihren Verbindungen; das Fachsystem verweigert, was sie nicht sehen darf. Aus eigenem Antrieb läuft er mit einem eigenen Dienstkonto.
-2. **Das Dienstkonto zählt als „alle Mitarbeitenden“.** Was ihm freigegeben wird, darf er jeder Person im Unternehmen sagen. Damit muss der Agent nie nachschlagen, welche Rechte die fragende Person hat. Alles darüber hinaus kommt nur über die Rechte der fragenden Person. Wer dem Dienstkonto mehr freigibt (Stufe 2, Datensätze), gibt es damit für alle frei oder muss für diesen Bereich ein zweites, enger genutztes Dienstkonto führen.
-3. **Das Wiki speichert Zeiger und Verfahren, keine Daten.** Ein Eintrag sagt, wo etwas liegt und wie man es abfragt („Personalakten liegen im ERP, Modul Personal, Abfrage über …“). Den Inhalt holt der Agent bei jeder Frage frisch, mit den Rechten der fragenden Person. So lernt er aus Datensätzen, ohne sie zu behalten.
-4. **Die Sperre sitzt an den Grenzen, nicht im Harness.** Schreibweg ins Wiki nur über Vorschlag und Ja des Bereichsbesitzers; davor eine maschinelle Prüfung auf Personendaten, die die Übernahme blockiert; ein regelmäßiger Suchlauf über das ganze Wiki; ein Protokoll, welcher Lauf mit welchem Konto welches Werkzeug aufrief. Hooks eines Harness sind eine zweite Linie, aber sie wechseln mit dem Harness. Zugangsdaten, Dateirechte und die Merge-Sperre bleiben.
+Die erste Fassung vom 12.11. sah ein Dienstkonto vor, das als „alle Mitarbeitenden“ zählt. Einwand des Betreibers: Damit hätte der Agent nur die Rechte der Person mit den wenigsten Rechten; das reicht für einen Firmenagenten nicht. Zweiter Einwand: Eine Textregel oder ein Hook reicht nicht, wenn der Agent Daten sehen darf; schon die Möglichkeit, dass ein Datensatz im Wiki landet, lässt sich in einer Firma kaum abnehmen. Die Fassung unten nimmt beides auf. Sie ist ein Entwurf, gebaut ist davon nur der erste Baustein.
+
+1. **Abteil je Person.** Jeder Lauf im Auftrag einer Person läuft unter einem eigenen Betriebssystemkonto dieser Person. Zwischendateien und Ergebnisse (etwa eine Präsentation aus Personaldaten für die Geschäftsführung) bleiben in ihrem Abteil und haben eine Aufbewahrungsfrist. Im gemeinsamen Bereich des Agenten liegt davon nichts.
+2. **Werkzeugschleuse.** Der Agent hält keinen Schlüssel. Er ruft Werkzeuge über einen Dienst außerhalb seines Prozesses auf. Die Schleuse erkennt den Aufrufer am Betriebssystemkonto, also über den Kernel und nicht über Text des Modells, und führt den Aufruf mit der Verbindung genau dieser Person aus. Fragt die Geschäftsführung nach einer Personalakte, bekommt der Lauf sie; fragt jemand ohne Recht, verweigert das Fachsystem. Der Umweg „das Chat-Modell holt die Daten und reicht sie zurück“ entfällt.
+3. **Dienstkonto mit breiten Rechten, ohne Hochsensibles.** Für eigenständige Arbeit hat der Agent ein eigenes Konto. Es darf viel lesen, damit er die Firma versteht. Personalakten und Vergleichbares bekommt es nie; die sieht ein Lauf nur im Auftrag einer berechtigten Person.
+4. **Wasserstand.** Die Schleuse merkt sich je Lauf, aus welchen Quellen gelesen wurde. Alles, was den Lauf verlässt (Nachricht an eine Person, Datei in ein Abteil, Vorschlag fürs Wiki), geht durch ein Tor. Das Tor fragt beim Fachsystem mit der Verbindung des Empfängers, ob er jede dieser Quellen selbst lesen darf. Wenn nicht, bleibt der Ausgang zu. Das Wiki zählt als Empfänger „alle“: Ein Lauf, der etwas gelesen hat, das nicht alle lesen dürfen, kann nichts ins Wiki schreiben. So darf der Agent mehr wissen als die fragende Person, ohne es ihr sagen zu können.
+5. **Nach unten nur über einen Menschen.** Soll aus einem solchen Lauf doch Wissen ins Wiki, gibt der Besitzer des Bereichs einen bereinigten Text frei. Davor läuft eine maschinelle Prüfung auf Personendaten, danach ein regelmäßiger Suchlauf über das ganze Wiki.
+6. **Das Wiki speichert Zeiger und Verfahren, keine Daten:** wo etwas liegt und wie man es abfragt. Den Inhalt holt der Agent bei jeder Frage frisch.
+
+Damit hängt nichts am Harness. Codex, Claude Code oder Pi sind austauschbar, auch mit einem Abo-Zugang. Hooks und zentral verwaltete Einstellungen eines Harness bleiben als zweite Linie sinnvoll. Voraussetzung ist, dass der Agentenprozess keinen anderen Ausgang hat: kein Netz außer zur Schleuse, Schreibrechte nur im eigenen Abteil.
+
+Rechte pflegt weiter das Fachsystem, möglichst über Gruppen. Ein Vermittler wie Composio hält nur Verbindungen und kann einschränken, nie erweitern.
 
 ## Was das nicht löst
 
 - Ein manipuliertes Dokument kann einen Lauf fehlleiten. Der Schaden bleibt auf die Rechte des Laufs begrenzt.
 - Abgeleitetes Wissen: Aus vielen Datensätzen lässt sich etwas schließen, das einzeln nicht geschützt war. Dafür braucht es die Entscheidung des Bereichsbesitzers, keine Technik.
 - Eine Zusammenfassung im Wiki kann Personendaten enthalten, die kein Muster erkennt. Die Prüfung senkt das Risiko, der Besitzer bleibt verantwortlich.
-- Wer die Rechte pflegt: das Fachsystem, möglichst über Gruppen. Ein Vermittler wie Composio hält nur die Verbindung und kann einschränken, nie erweitern.
+- Der Wasserstand ist grob: Ein Lauf, der eine einzige geschützte Quelle gelesen hat, ist für alle anderen Empfänger gesperrt. Läufe müssen deshalb klein geschnitten werden.
+- Verdeckte Wege (Dateinamen, Zähler, Zeitpunkte) lassen sich verkleinern, nicht ausschließen.
+- Ob ein Fachsystem die Frage „darf Person X Quelle Y lesen“ beantworten kann, ist je System zu prüfen.
 
 ## Offen für die Adapter
 
