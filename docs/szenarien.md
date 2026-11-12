@@ -87,6 +87,24 @@ Microsoft liefert passende Teilfunktionen: Foundry Hosted Agents betreibt eigene
 
 **Folge für die Auswahl, GPT-6.1-sol, 06.11.2026:** Zuerst den gemeinsamen fachlichen Durchlauf nachweisen. OpenWebUI ist dafür eine zu prüfende Oberfläche, OpenRig eine zu prüfende Zusammenarbeitsschicht. Pi, OpenShell, Paperclip und Microsoft bleiben mögliche technische Mittel. Es wird keine Kombination aus allen Bausteinen vorausgesetzt. Vor der Auswahl muss klar sein, welcher vorhandene Weg die benötigte Strecke mit dem geringsten zusätzlichen Betrieb tatsächlich trägt.
 
+## 5a. Stand nach dem OpenWebUI-Versuch (12.11.2026)
+
+**Einordnung Claude Opus 5.5, 12.11.2026.** Belege stehen im Repo Open-Source-KI-Stack, `docs/erweiterter-stack-betrieb.md` §9–11 (Stand 12.11., dort lokal committet, Veröffentlichung offen). Dort ist der Versuch als wiederholbarer Stack gebaut: Open WebUI, ein Workspace-Modell, ein Firmenagent (Codex im Terminal-Container), Composio je Person, LLM-Wiki aus einer Vorlage nach dem AI-FIRST-Artikel. Diese Tabelle beantwortet die Zeilen aus §3.
+
+| Bedarf aus §3 | Stand | Was noch fehlt |
+|---|---|---|
+| Einfach Arbeit übergeben | Teilweise. Person schreibt im Chat; das Modell nutzt Composio mit dem eigenen Konto und delegiert Dateiarbeit an Codex. Befund: `delegate_task` ohne `model_id` startet das Modell selbst noch einmal, mit allen Werkzeugen; das führte zu Code in Composios Cloud. Gegenmaßnahme: Remote-Ausführung bei Composio gesperrt, Systemanweisung verlangt `model_id`. | Delegation aus dem Chat an Codex Ende zu Ende nachweisen. `codex exec` im Container ist geprüft. |
+| Gemeinsame Fähigkeiten verwenden | Strukturell ja. Skills liegen einmal im Wiki, Codex liest sie dort, Open WebUI bekommt per Skript eine Kopie mit Herkunftsvermerk. | Zwei frische Sitzungen mit demselben Skill-Stand vergleichen. |
+| Kontext passend auswählen | Index, Landkarte und Bereiche mit Besitzern im Wiki; das Wiki ist ein Git-Repository, Versionen sind nachweisbar. | Je Ausführung anzeigen, welche Quellen und welche Version genutzt wurden. |
+| An einem Auftrag zusammenarbeiten | Rückfrage an eine bestimmte Person geprüft: Direktnachricht vom Agentenkonto, anklickbare Inbox-Meldung, Antwort liest der Agent. Onboarding neuer Personen auf demselben Weg. | Übergabe eines laufenden Auftrags zwischen Personen. |
+| Gemeinsam besser werden | Lernschleife als Skill mit Korrekturzähler, Prüffall und Zweig statt direkter Änderung; Übernahme nur mit Ja des Bereichsbesitzers. Neun Prüffälle mit frischem Agenten und Prüfer: 2 von 9 bestanden, echte Skill-Lücken gefunden. | Durchlauf aus §4 (A korrigiert, B profitiert, Marker bleibt privat). Prüfer-Formulierung stabilisieren. |
+| Ohne offenen Browser weiterarbeiten | Nicht eingerichtet. OS-Check läuft nur von Hand. | Zeitplan, Wiederaufnahme nach Freigabe. |
+| Betreibbar bleiben | Codex-Sandbox im Container lauffähig (eigenes Seccomp-Profil, AppArmor, Ubuntu-Schalter auf dem Docker-Host). Logbuch, Prüfskript, OS-Check vorhanden. | Pflegeaufwand und Nutzen im realen Vorgang messen. |
+
+**Zu den Tool-Varianten der [Prozessansicht](prozesse/README.md):** Variante B (nutzergebundener Vermittler) ist mit Composio belegt. Zwei Konten verbanden je ihr eigenes Composio-Konto per OAuth; jedes sah nur seine eigene Gmail-Verbindung und legte Entwürfe nur im eigenen Postfach an.
+
+**Für die Adapter:** Der Stack ist ein Kandidat für einen Open-WebUI-Adapter dieses Betriebssystems. Wiki-Vorlage, Skills, Ampel und Lernschleife entsprechen den Bausteinen hier; übersetzt werden müssen der Ort (Terminal-Container statt Repo am Rechner) und der Rückweg (Zweig im Wiki-Git statt PR).
+
 ## 6. Frühere Ortsvarianten
 
 Die ursprüngliche Tabelle bleibt als historische Skizze erhalten. Sie ist keine Funktionsprüfung der genannten Produkte und keine Zusage zu Rechten oder Datenhaltung.
