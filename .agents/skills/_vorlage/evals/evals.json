@@ -1,5 +1,8 @@
-[
-  {"id": "fall-1", "art": "normal", "eingabe": "", "erwartung": []},
-  {"id": "fall-2", "art": "info-fehlt", "eingabe": "", "erwartung": []},
-  {"id": "fall-3", "art": "grenzfall", "eingabe": "", "erwartung": []}
-]
+{
+  "skill_name": "<skill-name>",
+  "evals": [
+    {"id": 1, "prompt": "<Normalfall mit realistischer Aufgabe>", "expected_output": "<beobachtbares Ergebnis>", "files": [], "expectations": ["<prüfbares Kriterium>"]},
+    {"id": 2, "prompt": "<Aufgabe mit fehlender Angabe>", "expected_output": "<belegbare Teile plus offene Angabe>", "files": [], "expectations": ["<welche Angabe darf nicht erfunden werden?>"]},
+    {"id": 3, "prompt": "<Grenzfall oder widersprüchliche Quelle>", "expected_output": "<erwartete Grenze oder Auflösung>", "files": [], "expectations": ["<woran erkennt man eine falsche Ausführung?>"]}
+  ]
+}

@@ -22,17 +22,27 @@ trap 'exit 1' HUP INT TERM
 out="$staging/ko-basis"
 mkdir -p "$out/.claude-plugin" "$out/skills" "$out/hooks" "$out/kontext"
 
+# Lokale Python-Zwischendateien sind keine Skill-Beilagen.
+kopiere_skill() {
+  python3 - "$1" "$out/skills/$(basename "$1")" <<'PY'
+import shutil
+import sys
+shutil.copytree(sys.argv[1], sys.argv[2],
+                ignore=shutil.ignore_patterns('__pycache__', '*.pyc', '*.pyo'))
+PY
+}
+
 # Skills: _vorlage* nicht ausrollen
 for d in .agents/skills/*/; do
   case "$(basename "$d")" in _*) continue;; esac
-  cp -R "${d%/}" "$out/skills/"
+  kopiere_skill "${d%/}"
 done
 if [ "$beispiele" = true ]; then
   for d in beispiel/skills/*/; do
     [ -f "$d/SKILL.md" ] || { echo "Beispiel-Skill fehlt: $d" >&2; exit 2; }
     name=$(basename "$d")
     [ ! -e "$out/skills/$name" ] || { echo "Doppelter Skill: $name" >&2; exit 2; }
-    cp -R "${d%/}" "$out/skills/"
+    kopiere_skill "${d%/}"
   done
 fi
 cp -R kontext/. "$out/kontext/"

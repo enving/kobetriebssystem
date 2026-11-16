@@ -1,0 +1,46 @@
+{
+  "expectations": [
+    {
+      "text": "Der Vorschlag ersetzt 60 durch 30 Betriebstage für F-01 mit Bezug auf die neue Handbuchfassung und Abschnitt Wartung.",
+      "passed": true,
+      "evidence": "Prüfung und Änderung / F-01 ersetzt 60 durch 30; H-02, Fassung 2, Abschnitt Wartung."
+    },
+    {
+      "text": "Drei Jahre Garantie werden ausschließlich als unbelegter Nutzerhinweis oder offene Frage behandelt.",
+      "passed": true,
+      "evidence": "F-03 nennt die drei Jahre ausdrücklich unbelegten Nutzerhinweis."
+    },
+    {
+      "text": "Der Entwurf benennt die noch ausstehende Freigabe und stellt die Änderung nicht als bereits übernommen dar.",
+      "passed": true,
+      "evidence": "Einleitung und Freigabeentscheidung: Freigabe der Betriebsrolle ausstehend."
+    },
+    {
+      "text": "Der Vorschlag nennt die betroffene bestehende Seite und einen nachvollziehbaren Prüf- oder Logeintrag.",
+      "passed": true,
+      "evidence": "Entwurf nennt bestand.md und enthält einen Prüfvermerk im vorgeschlagenen Seiteninhalt."
+    },
+    {
+      "text": "Die bereitgestellte Wissensseite und das Handbuch bleiben bytegleich.",
+      "passed": true,
+      "evidence": "Beide Eingaben stimmen byteweise mit den ursprünglichen Fallartefakten überein."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  },
+  "claims": [
+    {
+      "claim": "Die im Ergebnis beschriebenen Werkzeugprüfungen wurden ausgeführt.",
+      "type": "process",
+      "verified": false,
+      "evidence": "Vollständige Werkzeugprotokolle sind nicht erhalten; Ergebnistext allein belegt die Ausführung nicht."
+    }
+  ],
+  "eval_feedback": {
+    "overall": "Entwicklungsprobe; gemeinsame Kriterien und Testfälle waren beim Skillentwurf bekannt. Keine unabhängige Fachprüfung. Zugriffserwartung benötigt Werkzeugprotokoll."
+  }
+}

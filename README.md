@@ -10,6 +10,16 @@ Blanke Vorlage für ein KI-Betriebssystem im Unternehmen. Ein Agent erledigt Auf
 
 Diese Datei ist die **Navigation** – für Agenten und Menschen. Enthält keine Firmendaten. Die Vorlagen bleiben leer; ausschließlich erfundene Beispiele liegen getrennt in [beispiel/](beispiel/README.md). Das Standardpaket enthält keine Beispiel-Skills.
 
+## Einstieg: eine Aufgabe vollständig bearbeiten
+
+[Die ersten Schritte](docs/einstieg.md) führen von einer leeren Vorlage zum geprüften Entwurf.
+Der [ausgearbeitete Beispieldurchlauf](beispiel/durchlauf.md) zeigt anschließend eine Korrektur,
+den Änderungsvorschlag und die erneute Prüfung. Die Rollen- und Firmenangaben bleiben beim Ausfüllen in eurer Instanz.
+
+Zwei allgemeine Skills sind bereits dabei: **skill-creator** zum Erstellen und Prüfen eigener
+Skills und **wissen-pflegen** für Wissen mit Quellen, Fragenkatalog und sichtbaren Lücken.
+[Anwendung, Herkunft und Grenzen](docs/skills.md).
+
 ![Übersicht: Kompass der Person, Agent der Person, kobetriebssystem, Firmen-Agenten, Projekt-Repos und was noch fehlt](docs/bilder/uebersicht-2026-11-07.png)
 
 *Wie die Teile zusammenhängen, Stand 07.11.2026. Durchgezogen: vorhanden. Gestrichelt: fehlt oder kommt später, mit der Nummer
@@ -30,8 +40,8 @@ flowchart LR
   E -->|nein| C
   E -->|ja| F[Pull Request ans Repo]
   F --> G[Prüffälle und Firmen-Prüfer]
-  G --> H{Mensch merged}
-  H --> I[neue Version für alle Agenten]
+  G --> H{Merge gemäß AGENTS.md}
+  H --> I[freigegebene neue Version verteilen]
   I --> A
 ```
 
@@ -39,7 +49,8 @@ flowchart LR
    einmalig ([AGENTS.md](AGENTS.md), Regel 6).
 2. **Vorschlagen.** Bei einer Regel nennt er Ort, Wortlaut und einen neuen Prüffall. Rohchats und Personendaten gehen nicht mit.
 3. **Ja und Pull Request.** Nichts ändert sich still. Ampel, Sperren und Grundregeln ändert nur ein Mensch.
-4. **Prüfen.** Die Prüffälle laufen, ein Firmen-Agent prüft den Vorschlag, ein Mensch merged.
+4. **Prüfen.** Die Prüffälle laufen, ein Firmen-Agent prüft den Vorschlag. Wer mergen darf,
+   richtet sich nach [AGENTS.md](AGENTS.md); Änderungen an Ampel, Sperren und Grundregeln bleiben beim Menschen.
 5. **Verteilen.** Die neue Version kommt in jede Arbeitsumgebung, als Plugin oder Profil.
 6. **Über Personen hinweg.** Ein wöchentlicher OS-Check zählt wiederkehrende Muster, ohne Inhalte zu sammeln, und schlägt
    ab drei gleichen Fällen eine Verbesserung vor. Was viele oft nutzen, was alle Prüffälle besteht und kaum noch korrigiert
@@ -83,10 +94,17 @@ Auslöser (Bitte im Chat, Zeitplan oder Ereignis) → Agent erkennt die Aufgabe 
 | `index.md` | Tabellen-Überblick über alle Ordner | bei Strukturänderung |
 
 ### Skills – *wie wir arbeiten* (`.agents/skills/`)
-Ein Ordner je wiederkehrender Aufgabe: `SKILL.md` (Auslöser, Ergebnis, „Fertig heißt …“, Stolperfallen) und `evals/` (Prüffälle: Normalfall, fehlende Info, Grenzfall; Ergebnisse je Testlauf). Ein Skill beschreibt Ziel und Kriterien, nicht Schritte, und verweist auf Kontextdateien statt Preise oder Regeln zu kopieren. Neuer Skill: `_vorlage/` kopieren. Erst wenn alle Prüffälle bestanden sind, darf er als Automatisierung laufen. Jede Korrektur wird ein neuer Prüffall.
+Ein Ordner je wiederkehrender Aufgabe: `SKILL.md` mit Eingaben, Ergebnis, fachlichen Abhängigkeiten,
+„Fertig heißt …“ und Grenzen; `evals/` mit Normalfall, fehlender Information und Grenzfall.
+Ein Skill beschreibt Ziel und Kriterien sowie nötige Reihenfolgen; Quellenwerte werden referenziert.
+Neuer Skill: `_vorlage/` mit Hilfe von `skill-creator` ausfüllen ([Anleitung](docs/skills.md)).
+Bestandene Prüffälle sind Voraussetzung für Automatisierung; Einschalten und Freigabe stehen beim
+[Routineauftrag](automatisierungen/_vorlage.md). Jede bestätigte Regelkorrektur erhält einen Prüffall.
 
 ### Kontext – *was wir wissen* (`kontext/`)
-Wiki für Dauerhaftes (Angebot, Prozesse, Stimme). Ein Ordner je Arbeitsgebiet mit einem Besitzer. Regeln je Datei: eine Aussage = eine Quelle, ein Prüfdatum, nur was *jetzt* gilt. Der Agent pflegt ein, Menschen sagen ihm, was gilt.
+Wiki für Dauerhaftes (Angebot, Prozesse, Stimme). Ein Ordner je Arbeitsgebiet mit einer verantwortlichen Rolle.
+Die [Dateivorlage](kontext/_vorlage-bereich/_vorlage.md) führt Quellen, Stand, Prüfdatum und offenen Prüfbedarf.
+`wissen-pflegen` unterstützt den Aufbau und die Pflege; Menschen bestimmen, was gilt.
 - `index.md` – Verzeichnis (eine Zeile je Bereich/Datei), zuerst lesen.
 - `landkarte.md` – *wo Daten außerhalb des Repos liegen* und was der Agent dort nie tun darf. Laufende Arbeit (Mails, Kunden, Projekte) bleibt in den Tools und wird live mit den Rechten der Person gelesen.
 - `glossar/` – kontrolliertes Vokabular: neue Begriffe per PR, von Agenten und Menschen geschärft.

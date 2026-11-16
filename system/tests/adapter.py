@@ -12,6 +12,12 @@ with tempfile.TemporaryDirectory(prefix='ko-adapter-') as tmp:
     for name in ('installation', 'system', 'kontext', '.agents', 'beispiel', 'agents'):
         shutil.copytree(repo / name, root / name)
     shutil.copy2(repo / 'AGENTS.md', root / 'AGENTS.md')
+    # Auch nach Ausführung der Python-Skillwerkzeuge bleiben alle Pakete quelltextrein.
+    for folder in ('.agents/skills/skill-creator', 'beispiel/skills/besprechung-nachbereiten'):
+        cache = root / folder / '__pycache__'
+        cache.mkdir(exist_ok=True)
+        (cache / 'probe.pyc').write_bytes(b'\xa7\r\r\nPYTHON_CACHE_TEST')
+        (root / folder / 'probe.pyo').write_bytes(b'\xa7\r\r\nPYTHON_CACHE_TEST')
     (root / 'person-a-privat.md').write_text('PRIVAT_SYNTHETISCH_8291')
     skill = root / 'beispiel/skills/besprechung-nachbereiten/SKILL.md'
     original = skill.read_text()
@@ -23,6 +29,8 @@ with tempfile.TemporaryDirectory(prefix='ko-adapter-') as tmp:
         assert p.returncode == 0, p.stderr
         for name in packages:
             assert json.loads((root/'dist'/name/'version.json').read_text())['version'] == version
+        assert not any(p.name == '__pycache__' or p.suffix in ('.pyc', '.pyo')
+                       for p in (root/'dist').rglob('*'))
         return root/'dist'
     def skills(dist):
         return [dist / n / folder / 'besprechung-nachbereiten/SKILL.md'
