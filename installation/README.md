@@ -39,6 +39,13 @@ Korrekturen entstehen auf dem Gerät als Vorschlag („Ja / nein / einmalig“).
 ## Dateien hier
 `bauen.sh` · `marketplace-beispiel.json` · `managed-settings-beispiel.json` · `ci-beispiel/plugin-release.yml`
 
+Der normale Bau enthält `skill-creator` und `wissen-pflegen` samt ihren Beilagen.
+Lokale Python-Zwischendateien (`__pycache__`, `.pyc`, `.pyo`) werden nicht verteilt.
+Die [Skill-Dokumentation](../docs/skills.md) nennt Herkunft, eigene Lizenz des Upstreams und
+Voraussetzungen seiner Prüfwerkzeuge. `_vorlage/` bleibt ausschließlich im Quell-Repo;
+Beispiel-Skills kommen nur mit `--mit-beispielen` hinzu. `node system/tests/beispiel-build.mjs`
+prüft beide Varianten, den Rückwechsel und alle Skilldateien in Claude- und Codex-Paketen.
+
 Lokaler Regressionstest: `node system/tests/plugin-start.mjs`. Prüft erzeugte Hook-Befehle aus fremdem Arbeitsverzeichnis mit Leerzeichen im Pluginpfad, vollständige Quellen, Version und fehlende Pflichtquellen. Kein Nachweis für die Darstellung oder Ausführung in einem echten Claude-Code-Client; Installation und Rollout bleiben ungeprüft.
 
 ### Bauprüfung und reproduzierbarer Nachweis (#17)

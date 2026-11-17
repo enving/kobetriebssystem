@@ -1,0 +1,46 @@
+{
+  "expectations": [
+    {
+      "text": "F-01 nennt 30 Betriebstage und Handbuch Abschnitt Wartung als Fundstelle.",
+      "passed": true,
+      "evidence": "F-01: alle 30 Betriebstage; H-02, Fassung 2, Abschnitt Wartung."
+    },
+    {
+      "text": "Die abweichenden 60 Betriebstage aus der Schulung sind als Konflikt mit beiden Fundstellen erkennbar.",
+      "passed": true,
+      "evidence": "Absatz Quellenkonflikt nennt 60 Betriebstage aus S-01 und H-02 als maßgeblich."
+    },
+    {
+      "text": "F-02 nennt die Betriebsrolle mit Handbuch-Fundstelle, F-03 bleibt ausdrücklich nicht belegt.",
+      "passed": true,
+      "evidence": "F-02: Betriebsrolle mit H-02; F-03: OFFEN, Garantiedauer nicht bestimmt."
+    },
+    {
+      "text": "Das Quellenregister identifiziert beide Fassungen und enthält ihre tatsächlichen SHA-256-Prüfsummen.",
+      "passed": false,
+      "evidence": "Quellenregister identifiziert Fassungen, enthält aber keine SHA-256-Prüfsummen."
+    },
+    {
+      "text": "Es wird weder ein bestandener unabhängiger Test noch eine fachliche Freigabe behauptet.",
+      "passed": true,
+      "evidence": "Keine bestandene unabhängige Prüfung oder fachliche Freigabe behauptet."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  },
+  "claims": [
+    {
+      "claim": "Die im Ergebnis beschriebenen Werkzeugprüfungen wurden ausgeführt.",
+      "type": "process",
+      "verified": false,
+      "evidence": "Vollständige Werkzeugprotokolle sind nicht erhalten; Ergebnistext allein belegt die Ausführung nicht."
+    }
+  ],
+  "eval_feedback": {
+    "overall": "Entwicklungsprobe; gemeinsame Kriterien und Testfälle waren beim Skillentwurf bekannt. Keine unabhängige Fachprüfung. Zugriffserwartung benötigt Werkzeugprotokoll."
+  }
+}

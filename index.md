@@ -7,7 +7,7 @@ Diese strukturierte und nach **Funktionsbereichen** gruppierte Übersicht macht 
 |                                  | `CLAUDE codex etc. .md`                        | Modell-Guide       | Spezifische Wegweiser und Instruktionen für das primäre LLM       |
 |                                  | `README.md`                                    | Dokumentation      | Zentrale Einstiegs- und Funktionsübersicht für das Team           |
 |                                  | `SICHERHEIT.md`                                | Richtlinie         | Vorgaben zu Datenschutz, Zugriffsschutz und Compliance              |
-| **2. Agenten & Workflows**       | `.agents/skills/`                              | Modul-Verzeichnis  | Sammlung modularer Fähigkeiten und Funktionserweiterungen          |
+| **2. Agenten & Workflows**       | `.agents/skills/`                              | Modul-Verzeichnis  | Skill Creator, Wissen pflegen und Vorlage für eigene Fähigkeiten |
 |                                  | `automatisierungen/`                           | Workflow-Ordner    | Strukturierte Einzelaufträge und Abläufe pro Routine              |
 | **3. Wissensbasis (`kontext/`)** | `index.md`                                     | Inhaltsverzeichnis | Zentraler Einstieg in die interne Dokumentation                     |
 |                                  | `landkarte.md`                                 | Referenz           | Übersicht und Verknüpfung zu Daten außerhalb des Repositories    |

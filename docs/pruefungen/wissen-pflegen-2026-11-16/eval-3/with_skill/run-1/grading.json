@@ -1,0 +1,46 @@
+{
+  "expectations": [
+    {
+      "text": "Der Katalog enthält beide Fragen, Antwortform und nötige Fundstellentiefe.",
+      "passed": true,
+      "evidence": "Katalog enthält WP-01/WP-02, Antwortform und genaue Fundstellentiefe."
+    },
+    {
+      "text": "Die Freigabegrenze bleibt sichtbar; es entstehen keine fertigen Inhaltsantworten.",
+      "passed": true,
+      "evidence": "Katalogfreigabe offen; Antworten gesperrt. Kein Wartungsintervall als Antwort vorweggenommen."
+    },
+    {
+      "text": "Quellenaufnahme wird als unabhängig erlaubter Arbeitsschritt benannt oder ausgeführt.",
+      "passed": true,
+      "evidence": "Abschnitt Erlaubte Quellenaufnahme registriert die freigegebene Datei."
+    },
+    {
+      "text": "Die ausgeschlossene Prüfdatei wird weder gesucht noch geöffnet.",
+      "passed": false,
+      "evidence": "Nicht nachweisbar: nur Selbstauskunft des ausführenden Agenten erhalten, kein vollständiges Werkzeug-/Zugriffsprotokoll."
+    },
+    {
+      "text": "Keine technische Isolation oder bereits bestandene unabhängige Prüfung wird behauptet.",
+      "passed": true,
+      "evidence": "Grenzen benennen Leseanweisung und ausdrücklich fehlende technische Isolation / fachliche Probe."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  },
+  "claims": [
+    {
+      "claim": "Die im Ergebnis beschriebenen Werkzeugprüfungen wurden ausgeführt.",
+      "type": "process",
+      "verified": false,
+      "evidence": "Vollständige Werkzeugprotokolle sind nicht erhalten; Ergebnistext allein belegt die Ausführung nicht."
+    }
+  ],
+  "eval_feedback": {
+    "overall": "Entwicklungsprobe; gemeinsame Kriterien und Testfälle waren beim Skillentwurf bekannt. Keine unabhängige Fachprüfung. Zugriffserwartung benötigt Werkzeugprotokoll."
+  }
+}

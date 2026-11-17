@@ -1,5 +1,8 @@
 # Erfundene Beispiele
 
+Der [vollständige Beispieldurchlauf](durchlauf.md) verbindet Eingabe, Entwurf, Prüfung,
+Korrektur und erneute Prüfung. Erwartete Ergebnisse und tatsächlich ausgeführte Tests sind getrennt gekennzeichnet.
+
 Der Skill unter `skills/besprechung-nachbereiten/` folgt der Skill-Vorlage des Repos. Seine drei Fälle enthalten ausschließlich erfundene Daten. Die `.soll.md`-Dateien zeigen erwartete Entwürfe; den tatsächlichen Prüfstatus nennt `evals/ergebnisse.md`.
 
 Ein vorbereitetes, noch nicht ausgeführtes Prüfset für OpenWebUI liegt unter [`openwebui/`](openwebui/README.md). Es ergänzt die bestehenden Beispiele um getrennte Prüffälle für Mitarbeitenden-Assistenten, Firmen-Agent, gemeinsame Fähigkeiten, Subagenten, Terminalgrenzen und Sitzungsisolation.

@@ -22,17 +22,29 @@ trap 'exit 1' HUP INT TERM
 out="$staging/ko-basis"
 mkdir -p "$out/.claude-plugin" "$out/skills" "$out/hooks" "$out/kontext"
 
+# Lokale Python-Zwischendateien sind keine Skill-Beilagen.
+kopiere_skill() {
+  [ ! -L "$1" ] || { echo "FEHLER: Symlink als Skill-Verzeichnis: $1; Bau verweigert" >&2; exit 3; }
+  python3 - "$1" "$out/skills/$(basename "$1")" <<'PY'
+import shutil
+import sys
+shutil.copytree(sys.argv[1], sys.argv[2],
+                symlinks=True,
+                ignore=shutil.ignore_patterns('__pycache__', '*.pyc', '*.pyo'))
+PY
+}
+
 # Skills: _vorlage* nicht ausrollen
 for d in .agents/skills/*/; do
   case "$(basename "$d")" in _*) continue;; esac
-  cp -R "${d%/}" "$out/skills/"
+  kopiere_skill "${d%/}"
 done
 if [ "$beispiele" = true ]; then
   for d in beispiel/skills/*/; do
     [ -f "$d/SKILL.md" ] || { echo "Beispiel-Skill fehlt: $d" >&2; exit 2; }
     name=$(basename "$d")
     [ ! -e "$out/skills/$name" ] || { echo "Doppelter Skill: $name" >&2; exit 2; }
-    cp -R "${d%/}" "$out/skills/"
+    kopiere_skill "${d%/}"
   done
 fi
 cp -R kontext/. "$out/kontext/"
@@ -55,6 +67,8 @@ JSON
 cat > "$out/.claude-plugin/plugin.json" <<JSON
 {"name": "ko-basis", "version": "$version", "description": "Betriebssystem: Regeln, Skills, Kontext, Hooks"}
 JSON
+# Vor den Adapterkopien prüfen, damit diese keine Symlinks dereferenzieren.
+python3 installation/pruefe-klassifizierung.py "$staging"
 python3 installation/adapter.py "$staging"
 python3 installation/pruefe-klassifizierung.py "$staging"
 rm -rf dist

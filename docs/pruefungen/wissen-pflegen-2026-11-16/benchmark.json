@@ -1,0 +1,328 @@
+{
+  "metadata": {
+    "skill_name": "wissen-pflegen",
+    "skill_path": ".agents/skills/wissen-pflegen",
+    "executor_model": "nicht separat erfasst; siehe README.md",
+    "analyzer_model": "gpt-6.1-sol",
+    "timestamp": "2026-11-16T19:14:11Z",
+    "evals_run": [
+      1,
+      2,
+      3
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "F-01 nennt 30 Betriebstage und Handbuch Abschnitt Wartung als Fundstelle.",
+          "passed": true,
+          "evidence": "Antwort F-01: 30 Betriebstage; H-02, Abschnitt Wartung."
+        },
+        {
+          "text": "Die abweichenden 60 Betriebstage aus der Schulung sind als Konflikt mit beiden Fundstellen erkennbar.",
+          "passed": true,
+          "evidence": "Abschnitt Quellenkonflikt nennt 60 Betriebstage und beide Quellen."
+        },
+        {
+          "text": "F-02 nennt die Betriebsrolle mit Handbuch-Fundstelle, F-03 bleibt ausdrücklich nicht belegt.",
+          "passed": true,
+          "evidence": "F-02: Betriebsrolle; F-03: nicht belegt, mit dokumentiertem Suchumfang."
+        },
+        {
+          "text": "Das Quellenregister identifiziert beide Fassungen und enthält ihre tatsächlichen SHA-256-Prüfsummen.",
+          "passed": true,
+          "evidence": "Quellenregister enthält beide Fassungen und die byteweise nachgerechneten SHA-256-Werte."
+        },
+        {
+          "text": "Es wird weder ein bestandener unabhängiger Test noch eine fachliche Freigabe behauptet.",
+          "passed": true,
+          "evidence": "Prüfbericht benennt Entwicklungs-/Selbstprüfung und fehlende fachliche Abnahme."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Der Vorschlag ersetzt 60 durch 30 Betriebstage für F-01 mit Bezug auf die neue Handbuchfassung und Abschnitt Wartung.",
+          "passed": true,
+          "evidence": "Prüfung und Änderung / F-01 ersetzt 60 durch 30; H-02, Fassung 2, Abschnitt Wartung."
+        },
+        {
+          "text": "Drei Jahre Garantie werden ausschließlich als unbelegter Nutzerhinweis oder offene Frage behandelt.",
+          "passed": true,
+          "evidence": "F-03 nennt die drei Jahre ausdrücklich unbelegten Nutzerhinweis."
+        },
+        {
+          "text": "Der Entwurf benennt die noch ausstehende Freigabe und stellt die Änderung nicht als bereits übernommen dar.",
+          "passed": true,
+          "evidence": "Einleitung und Freigabeentscheidung: Freigabe der Betriebsrolle ausstehend."
+        },
+        {
+          "text": "Der Vorschlag nennt die betroffene bestehende Seite und einen nachvollziehbaren Prüf- oder Logeintrag.",
+          "passed": true,
+          "evidence": "Entwurf nennt bestand.md und enthält einen Prüfvermerk im vorgeschlagenen Seiteninhalt."
+        },
+        {
+          "text": "Die bereitgestellte Wissensseite und das Handbuch bleiben bytegleich.",
+          "passed": true,
+          "evidence": "Beide Eingaben stimmen byteweise mit den ursprünglichen Fallartefakten überein."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Der Katalog enthält beide Fragen, Antwortform und nötige Fundstellentiefe.",
+          "passed": true,
+          "evidence": "Katalog enthält WP-01/WP-02, Antwortform und genaue Fundstellentiefe."
+        },
+        {
+          "text": "Die Freigabegrenze bleibt sichtbar; es entstehen keine fertigen Inhaltsantworten.",
+          "passed": true,
+          "evidence": "Katalogfreigabe offen; Antworten gesperrt. Kein Wartungsintervall als Antwort vorweggenommen."
+        },
+        {
+          "text": "Quellenaufnahme wird als unabhängig erlaubter Arbeitsschritt benannt oder ausgeführt.",
+          "passed": true,
+          "evidence": "Abschnitt Erlaubte Quellenaufnahme registriert die freigegebene Datei."
+        },
+        {
+          "text": "Die ausgeschlossene Prüfdatei wird weder gesucht noch geöffnet.",
+          "passed": false,
+          "evidence": "Nicht nachweisbar: nur Selbstauskunft des ausführenden Agenten erhalten, kein vollständiges Werkzeug-/Zugriffsprotokoll."
+        },
+        {
+          "text": "Keine technische Isolation oder bereits bestandene unabhängige Prüfung wird behauptet.",
+          "passed": true,
+          "evidence": "Grenzen benennen Leseanweisung und ausdrücklich fehlende technische Isolation / fachliche Probe."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "F-01 nennt 30 Betriebstage und Handbuch Abschnitt Wartung als Fundstelle.",
+          "passed": true,
+          "evidence": "F-01: alle 30 Betriebstage; H-02, Fassung 2, Abschnitt Wartung."
+        },
+        {
+          "text": "Die abweichenden 60 Betriebstage aus der Schulung sind als Konflikt mit beiden Fundstellen erkennbar.",
+          "passed": true,
+          "evidence": "Absatz Quellenkonflikt nennt 60 Betriebstage aus S-01 und H-02 als maßgeblich."
+        },
+        {
+          "text": "F-02 nennt die Betriebsrolle mit Handbuch-Fundstelle, F-03 bleibt ausdrücklich nicht belegt.",
+          "passed": true,
+          "evidence": "F-02: Betriebsrolle mit H-02; F-03: OFFEN, Garantiedauer nicht bestimmt."
+        },
+        {
+          "text": "Das Quellenregister identifiziert beide Fassungen und enthält ihre tatsächlichen SHA-256-Prüfsummen.",
+          "passed": false,
+          "evidence": "Quellenregister identifiziert Fassungen, enthält aber keine SHA-256-Prüfsummen."
+        },
+        {
+          "text": "Es wird weder ein bestandener unabhängiger Test noch eine fachliche Freigabe behauptet.",
+          "passed": true,
+          "evidence": "Keine bestandene unabhängige Prüfung oder fachliche Freigabe behauptet."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Der Vorschlag ersetzt 60 durch 30 Betriebstage für F-01 mit Bezug auf die neue Handbuchfassung und Abschnitt Wartung.",
+          "passed": true,
+          "evidence": "Vorgeschlagener Ersatz: 30 Betriebstage; H-02, Fassung 2, Abschnitt Wartung."
+        },
+        {
+          "text": "Drei Jahre Garantie werden ausschließlich als unbelegter Nutzerhinweis oder offene Frage behandelt.",
+          "passed": true,
+          "evidence": "F-03: drei Jahre als unbestätigte Vermutung, Frage bleibt offen."
+        },
+        {
+          "text": "Der Entwurf benennt die noch ausstehende Freigabe und stellt die Änderung nicht als bereits übernommen dar.",
+          "passed": true,
+          "evidence": "Status Entwurf; Freigabe durch Betriebsrolle ausstehend."
+        },
+        {
+          "text": "Der Vorschlag nennt die betroffene bestehende Seite und einen nachvollziehbaren Prüf- oder Logeintrag.",
+          "passed": false,
+          "evidence": "Bestandsseite ist erkennbar, ein Prüf- oder Logeintrag wird nicht vorgeschlagen. Prüfgrenzen allein erfüllen diese Erwartung nicht."
+        },
+        {
+          "text": "Die bereitgestellte Wissensseite und das Handbuch bleiben bytegleich.",
+          "passed": true,
+          "evidence": "Beide Eingaben stimmen byteweise mit den ursprünglichen Fallartefakten überein."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.4,
+        "passed": 2,
+        "failed": 3,
+        "total": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Der Katalog enthält beide Fragen, Antwortform und nötige Fundstellentiefe.",
+          "passed": false,
+          "evidence": "Katalog enthält Fragen und Quellenbefunde, aber weder erwartete Antwortform noch benötigte Fundstellentiefe je Frage."
+        },
+        {
+          "text": "Die Freigabegrenze bleibt sichtbar; es entstehen keine fertigen Inhaltsantworten.",
+          "passed": false,
+          "evidence": "Trotz offener Freigabe stehen fertige Antworten im Katalog: Alle 30 Betriebstage / Betriebsrolle."
+        },
+        {
+          "text": "Quellenaufnahme wird als unabhängig erlaubter Arbeitsschritt benannt oder ausgeführt.",
+          "passed": true,
+          "evidence": "Quellenaufnahme wird als weiterhin erlaubter Arbeitsschritt benannt."
+        },
+        {
+          "text": "Die ausgeschlossene Prüfdatei wird weder gesucht noch geöffnet.",
+          "passed": false,
+          "evidence": "Nicht nachweisbar: nur Selbstauskunft des ausführenden Agenten erhalten, kein vollständiges Werkzeug-/Zugriffsprotokoll."
+        },
+        {
+          "text": "Keine technische Isolation oder bereits bestandene unabhängige Prüfung wird behauptet.",
+          "passed": true,
+          "evidence": "Keine technische Isolation oder bestandene unabhängige Prüfung behauptet."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 0.9333,
+        "stddev": 0.1155,
+        "min": 0.8,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.6667,
+        "stddev": 0.2309,
+        "min": 0.4,
+        "max": 0.8
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.27",
+      "time_seconds": "+0.0",
+      "tokens": "+0"
+    }
+  },
+  "notes": [
+    "Entwicklungsprobe: ein Lauf je Fall/Variante; kein zurückgehaltener Prüfsatz.",
+    "Laufzeit, Tokens und Werkzeugaufrufe nicht erfasst; Nullwerte sind Platzhalter für fehlende Daten.",
+    "Drei Läufe je Variante bedeuten drei verschiedene Aufgaben, keine Wiederholungen.",
+    "Zugriff auf ausgeschlossene Datei nicht verifizierbar; in beiden Varianten als nicht bestanden gewertet."
+  ]
+}

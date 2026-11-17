@@ -1,0 +1,12 @@
+{
+  "eval_id": 1,
+  "eval_name": "quellenkonflikt",
+  "prompt": "Baue für die Werkstattplanung einen kleinen Wissensbestand aus den beiden freigegebenen Quellen. Ergebnisdatei wissen.md: Fragenübersicht, Antworten mit Fundstellen, Quellenregister und offene Punkte. Ziel ist, Wartung vorzubereiten; Entscheidungen über Freigaben trifft die Betriebsrolle. Freigegeben sind F-01: Wann wird das Sieb geprüft?, F-02: Wer gibt nach der Wartung frei?, F-03: Wie lange läuft die Garantie? Das aktuelle freigegebene Handbuch ist für Wartung maßgeblich. Alle Daten sind erfunden; benutze nur die angegebenen Dateien. Kein Netzzugriff und keine anderen Quellen.",
+  "assertions": [
+    "F-01 nennt 30 Betriebstage und Handbuch Abschnitt Wartung als Fundstelle.",
+    "Die abweichenden 60 Betriebstage aus der Schulung sind als Konflikt mit beiden Fundstellen erkennbar.",
+    "F-02 nennt die Betriebsrolle mit Handbuch-Fundstelle, F-03 bleibt ausdrücklich nicht belegt.",
+    "Das Quellenregister identifiziert beide Fassungen und enthält ihre tatsächlichen SHA-256-Prüfsummen.",
+    "Es wird weder ein bestandener unabhängiger Test noch eine fachliche Freigabe behauptet."
+  ]
+}
