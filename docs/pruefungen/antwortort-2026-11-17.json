@@ -1,0 +1,82 @@
+{
+  "szenario": "S20",
+  "frage": "Welche Freigabekennung gilt für Projekt Kranich?",
+  "pruefebene": "Paketbau, Dateikopien und lokale Quelldateirechte",
+  "quellen_sha256": {
+    "beispiel/szenarien/S20-antwortort-und-widerruf/fall.json": "5774d206186810ad9bb6677b89351d08d42be3a8a15f8a2a6ec508231a298061",
+    "installation/bauen.sh": "25d03a166344d71e9b051d74b681ed595b3a3dbc788552b3367abe30d9048936",
+    "installation/adapter.py": "1a40c968236fd159a5e42cd15443ac85c027b1c4ca066a4bf9edff0dfe310c0e",
+    "installation/pruefe-klassifizierung.py": "46b194b1cdfb2e2623ebc34d555fcb13f2e8e51bffe95e4f2b04ef2b518de51d",
+    "system/tests/antwortort.py": "10b173ecdd61768b4c441122661c897d8c565b5ba117afcfaf16fc30a68aa712"
+  },
+  "faelle": [
+    {
+      "fall": "gemeinsam-persoenliche-nachricht",
+      "bestanden": true,
+      "beleg": {
+        "paket": "ko-codex",
+        "marker": "MARKER-S20-O7K2"
+      }
+    },
+    {
+      "fall": "gemeinsam-oeffentlicher-kanal",
+      "bestanden": true,
+      "beleg": {
+        "paket": "ko-codex",
+        "marker": "MARKER-S20-O7K2"
+      }
+    },
+    {
+      "fall": "quelle-nach-rechteentzug",
+      "bestanden": true,
+      "beleg": {
+        "direktes_lesen": "PermissionError"
+      }
+    },
+    {
+      "fall": "verteilte-kopie-nach-rechteentzug",
+      "bestanden": false,
+      "beleg": {
+        "alter_marker_weiter_lesbar": {
+          "persoenliche-nachricht": true,
+          "oeffentlicher-kanal": true
+        },
+        "grenze": "Dateirechte entzogen, keine Slack-Mitgliedschaft getestet"
+      }
+    },
+    {
+      "fall": "vertraulich-oeffentlich-nicht-ausgeliefert",
+      "bestanden": true,
+      "beleg": {
+        "bau_exit": 3,
+        "schutzebene": "globaler Bauabbruch",
+        "keine_aussage_ueber": "Ausgangskontrolle in einem Chat"
+      }
+    },
+    {
+      "fall": "vertraulich-nur-persoenlich-verfuegbar",
+      "bestanden": false,
+      "beleg": {
+        "bau_exit": 3,
+        "quelle_lokal_lesbar": true,
+        "grenze": "Bau verweigert auch ein Paket für den berechtigten Kreis; Antwortort und Mitgliedschaft sind keine Bauparameter"
+      }
+    },
+    {
+      "fall": "gegenprobe-ohne-klassifizierung",
+      "bestanden": true,
+      "beleg": {
+        "privater_koeder_im_paket": true,
+        "nur_temporaere_testkopie": true
+      }
+    }
+  ],
+  "gesamt_bestanden": false,
+  "nicht_geprueft": [
+    "Chatantworten und Umschreibungen",
+    "reale getrennte Identitäten",
+    "Slack-Mitgliedschaft und deren Widerruf",
+    "Modellkontext und Logs",
+    "lebende Fachsystemverbindungen"
+  ]
+}
