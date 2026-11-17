@@ -24,10 +24,12 @@ mkdir -p "$out/.claude-plugin" "$out/skills" "$out/hooks" "$out/kontext"
 
 # Lokale Python-Zwischendateien sind keine Skill-Beilagen.
 kopiere_skill() {
+  [ ! -L "$1" ] || { echo "FEHLER: Symlink als Skill-Verzeichnis: $1; Bau verweigert" >&2; exit 3; }
   python3 - "$1" "$out/skills/$(basename "$1")" <<'PY'
 import shutil
 import sys
 shutil.copytree(sys.argv[1], sys.argv[2],
+                symlinks=True,
                 ignore=shutil.ignore_patterns('__pycache__', '*.pyc', '*.pyo'))
 PY
 }
@@ -65,6 +67,8 @@ JSON
 cat > "$out/.claude-plugin/plugin.json" <<JSON
 {"name": "ko-basis", "version": "$version", "description": "Betriebssystem: Regeln, Skills, Kontext, Hooks"}
 JSON
+# Vor den Adapterkopien prüfen, damit diese keine Symlinks dereferenzieren.
+python3 installation/pruefe-klassifizierung.py "$staging"
 python3 installation/adapter.py "$staging"
 python3 installation/pruefe-klassifizierung.py "$staging"
 rm -rf dist

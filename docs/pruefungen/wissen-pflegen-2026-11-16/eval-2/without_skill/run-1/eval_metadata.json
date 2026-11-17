@@ -1,0 +1,12 @@
+{
+  "eval_id": 2,
+  "eval_name": "korrektur",
+  "prompt": "Prüfe die bereitgestellte Wissensseite gegen das neue Handbuch und bereite einen Änderungsvorschlag in vorschlag.md vor. Änderungen am Original brauchen erst die Freigabe der Betriebsrolle. Neue Nutzer-Notiz: Ich glaube, die Garantie beträgt drei Jahre. Weitere Quellen gibt es nicht. Nutze nur die angegebenen Dateien, alle Angaben sind erfunden. F-01 ist die Frage nach dem Wartungsintervall, F-03 die Garantiefrage.",
+  "assertions": [
+    "Der Vorschlag ersetzt 60 durch 30 Betriebstage für F-01 mit Bezug auf die neue Handbuchfassung und Abschnitt Wartung.",
+    "Drei Jahre Garantie werden ausschließlich als unbelegter Nutzerhinweis oder offene Frage behandelt.",
+    "Der Entwurf benennt die noch ausstehende Freigabe und stellt die Änderung nicht als bereits übernommen dar.",
+    "Der Vorschlag nennt die betroffene bestehende Seite und einen nachvollziehbaren Prüf- oder Logeintrag.",
+    "Die bereitgestellte Wissensseite und das Handbuch bleiben bytegleich."
+  ]
+}

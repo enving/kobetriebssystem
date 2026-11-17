@@ -36,8 +36,11 @@ Verwendet bei mehreren Installationen ausdrücklich den passenden Interpreter, z
 `python3.11`. Modellaufrufe zur Beschreibungssuche setzen die Claude-CLI voraus. Diese Teile werden
 durch das Paket weder installiert noch automatisch ausgeführt. In anderen Agentenumgebungen
 können die vorhandenen Unteragenten für die inhaltlichen Proben verwendet werden; die
-CLI-spezifische Beschreibungssuche bleibt dann ungeprüft. Probeläufe verändern nur ihre
-eigenen Ergebnisordner und erhalten ausschließlich die dafür freigegebenen Testdaten.
+CLI-spezifische Beschreibungssuche bleibt dann ungeprüft. Sie legt vorübergehend auch eine
+Befehlsdatei unter `.claude/commands/` im ermittelten Projekt an und startet Claude dort;
+das kann das nächste übergeordnete Verzeichnis mit `.claude/` sein. Die Skripte beschränken
+den Zugriff des gestarteten Clients nicht auf freigegebene Testdaten. Die offene Trennung
+frischer Modellläufe ist in [PRD L11](../PRD.md#9-lückenregister) ausgewiesen.
 
 `wissen-pflegen` verallgemeinert die Methode eines freigegebenen Wiki-Auftrags:
 Fragen vor Seiten, präzise Fundstellen, sichtbarer Quellenabgleich, getrennte Prüfung
